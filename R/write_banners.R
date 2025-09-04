@@ -80,6 +80,9 @@
 #' \code{col_dividers}) for proper formatting. Missing attributes may result in errors
 #' or suboptimal formatting.
 #'
+#' @importFrom openxlsx createWorkbook addWorksheet writeData createStyle addStyle setColWidths writeFormula worksheetOrder saveWorkbook
+#' @importFrom purrr walk map_chr
+#'
 #' @seealso
 #' \code{\link{banners}} for creating banner analysis results,
 #' \code{\link[openxlsx]{createWorkbook}} for Excel workbook creation,

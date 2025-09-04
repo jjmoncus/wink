@@ -52,6 +52,9 @@
 #' attr(result, "col_dividers")
 #' }
 #'
+#' @importFrom dplyr select bind_cols
+#' @importFrom purrr map_dbl
+#'
 #' @seealso \code{\link{crosstab}} for the underlying crosstab function
 #'
 #' @export

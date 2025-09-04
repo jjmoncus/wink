@@ -86,6 +86,13 @@
 #' If no banner groups meet the minimum sample size requirement, the function returns
 #' a simple table indicating no levels were kept.
 #'
+#' @importFrom dplyr bind_rows filter mutate across slice select all_of
+#' @importFrom tidyr pivot_wider
+#' @importFrom tibble tibble
+#' @importFrom survey svymean
+#' @importFrom stats model.matrix weights
+#' @importFrom purrr map
+#'
 #' @seealso
 #' \code{\link[survey]{svydesign}} for creating survey design objects,
 #' \code{\link[survey]{svymean}} for weighted calculations,

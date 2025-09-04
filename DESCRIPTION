@@ -14,11 +14,11 @@ Description: More about what it does (maybe more than one line).
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
-Imports: 
-    cli,
+Imports:
     glue,
     lifecycle,
     rlang,
-    withr
+    purrr,
+    openxlsx
 RoxygenNote: 7.3.2
 Roxygen: list(markdown = TRUE)
