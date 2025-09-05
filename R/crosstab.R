@@ -97,7 +97,7 @@
 #' \code{\link[survey]{svydesign}} for creating survey design objects,
 #' \code{\link[survey]{svymean}} for weighted calculations,
 #'
-#' @export
+#'
 crosstab <- function(design,
                         banner_var,
                         target_var,
