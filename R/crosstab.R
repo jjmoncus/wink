@@ -98,11 +98,22 @@
 #' \code{\link[survey]{svymean}} for weighted calculations,
 #'
 #'
-crosstab <- function(design,
+crosstab <- function(data,
                      target_var,
                      banner_var,
                      min_n = 90,
-                     stat_testing_start = 2) {
+                     stat_testing_start = 2,
+                     design = NULL) {
+
+  if (is.null(design)) {
+
+    # if you dont specify a design, you get unweighted percentages,
+    # otherwise, have to specify a design
+    design <- svydesign(ids = ~ 1,
+                        data = data,
+                        weights = NULL)
+  }
+
   # gather your inputs
   design_sub <- subset(design,!is.na(design$variables[[banner_var]]) &
                          !is.na(design$variables[[target_var]]))
@@ -113,56 +124,43 @@ crosstab <- function(design,
   # Calculate unweighted N, DEFF, MOSE for all banner groups first
 
   n_unweighted <- function(banner_levels_all, design_sub) {
-    n_unweighted_list <- numeric()
-
-    for (banner_level in banner_levels_all) {
+    banner_levels_all %>%
+      set_names() %>%
+    map_dbl(function(banner_level) {
       design_grp <- subset(design_sub, design_sub$variables[[banner_var]] == banner_level)
-      weights_grp <- weights(design_grp)
-      n_unweighted <- nrow(design_grp$variables)
-
-      n_unweighted_list <- c(n_unweighted_list, n_unweighted)
-    }
-    names(n_unweighted_list) <- banner_levels_all
-
-    return(n_unweighted_list)
+      return(nrow(design_grp$variables))
+    })
   }
   deff <- function(banner_levels_all, design_sub) {
-    deff_values <- numeric()
 
-    for (banner_level in banner_levels_all) {
-      design_grp <- subset(design_sub, design_sub$variables[[banner_var]] == banner_level)
-      weights_grp <- weights(design_grp)
-      n_unweighted <- nrow(design_grp$variables)
-      sum_w <- sum(weights_grp)
-      sum_w2 <- sum(weights_grp^2)
+    banner_levels_all %>%
+      set_names() %>%
+      map_dbl(function(banner_level) {
 
-      deff <- n_unweighted / ((sum_w)^2 / sum_w2)
-      deff_values <- c(deff_values, round(deff, 2))
+        design_grp <- subset(design_sub, design_sub$variables[[banner_var]] == banner_level)
+        weights_grp <- weights(design_grp)
+        n_unweighted <- nrow(design_grp$variables)
+        sum_w <- sum(weights_grp)
+        sum_w2 <- sum(weights_grp^2)
 
-    }
-
-    names(deff_values) <- banner_levels_all
-    return(deff_values)
+        deff <- n_unweighted / ((sum_w)^2 / sum_w2)
+      })
   }
 
   mose <- function(banner_levels_all, design_sub) {
-    mose_values <- numeric()
 
-    for (banner_level in banner_levels_all) {
-      design_grp <- subset(design_sub, design_sub$variables[[banner_var]] == banner_level)
-      weights_grp <- weights(design_grp)
-      n_unweighted <- nrow(design_grp$variables)
-      sum_w <- sum(weights_grp)
-      sum_w2 <- sum(weights_grp^2)
+    banner_levels_all %>%
+      set_names() %>%
+      map_dbl(function(banner_level) {
+        design_grp <- subset(design_sub, design_sub$variables[[banner_var]] == banner_level)
+        weights_grp <- weights(design_grp)
+        n_unweighted <- nrow(design_grp$variables)
+        sum_w <- sum(weights_grp)
+        sum_w2 <- sum(weights_grp^2)
 
-      deff <- n_unweighted / ((sum_w)^2 / sum_w2)
-      mose <- (sqrt(deff) * 1.96 * sqrt(0.25 / n_unweighted)) * 100
-      mose_values <- c(mose_values, round(mose, 0))
-
-    }
-
-    names(mose_values) <- banner_levels_all
-    return(mose_values)
+        deff <- n_unweighted / ((sum_w)^2 / sum_w2)
+        return((sqrt(deff) * 1.96 * sqrt(0.25 / n_unweighted)) * 100)
+      })
   }
 
 

@@ -4,17 +4,21 @@
 \alias{crosstab}
 \title{Create Survey Crosstab with Statistical Testing and Design Effects}
 \usage{
-crosstab(design, banner_var, target_var, min_n = 90, stat_testing_start = 2)
+crosstab(
+  data,
+  target_var,
+  banner_var,
+  min_n = 90,
+  stat_testing_start = 2,
+  design = NULL
+)
 }
 \arguments{
-\item{design}{A survey design object (typically from the survey package) containing
-the survey data and design specifications}
+\item{target_var}{A character string specifying the target variable name (the variable
+that defines the rows in the crosstab)}
 
 \item{banner_var}{A character string specifying the banner variable name (the variable
 that defines the columns in the crosstab)}
-
-\item{target_var}{A character string specifying the target variable name (the variable
-that defines the rows in the crosstab)}
 
 \item{min_n}{An integer specifying the minimum unweighted sample size threshold for
 banner groups. Groups with fewer observations are excluded from analysis. Default is 90.}
@@ -22,6 +26,9 @@ banner groups. Groups with fewer observations are excluded from analysis. Defaul
 \item{stat_testing_start}{An integer specifying which column letter to start statistical
 testing with (1=A, 2=B, etc.). This allows for proper letter assignment when combining
 multiple crosstabs. Default is 2 (column B).}
+
+\item{design}{A survey design object (typically from the survey package) containing
+the survey data and design specifications}
 }
 \value{
 A data frame containing the formatted crosstab with the following structure:
@@ -80,8 +87,8 @@ design <- svydesign(ids = ~1, data = my_survey_data, weights = ~survey_weight)
 # Generate a basic crosstab
 result <- crosstab(
   design = design,
-  banner_var = "age_group",
   target_var = "satisfaction",
+  banner_var = "age_group",
   min_n = 100
 )
 
@@ -91,8 +98,8 @@ attr(result, "banner_levels_kept")
 # Use in a multi-banner context with custom stat testing start
 result2 <- crosstab(
   design = design,
-  banner_var = "region",
   target_var = "satisfaction",
+  banner_var = "region",
   min_n = 50,
   stat_testing_start = 5  # Start at column E
 )
