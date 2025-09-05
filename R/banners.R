@@ -58,15 +58,16 @@
 #' @seealso \code{\link{crosstab}} for the underlying crosstab function
 #'
 #' @export
-banners <- function(design, target, banners, min_n = 100) {
+banners <- function(data, target, banners, min_n = 100, design = NULL) {
   tables <- list()
   ticker <- 2 # force to start at letter B
   for (i in seq_along(banners)) {
-    tables[[i]] <- crosstab(design,
+    tables[[i]] <- crosstab(data,
                             target,
                             banners[[i]],
                             min_n = min_n,
-                            stat_testing_start = ticker)
+                            stat_testing_start = ticker,
+                            design = design)
     if (ncol(tables[[i]]) != 1) {
       # at this time, might have more columns than "cols_used" below, so cant interchange them
       # so long as the crosstab didnt error, it will have ncol > 1

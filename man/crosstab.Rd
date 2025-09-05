@@ -8,7 +8,7 @@ crosstab(
   data,
   target_var,
   banner_var,
-  min_n = 90,
+  min_n = 100,
   stat_testing_start = 2,
   design = NULL
 )

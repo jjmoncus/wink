@@ -4,12 +4,9 @@
 \alias{banners}
 \title{Create Banner Crosstabs with Statistical Testing}
 \usage{
-banners(design, target, banners, min_n = 100)
+banners(data, target, banners, min_n = 100, design = NULL)
 }
 \arguments{
-\item{design}{A survey design object (typically from the survey package) containing
-the survey data and design specifications}
-
 \item{target}{A character string specifying the target variable name to be analyzed
 against the banner variables}
 
@@ -18,6 +15,9 @@ variable name to be cross-tabulated with the target variable}
 
 \item{min_n}{An integer specifying the minimum sample size threshold for statistical
 testing. Cells with fewer observations may not be included in testing. Default is 100.}
+
+\item{design}{A survey design object (typically from the survey package) containing
+the survey data and design specifications}
 }
 \value{
 A data frame containing the combined crosstab results with the following attributes:
