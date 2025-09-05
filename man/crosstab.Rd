@@ -14,6 +14,8 @@ crosstab(
 )
 }
 \arguments{
+\item{data}{The survey data to us}
+
 \item{target_var}{A character string specifying the target variable name (the variable
 that defines the rows in the crosstab)}
 
@@ -28,7 +30,7 @@ testing with (1=A, 2=B, etc.). This allows for proper letter assignment when com
 multiple crosstabs. Default is 2 (column B).}
 
 \item{design}{A survey design object (typically from the survey package) containing
-the survey data and design specifications}
+the survey data and design specifications, if you would like weighted percentages. Defaults to NULL}
 }
 \value{
 A data frame containing the formatted crosstab with the following structure:

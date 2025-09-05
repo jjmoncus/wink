@@ -7,6 +7,8 @@
 banners(data, target, banners, min_n = 100, design = NULL)
 }
 \arguments{
+\item{data}{The survey data to us}
+
 \item{target}{A character string specifying the target variable name to be analyzed
 against the banner variables}
 
@@ -17,7 +19,7 @@ variable name to be cross-tabulated with the target variable}
 testing. Cells with fewer observations may not be included in testing. Default is 100.}
 
 \item{design}{A survey design object (typically from the survey package) containing
-the survey data and design specifications}
+the survey data and design specifications, if you would like weighted percentages. Defaults to NULL}
 }
 \value{
 A data frame containing the combined crosstab results with the following attributes:

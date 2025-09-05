@@ -5,14 +5,15 @@
 #' applying statistical testing across columns. It combines the results into a single table
 #' with appropriate column dividers for presentation.
 #'
-#' @param design A survey design object (typically from the survey package) containing
-#'   the survey data and design specifications
+#' @param data The survey data to us
 #' @param target A character string specifying the target variable name to be analyzed
 #'   against the banner variables
 #' @param banners A vector of character strings, where each element represents a banner
 #'   variable name to be cross-tabulated with the target variable
 #' @param min_n An integer specifying the minimum sample size threshold for statistical
 #'   testing. Cells with fewer observations may not be included in testing. Default is 100.
+#' @param design A survey design object (typically from the survey package) containing
+#'   the survey data and design specifications, if you would like weighted percentages. Defaults to NULL
 #'
 #' @return A data frame containing the combined crosstab results with the following attributes:
 #'   \itemize{
