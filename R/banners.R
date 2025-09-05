@@ -63,10 +63,10 @@ banners <- function(design, target, banners, min_n = 100) {
   ticker <- 2 # force to start at letter B
   for (i in seq_along(banners)) {
     tables[[i]] <- crosstab(design,
-                               banners[[i]],
-                               target,
-                               min_n = min_n,
-                               stat_testing_start = ticker)
+                            target,
+                            banners[[i]],
+                            min_n = min_n,
+                            stat_testing_start = ticker)
     if (ncol(tables[[i]]) != 1) {
       # at this time, might have more columns than "cols_used" below, so cant interchange them
       # so long as the crosstab didnt error, it will have ncol > 1

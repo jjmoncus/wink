@@ -8,10 +8,10 @@
 #'
 #' @param design A survey design object (typically from the survey package) containing
 #'   the survey data and design specifications
-#' @param banner_var A character string specifying the banner variable name (the variable
-#'   that defines the columns in the crosstab)
 #' @param target_var A character string specifying the target variable name (the variable
 #'   that defines the rows in the crosstab)
+#' @param banner_var A character string specifying the banner variable name (the variable
+#'   that defines the columns in the crosstab)
 #' @param min_n An integer specifying the minimum unweighted sample size threshold for
 #'   banner groups. Groups with fewer observations are excluded from analysis. Default is 90.
 #' @param stat_testing_start An integer specifying which column letter to start statistical
@@ -61,8 +61,8 @@
 #' # Generate a basic crosstab
 #' result <- crosstab(
 #'   design = design,
-#'   banner_var = "age_group",
 #'   target_var = "satisfaction",
+#'   banner_var = "age_group",
 #'   min_n = 100
 #' )
 #'
@@ -72,8 +72,8 @@
 #' # Use in a multi-banner context with custom stat testing start
 #' result2 <- crosstab(
 #'   design = design,
-#'   banner_var = "region",
 #'   target_var = "satisfaction",
+#'   banner_var = "region",
 #'   min_n = 50,
 #'   stat_testing_start = 5  # Start at column E
 #' )
@@ -99,10 +99,10 @@
 #'
 #'
 crosstab <- function(design,
-                        banner_var,
-                        target_var,
-                        min_n = 90,
-                        stat_testing_start = 2) {
+                     target_var,
+                     banner_var,
+                     min_n = 90,
+                     stat_testing_start = 2) {
   # gather your inputs
   design_sub <- subset(design,!is.na(design$variables[[banner_var]]) &
                          !is.na(design$variables[[target_var]]))
