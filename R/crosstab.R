@@ -254,7 +254,10 @@ crosstab <- function(data,
                              deff_values,
                              col_start = 2) {
       # Prepare stat testing indicators
-      banner_letters <- LETTERS[col_start:(col_start + length(banner_levels) - 1)]
+
+      col_end <- col_start + length(banner_levels) - 1
+      banner_letters <- col_start:col_end %>% map_chr(num_to_excel_col)
+
       answer_rows <- combined_wide$Target %in% target_levels
 
       letters_df <- data.frame(Target = target_levels, stringsAsFactors = FALSE)
