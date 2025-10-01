@@ -93,6 +93,7 @@
 #' @importFrom survey svymean
 #' @importFrom stats model.matrix weights
 #' @importFrom purrr map
+#' @importFrom stringr str_trim
 #'
 #' @seealso
 #' \code{\link[survey]{svydesign}} for creating survey design objects,
@@ -266,7 +267,7 @@ crosstab <- function(data,
       }
 
       for (i in seq_along(banner_levels)) {
-        current_pct <- as.numeric(combined_wide[[banner_levels[i]]][answer_rows]) / 100
+        current_pct <- combined_wide[[banner_levels[i]]][answer_rows] / 100
         current_n <- n_unweighted_list[i]
         current_deff <- deff_values[i]
 
@@ -276,7 +277,7 @@ crosstab <- function(data,
           if (i == j)
             next
 
-          compare_pct <- as.numeric(combined_wide[[banner_levels[j]]][answer_rows]) / 100
+          compare_pct <- combined_wide[[banner_levels[j]]][answer_rows] / 100
           compare_n <- n_unweighted_list[j]
           compare_deff <- deff_values[j]
 
@@ -290,7 +291,7 @@ crosstab <- function(data,
             (current_pct > compare_pct)
           diff_check[is.na(diff_check)] <- FALSE
 
-          letters_for_this[diff_check] <- paste0(letters_for_this[diff_check], banner_letters[j])
+          letters_for_this[diff_check] <- paste(letters_for_this[diff_check], banner_letters[j], sep = " ") %>% str_trim()
         }
 
         letters_df[[banner_levels[i]]] <- letters_for_this
