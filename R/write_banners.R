@@ -80,7 +80,7 @@
 #' \code{col_dividers}) for proper formatting. Missing attributes may result in errors
 #' or suboptimal formatting.
 #'
-#' @importFrom openxlsx createWorkbook addWorksheet writeData createStyle addStyle setColWidths writeFormula worksheetOrder saveWorkbook
+#' @importFrom openxlsx createWorkbook addWorksheet writeData createStyle addStyle setColWidths writeFormula worksheetOrder saveWorkbook worksheetOrder
 #' @importFrom purrr walk map_chr
 #'
 #' @seealso

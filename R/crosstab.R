@@ -90,7 +90,7 @@
 #' @importFrom dplyr bind_rows filter mutate across slice select all_of
 #' @importFrom tidyr pivot_wider
 #' @importFrom tibble tibble
-#' @importFrom survey svymean
+#' @importFrom survey svymean svydesign
 #' @importFrom stats model.matrix weights
 #' @importFrom purrr map
 #' @importFrom stringr str_trim

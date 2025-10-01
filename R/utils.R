@@ -15,5 +15,25 @@ num_to_excel_col <- function(x) {
   paste0(prefix, suffix)
 }
 
-num_to_excel_col(40)
+
+
+
+#' safely coerce something to a double, or not
+#'
+#' Might use this to write values to excel sheets as numbers instead of text, when necessary
+double_or_not <- function(x) {
+
+  suppressWarnings(
+
+    ifelse(is.na(as.double(x)),
+         x,
+         as.double(x))
+
+    )
+  }
+
+
+out %>%
+  mutate(across(everything(),
+                ~map(.x, double_or_not))) -> out2
 
