@@ -24,6 +24,7 @@ Imports:
     survey,
     tibble,
     tidyr,
-    magrittr
-RoxygenNote: 7.3.2
+    magrittr,
+    stringr
+RoxygenNote: 7.3.3
 Roxygen: list(markdown = TRUE)
