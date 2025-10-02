@@ -33,7 +33,3 @@ double_or_not <- function(x) {
   }
 
 
-out %>%
-  mutate(across(everything(),
-                ~map(.x, double_or_not))) -> out2
-
