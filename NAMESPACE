@@ -2,6 +2,7 @@
 
 export("%>%")
 export(banners)
+export(banners2)
 export(write_banners)
 import(rlang)
 importFrom(dplyr,across)
