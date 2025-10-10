@@ -57,7 +57,7 @@
 #' @seealso \code{\link{crosstab}} for the underlying crosstab function
 #'
 #' @export
-banners2 <- function(data, var, bys, weight = NULL, digits = NULL, min_group_n = 100) {
+banner <- function(data, var, bys, weight = NULL, digits = NULL, min_group_n = 100) {
 
   # ------------------------------------------------------------------- #
   # ----- gathering function params (same as for crosstab2) ----------- #
@@ -138,7 +138,8 @@ banners2 <- function(data, var, bys, weight = NULL, digits = NULL, min_group_n =
       col_dividers = c(2, # brute force a divider after the total columsn
                        map_dbl(tables, ~ attr(.x, "col_divider"))), # gather all the dividers after each crosstab
       var = var,
-      bys = bys
+      bys = bys,
+      var_label = attr(data[[var]], "label")
     )
 
 } #rename this something about the stat testing only?

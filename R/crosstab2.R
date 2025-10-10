@@ -3,6 +3,9 @@
 #' Do significance testing on a crosstab
 #'
 #' Isolating the functionality related to significance testing, for easier maintenance
+#'
+#' @importFrom purrr pmap_lgl
+#'
 sig_test_table <- function(baby_crosstab,
                            n_unweighteds,
                            deffs,
@@ -56,7 +59,8 @@ sig_test_table <- function(baby_crosstab,
 
 #' Building a crosstab from its inputs
 #'
-#'
+#' @importFrom tibble as_tibble
+#' @importFrom tidyselect everything
 crosstab_builder <- function(baby_crosstab,
                              sig_test_table,
                              n_unweighted_row,
@@ -83,6 +87,12 @@ crosstab_builder <- function(baby_crosstab,
 
 
 #' Rewriting the crosstab function
+#'
+#' @importFrom tibble add_column
+#' @importFrom tidyselect any_of
+#' @importFrom pewmethods get_totals calculate_deff
+#' @importFrom dplyr pull
+#'
 crosstab2 <- function(data,
                       var,
                       by,
