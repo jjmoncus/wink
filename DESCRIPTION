@@ -26,7 +26,8 @@ Imports:
     tidyr,
     magrittr,
     stringr,
-    pewmethods (>= 1.0)
+    pewmethods (>= 1.0),
+    tidyselect
 RoxygenNote: 7.3.3
 Roxygen: list(markdown = TRUE)
 Remotes:  
