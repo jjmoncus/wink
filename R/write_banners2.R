@@ -112,6 +112,10 @@ write_banners2 <- function(banners_list, file, overwrite = TRUE) {
 
   wb <- createWorkbook()
 
+  # ------------------------------------------------- #
+  # ----------- add banners to each sheet ----------- #
+  # ------------------------------------------------- #
+
   # for each element of the banners list, create sheet + add table + add stylings
   walk(banners_list, function(data) {
     name <- attr(data, "var")
@@ -216,6 +220,10 @@ write_banners2 <- function(banners_list, file, overwrite = TRUE) {
                   heights = 28)
   })
 
+  # --------------------------------------------- #
+  # ----------- Add Table of Contents ----------- #
+  # --------------------------------------------- #
+
   addWorksheet(wb, "Table of Contents", tabColour = "#4F81BD")
 
   # Get all sheet names except TOC
@@ -243,31 +251,26 @@ write_banners2 <- function(banners_list, file, overwrite = TRUE) {
     gridExpand = TRUE
   )
 
-  # # Write sheet labels as links starting row 3
-  # writeData(
-  #   wb,
-  #   "Table of Contents",
-  #   x = sheet_labels,
-  #   startRow = 3,
-  #   startCol = 1,
-  #   colNames = FALSE
-  # )
-
-  # Add hyperlinks to each label pointing to the respective sheet's A1 cell (I DON'T THINK THIS PART WORKS?)
+  # Add hyperlinks to each label pointing to the respective sheet's A1 cell
   for (i in seq_along(banner_sheets)) {
-    link <- paste0("#'", banner_sheets[i], "'!A1") # this potentially needs to be `names(banners_sheets[i])`, check back on this
+    link <- paste0("#'", banner_sheets[i], "'!A1")
     formula <- sprintf('HYPERLINK("%s", "%s")', link, sheet_labels[i]) # I would have written this using `glue`, but fine enough for now
     writeFormula(
       wb,
       "Table of Contents",
       x = formula,
-      startRow = i + 2, # has to match whatever the startRow of the labels is above ^^,
+      startRow = i + 2, # has to correspond to whatever the startRow of the labels is above ^^,
       startCol = 1
     )
   }
 
   #Set the TOC to be the first sheet
   worksheetOrder(wb) <- c(which(names(wb) == "Table of Contents"), which(names(wb) != "Table of Contents"))
+
+
+  # --------------------------------------------- #
+  # ----------------- Save out ------------------ #
+  # --------------------------------------------- #
 
   # Save workbook
   saveWorkbook(wb, file, overwrite = overwrite)
