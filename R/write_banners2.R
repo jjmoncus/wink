@@ -80,7 +80,7 @@
 #' \code{col_dividers}) for proper formatting. Missing attributes may result in errors
 #' or suboptimal formatting.
 #'
-#' @importFrom openxlsx createWorkbook addWorksheet writeData createStyle addStyle setColWidths writeFormula worksheetOrder saveWorkbook worksheetOrder
+#' @importFrom openxlsx createWorkbook addWorksheet writeData createStyle addStyle setColWidths writeFormula worksheetOrder saveWorkbook mergeCells setRowHeights
 #' @importFrom purrr walk map_chr
 #'
 #' @seealso
@@ -88,9 +88,6 @@
 #' \code{\link[openxlsx]{createWorkbook}} for Excel workbook creation,
 #' \code{\link[openxlsx]{addWorksheet}} for adding worksheets,
 #' \code{\link[openxlsx]{saveWorkbook}} for saving Excel files
-#'
-#' @importFrom openxlsx createWorkbook addWorksheet writeData createStyle addStyle setColWidths writeFormula worksheetOrder saveWorkbook setRowHeights
-#' @importFrom purrr walk map_chr
 #'
 #' @export
 write_banners2 <- function(banners_list, file, overwrite = TRUE) {

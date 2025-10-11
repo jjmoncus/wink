@@ -92,6 +92,7 @@ crosstab_builder <- function(baby_crosstab,
 #' @importFrom tidyselect any_of
 #' @importFrom pewmethods get_totals calculate_deff
 #' @importFrom dplyr pull
+#' @importFrom tidyr pivot_wider
 #'
 crosstab2 <- function(data,
                       var,

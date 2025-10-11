@@ -51,8 +51,10 @@
 #' attr(result, "col_dividers")
 #' }
 #'
-#' @importFrom dplyr select bind_cols
+#' @importFrom dplyr select bind_cols rename
 #' @importFrom purrr map_dbl
+#' @importFrom tidyr pivot_longer
+#' @importFrom tibble add_row
 #'
 #' @seealso \code{\link{crosstab}} for the underlying crosstab function
 #'
@@ -126,10 +128,7 @@ banner <- function(data, var, bys, weight = NULL, digits = NULL, min_group_n = 1
       tables[[i]] <- structure(tables[[i]], "col_divider" = prev_cols_used + cols_used) # we dont have to push by 2 again, that's already captured in the i = 1 case
     }
 
-    if (i == 1)
-      ticker <- ticker + cols_used - 1 # I think adding the total cols changes this, check back
-    else
-      ticker <- ticker + cols_used
+    ticker <- ticker + cols_used
   }
 
   bind_cols(total_cols, tables) %>%
