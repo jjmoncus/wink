@@ -127,7 +127,6 @@ crosstab2 <- function(data,
   # ------ calculating table params ----------- #
   # ------------------------------------------- #
 
-  total_params = calculate_deff(data[[weight]])
   by_params <- by_levels %>%
     set_names() %>%
     map(function(x) {
