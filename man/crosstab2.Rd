@@ -9,9 +9,10 @@ crosstab2(
   var,
   by,
   weight = NULL,
+  var_nets = NULL,
   digits = 0,
   min_group_n = 100,
-  st_col_start = 2
+  st_col_start = 3
 )
 }
 \description{

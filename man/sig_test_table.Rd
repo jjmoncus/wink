@@ -4,7 +4,7 @@
 \alias{sig_test_table}
 \title{Do significance testing on a crosstab}
 \usage{
-sig_test_table(baby_crosstab, n_unweighteds, deffs, col_start = 2)
+sig_test_table(baby_crosstab, n_unweighteds, deffs, col_start = 3)
 }
 \description{
 Isolating the functionality related to significance testing, for easier maintenance

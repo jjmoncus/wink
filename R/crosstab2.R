@@ -9,22 +9,39 @@
 sig_test_table <- function(baby_crosstab,
                            n_unweighteds,
                            deffs,
-                           col_start = 2) {
-  # Prepare stat testing indicators
+                           col_start = 3) {
+
+  # ------------------------------------------------- #
+  # --------- Prepare stat testing indicators --------#
+  # ------------------------------------------------- #
 
   var <- attr(baby_crosstab, "var")
   by_levels_used <- attr(baby_crosstab, "by_levels_used")
-  var_levels <- attr(baby_crosstab, "var_levels")
+  # this is not technically levels(var) -
+  # it's levels(var) + whatever NET categories have been added
+  # but we leave it named "var_levels" for now
+  var_levels <- baby_crosstab[[var]]
 
   col_end <- col_start + length(by_levels_used) - 1
   col_letters <- col_start:col_end %>% map_chr(num_to_excel_col)
 
+  # ----------------------------------------------------------- #
+  # ------- get an empty table based on `baby_crosstab` --------#
+  # ----------------------------------------------------------- #
 
-  ## COME BACK HERE, NEED TO ACCOUNT FOR SYM_VAR THING
+
   letters_df <- tibble(!!sym(var) := var_levels) # we can name this var anything, it doesnt matter, we wont ever pull this column
   for (i in seq_along(by_levels_used)) {
     letters_df[[by_levels_used[i]]] <- ""
   }
+
+  # ----------------------------------------------------------- #
+  # ------------- fill it with significance tests --------------#
+  # ----------------------------------------------------------- #
+
+  # we compare every col to every other col
+  # so there is some duplication
+  # we choose to only paste letters under the col with the larger of the two percentages
 
   for (x in by_levels_used) {
     p1s <- baby_crosstab[[x]] / 100
@@ -47,10 +64,13 @@ sig_test_table <- function(baby_crosstab,
       diff_checks <- sig & (p1s > p2s) # only declare a letter for the cell where percentage is bigger (so we convey the same sig info twice)
       diff_checks[is.na(diff_checks)] <- FALSE
 
-      letters_for_this[diff_checks] <- paste(letters_for_this[diff_checks], col_letters[which(by_levels_used %in% y)], sep = " ") %>% str_trim()
+      letters_for_this[diff_checks] <- paste(
+        letters_for_this[diff_checks],
+        col_letters[which(by_levels_used %in% y)], sep = " ") %>%
+        str_trim()
     }
 
-    letters_df[[by_levels_used[i]]] <- letters_for_this
+    letters_df[[x]] <- letters_for_this
   }
 
   return(letters_df)
@@ -98,9 +118,10 @@ crosstab2 <- function(data,
                       var,
                       by,
                       weight = NULL,
+                      var_nets = NULL,
                       digits = 0,
                       min_group_n = 100,
-                      st_col_start = 2) {
+                      st_col_start = 3) {
 
   # ------------------------------------------- #
   # ----- gathering function params ----------- #
@@ -122,6 +143,24 @@ crosstab2 <- function(data,
 
   sym_by <- sym(by)
   by_levels <- levels(data[[by]])
+
+  # if var_nets are provided,
+  # ensure they're of the right form
+  # and add `var_recode` to the data
+  if (!is.null(var_nets)) {
+
+    var_nets <- var_nets %>%
+      map(function(x) {
+        if (is.numeric(x)) {
+          levels(data[[var]])[x]
+        } else if (is.character(x)) {
+          x
+        }
+      })
+
+    data <- data %>%
+      mutate(var_recode = fct_collapse(!!sym_var, !!!var_nets))
+  }
 
   # ------------------------------------------- #
   # ------ calculating table params ----------- #
@@ -158,15 +197,40 @@ crosstab2 <- function(data,
                                 by = by,
                                 by_total = FALSE,
                                 digits = digits) %>%
+      mutate(!!sym_var := as.character(!!sym_var))
+
+    if (!is.null(var_nets)) { # calculate `var_recode` values and insert them into the `baby_crosstab` in the right spot
+
+      nets_percents <- get_totals(var = "var_recode",
+                                  df = data,
+                                  wt = weight,
+                                  by = by,
+                                  by_total = FALSE,
+                                  digits = digits) %>%
+        filter(var_recode %in% names(var_nets)) %>%
+        mutate(var_recode = glue("NET: {var_recode}")) %>%
+        rename(!!sym_var := var_recode) # this renaming is just so the rows can be added by column name below
+
+      # each row of nets_percent needs to go right above the first row of its correspnding parent levels
+      for (i in 1:nrow(nets_percents)) {
+
+        baby_crosstab <- baby_crosstab %>% add_row(!!!slice(nets_percents, i),
+                                                   .before = which(baby_crosstab[[var]] == var_nets[[i]][1]))
+      }
+    }
+
+    baby_crosstab <- baby_crosstab %>%
       select(-weight_name, -any_of(by_levels_to_cut)) %>%
       structure("var" = var,
                 "by_levels_used" = by_levels_to_use,
                 "var_levels" = var_levels)
 
 
-    # ------------------------------------------- #
-    # ------- calculating percentages ----------- #
-    # ------------------------------------------- #
+
+
+    # -------------------------------------------------- #
+    # -------------- significance testing -------------- #
+    # -------------------------------------------------- #
 
     sig_test_out <- sig_test_table(
       baby_crosstab,
@@ -217,3 +281,7 @@ crosstab2 <- function(data,
              "by" = by,
              "by_levels_kept" = length(by_levels_to_use)))
 }
+
+
+
+
