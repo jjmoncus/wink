@@ -59,7 +59,13 @@
 #' @seealso \code{\link{crosstab}} for the underlying crosstab function
 #'
 #' @export
-banner <- function(data, var, bys, weight = NULL, digits = NULL, min_group_n = 100) {
+banner <- function(data,
+                   var,
+                   bys,
+                   weight = NULL,
+                   var_nets = NULL,
+                   digits = NULL,
+                   min_group_n = 100) {
 
   # ------------------------------------------------------------------- #
   # ----- gathering function params (same as for crosstab2) ----------- #
@@ -75,7 +81,6 @@ banner <- function(data, var, bys, weight = NULL, digits = NULL, min_group_n = 1
   if (!(var %in% names(data))) abort("'var' must be in 'data' ")
   bad_bys <- keep(bys, \(x) {!(x %in% names(data))})
   if (length(bad_bys) > 0) abort(glue("{str_flatten(bad_bys, ', ', last = ' and ')} must be in 'data'"))
-  if (!(weight %in% names(data))) abort("'weight' must be in 'data'")
 
   # --------------------------------------------------------------- #
   # ----------------- numbers for Total col ----------------------- #
