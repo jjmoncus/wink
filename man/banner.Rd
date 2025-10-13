@@ -4,7 +4,15 @@
 \alias{banner}
 \title{Create Banner Crosstabs with Statistical Testing}
 \usage{
-banner(data, var, bys, weight = NULL, digits = NULL, min_group_n = 100)
+banner(
+  data,
+  var,
+  bys,
+  weight = NULL,
+  var_nets = NULL,
+  digits = 0,
+  min_group_n = 100
+)
 }
 \arguments{
 \item{data}{The survey data to us}

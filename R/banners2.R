@@ -64,7 +64,7 @@ banner <- function(data,
                    bys,
                    weight = NULL,
                    var_nets = NULL,
-                   digits = NULL,
+                   digits = 0,
                    min_group_n = 100) {
 
   # ------------------------------------------------------------------- #
@@ -94,8 +94,47 @@ banner <- function(data,
                            data,
                            wt = weight,
                            digits = digits) %>%
+    mutate(!!sym(var) := as.character(!!sym(var)))
+  # if var_nets are provided, ensure they're of the right form
+  # and add `var_recode` to the data
+  if (!is.null(var_nets)) {
+
+    var_nets <- var_nets %>%
+      map(function(x) {
+        if (is.numeric(x)) {
+          levels(data[[var]])[x]
+        } else if (is.character(x)) {
+          x
+        }
+      })
+
+    data <- data %>%
+      mutate(var_recode = fct_collapse(!!sym(var), !!!var_nets))
+
+    # calculate `var_recode` values and insert them into the `baby_crosstab` in the right spot
+    nets_percents <- get_totals(var = "var_recode",
+                                df = data,
+                                wt = weight,
+                                digits = digits) %>%
+      filter(var_recode %in% names(var_nets)) %>%
+      mutate(var_recode = glue("NET: {var_recode}")) %>%
+      rename(!!sym(var) := var_recode) %>%
+      # have to convert to character to match the columns in the forthcoming crosstabs
+      mutate(!!sym(var) := as.character(!!sym(var)))
+
+    # each row of nets_percent needs to go right above the first row of its correspnding parent levels
+    for (i in 1:nrow(nets_percents)) {
+
+      total_cols <- total_cols %>% add_row(!!!slice(nets_percents, i),
+                                           .before = which(total_cols[[var]] == var_nets[[i]][1]))
+    }
+  }
+
+  # final edits to total_cols
+  total_cols <- total_cols  %>%
     rename(levels = !!sym(var),
            Total = !!sym(weight)) %>%
+    {mutate(., levels = factor(levels, levels = .$levels))} %>%
     split(~levels) %>%
     map(\(x) x %>% add_row(levels = "..",
                            Total := NA_real_)) %>%
@@ -106,6 +145,11 @@ banner <- function(data,
     mutate(across(everything(), as.character))
   # this will take up the first two columns
 
+
+  # --------------------------------------------------------------- #
+  # ----------------------- other crosstabs ----------------------- #
+  # --------------------------------------------------------------- #
+
   ticker <- 3 # force to start at letter C, given total_cols above
 
   tables <- list()
@@ -115,6 +159,7 @@ banner <- function(data,
                              var,
                              bys[[i]],
                              weight = weight,
+                             var_nets = var_nets,
                              digits = digits,
                              min_group_n = min_group_n,
                              st_col_start = ticker)
@@ -146,7 +191,7 @@ banner <- function(data,
       var_label = attr(data[[var]], "label")
     )
 
-} #rename this something about the stat testing only?
+}
 
 
 
