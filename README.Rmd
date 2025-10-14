@@ -24,7 +24,9 @@ The goal of wink is to provide foundational functionality for generating Wincros
 
 You can install the development version of wink from [GitHub](https://github.com/) with:
 
-``` {r install} 
+``` {r install}
+#| echo: false 
+
 # install.packages("pak")
 pak::pak("jjmoncus/wink")
 ```
@@ -35,6 +37,7 @@ This is a basic example which shows you how to solve a common problem:
 
 ```{r example}
 library(wink)
+#| echo: false 
 ## basic example code
 ```
 
