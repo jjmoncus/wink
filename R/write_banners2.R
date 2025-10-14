@@ -97,7 +97,7 @@ write_banners2 <- function(banners_list, file, overwrite = TRUE) {
   # ------------------------------------------- #
 
   # Get labels (`var_label` or fallback to `var`)
-  sheet_labels <- map_chr(banners_list, ~ {
+  question_wordings <- map_chr(banners_list, ~ {
     lbl <- attr(.x, "var_label")
     if (is.null(lbl) || is.na(lbl) || lbl == "") {
       attr(.x, "var")  # fallback to sheet name if `var_label` from banner is empty
@@ -118,21 +118,22 @@ write_banners2 <- function(banners_list, file, overwrite = TRUE) {
 
   # for each element of the banners list, create sheet + add table + add stylings
   walk(banners_list, function(data) {
-    name <- attr(data, "var")
+
+    var_name <- attr(data, "var")
 
     # Add a sheet
     # The sheet will be named whatever the list is named
     # (typically, the variable name, or the full question wording, of that variable,
     # but we are agnostic to that at this point)
-    addWorksheet(wb, sheetName = name)
+    addWorksheet(wb, sheetName = var_name)
 
     # in top row, add button back to table of contents
     link <- paste0("#'Table of Contents'!A1")
     formula <- sprintf('HYPERLINK("%s", "%s")', link, "Back to TOC")
-    writeFormula(wb, name, x = formula, startRow = 1, startCol = 1)
+    writeFormula(wb, var_name, x = formula, startRow = 1, startCol = 1)
 
     # in the second row, paste the full question wording (or whatever else we default to if we dont have it)
-    writeData(wb, name, x = sheet_labels[name], startRow = 2, startCol = 1)
+    writeData(wb, var_name, x = question_wordings[var_name], startRow = 2, startCol = 1)
 
     # give a little room, skip row 3
 
@@ -141,32 +142,32 @@ write_banners2 <- function(banners_list, file, overwrite = TRUE) {
 
       # writing the `by` name
       writeData(wb,
-                sheet = name,
+                sheet = var_name,
                 x = attr(data, "bys")[i],
                 startRow = 4,
                 startCol = attr(data, "col_dividers")[i] + 1) # place the name of the `by` right after the previous group's col divider
 
       # merge with corresponding cells
       mergeCells(wb,
-                 sheet = name,
+                 sheet = var_name,
                  cols = (attr(data, "col_dividers")[i] + 1):attr(data, "col_dividers")[i+1],
                  rows = 4)
 
       # center the text
       addStyle(wb,
-               sheet = name,
+               sheet = var_name,
                rows = 4,
                cols = attr(data, "col_dividers")[i] + 1,
                style = createStyle(halign = "center"))
     }
 
     # Write data to the sheet (starting in row 5)
-    writeData(wb, sheet = name, x = data, startRow = 5, startCol = 1)
+    writeData(wb, sheet = var_name, x = data, startRow = 5, startCol = 1)
 
     # Apply right border style to the divider columns
     addStyle(
       wb,
-      sheet = name,
+      sheet = var_name,
       style = createStyle(border = "right", borderStyle = "medium"),
       rows = 4:(nrow(data) + 5),
       cols = c(1, attr(data, "col_dividers")),
@@ -177,7 +178,7 @@ write_banners2 <- function(banners_list, file, overwrite = TRUE) {
     # Apply bottom border style to column headers
     addStyle(
       wb,
-      sheet = name,
+      sheet = var_name,
       style = createStyle(border = "bottom", borderStyle = "medium"),
       rows = 4,
       cols = 1:ncol(data),
@@ -188,7 +189,7 @@ write_banners2 <- function(banners_list, file, overwrite = TRUE) {
     # Apply top border style to column headers
     addStyle(
       wb,
-      sheet = name,
+      sheet = var_name,
       style = createStyle(border = "top", borderStyle = "medium"),
       rows = 4,
       cols = 1:ncol(data),
@@ -199,7 +200,7 @@ write_banners2 <- function(banners_list, file, overwrite = TRUE) {
     # Apply bottom border style to bottom of the full table
     addStyle(
       wb,
-      sheet = name,
+      sheet = var_name,
       style = createStyle(border = "bottom", borderStyle = "medium"),
       rows = nrow(data) + 5,
       cols = 1:ncol(data),
@@ -208,14 +209,14 @@ write_banners2 <- function(banners_list, file, overwrite = TRUE) {
     )
 
     # allow automatic column widths for most cols
-    setColWidths(wb, name, cols = 1, widths = 30)
-    setColWidths(wb, name, cols = 2:ncol(data), widths = "auto")
+    setColWidths(wb, var_name, cols = 1, widths = 30)
+    setColWidths(wb, var_name, cols = 2:ncol(data), widths = "auto")
     # we start "auto" colWidths at column 2, since column 1 might eventually contain
     # very long strings (like the full question wording, other metadata below the table, etc)
     # and we're not interested in wrapping that text yet
 
     # widen height of rows, just to make it easier to read
-    setRowHeights(wb, name,
+    setRowHeights(wb, var_name,
                   rows = 4:(nrow(data) + 5), # have to add extra rows for however many rows are taken up above the data
                   heights = 28)
   })
@@ -254,7 +255,7 @@ write_banners2 <- function(banners_list, file, overwrite = TRUE) {
   # Add hyperlinks to each label pointing to the respective sheet's A1 cell
   for (i in seq_along(banner_sheets)) {
     link <- paste0("#'", banner_sheets[i], "'!A1")
-    formula <- sprintf('HYPERLINK("%s", "%s")', link, sheet_labels[i]) # I would have written this using `glue`, but fine enough for now
+    formula <- sprintf('HYPERLINK("%s", "%s")', link, glue("{banner_sheets[i]}: {question_wordings[i]}")) # I would have written this using `glue`, but fine enough for now
     writeFormula(
       wb,
       "Table of Contents",
