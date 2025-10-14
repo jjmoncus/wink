@@ -114,6 +114,9 @@ crosstab_builder <- function(baby_crosstab,
 #' @importFrom dplyr pull
 #' @importFrom tidyr pivot_wider
 #' @importFrom forcats fct_collapse
+#' @importFrom rlang abort
+#'
+#' @export
 #'
 crosstab2 <- function(data,
                       var,
@@ -135,9 +138,12 @@ crosstab2 <- function(data,
     sym_weight <- sym(weight)
   }
 
-  if (!(var %in% names(data))) abort("'var' must be in 'data' ")
-  if (!(by %in% names(data))) abort("'by' must be in 'data' ")
-  if (!(weight %in% names(data))) abort("'weight' must be in 'data' ")
+  if (!(var %in% names(data))) abort(glue("'{var}' must be in 'data'"))
+  if (!(by %in% names(data))) abort(glue("'{by}' must be in 'data'"))
+  if (!(weight %in% names(data))) abort(glue("'{weight}' must be in 'data'"))
+
+  if (is.na(data[[var]]) %>% all() || data[[var]] %>% identical(., "") %>% all()) abort(glue("'{var}' seems to be empty"))
+  if (is.na(data[[by]]) %>% all() || data[[by]] %>% identical(., "") %>% all()) abort(glue("'{by}' seems to be empty"))
 
   sym_var <- sym(var)
   var_levels <- levels(data[[var]])
