@@ -189,7 +189,7 @@ crosstab2 <- function(data,
 
   # Return basic table if none pass cutoff
   if (length(by_levels_to_use) == 0) {
-    final_table <- tibble("{by}" := paste0("No groups with unweighted N > ", min_group_n))
+    out <- tibble("{by}" := paste0("No groups with unweighted N > ", min_group_n))
     # otherwise continue
   } else {
 
