@@ -1,0 +1,209 @@
+---
+title: "wink"
+author: "J.J. Moncus"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{wink}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+library(knitr)
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+# write tables for data frames
+knit_print.data.frame = function(x, ...) {
+    res = paste(c("", "", kable(x, output = FALSE)), collapse = "\n")
+    asis_output(res)
+}
+# register the method
+registerS3method("knit_print", "data.frame", knit_print.data.frame)
+# after you define and register the above method, data frames will be printed
+# as tables in knitr, which is different with the default print() behavior
+library(wink)
+```
+
+
+The `wink` package provides functions for generating publication-ready survey tables, complete with significance testing and report-ready export features.
+
+The three main functions demonstrated here are:
+
+- `crosstab()`: Generates a single, statistically-tested crosstab table.
+
+- `banner()`: Generates multiple `crosstab()` tables against a common target variable and combines them into one wide "banner" table.
+
+- `write_banners()`: Exports banner tables to a formatted Excel workbook.
+
+The typical user will not need to use `crosstab()`. It is meant to be the guts for how the rest of the package works and is exposed just for convenience. A typical workflow will be to generate lists of tables using `banner()` and then export them with `write_banners()`.
+
+# Setup and Data
+
+You can install the most up-to-date version of the package via the github repo.
+
+``` {r}
+#| eval: false
+
+pak::pak("jjmoncus/wink")
+library(wink)
+```
+
+
+For this example, we'll use the synthetic `food` dataset that comes with the package.
+
+``` {r}
+
+# In a real session, the data loads automatically when your package is attached.
+head(food, n = 5)
+```
+
+The `food` dataset contains `r nrow(food)` fictional survey responses, including demographics and food attitude ratings.
+
+# 1. `crosstab()`: Generating a single crosstab
+
+## Percentages of `var`, split by `by`
+
+The `crosstab()` function generates a percentage table for one variable (`var`) broken down by another (`by`) and performs column-to-column statistical testing (represented by letter rows).
+
+unweighted N's, Design Effects (DEFF), and Margins of Sampling Error (MOSE), are included at the bottom.
+
+This is a crosstab for the likelihood of being pescetarian (`pescetarian`) by taste for meat (`rating_meat`).
+
+``` {r}
+#| warning: false
+crosstab(
+  data = food,
+  var = "pescetarian",
+  by = "rating_meat"
+)
+```
+
+
+## Weighting
+
+Example coming soon
+
+## Rounding
+
+`crosstab()` automatically rounds to whole percentages, but you can specify using `digits`.
+
+``` {r}
+crosstab(
+  data = food,
+  var = "pescetarian",
+  by = "rating_meat",
+  digits = 2
+)
+```
+
+## Adding Net Categories
+
+You can define NET (summary) categories using the `var_nets` argument, which takes a named list of character vectors. 
+
+``` {r}
+
+crosstab(
+  data = food,
+  var = "veggie",
+  by = "rating_pizza",
+  var_nets = list(
+    "High" = c("Very High", "High"),
+    "Low"  = c("Very Low", "Low")
+    )
+  )
+
+```
+
+
+`var_nets` can also be specified by referring to levels by number.
+
+``` {r}
+crosstab(
+  data = food,
+  var = "veggie",
+  by = "rating_pizza",
+  var_nets = list(
+    "High" = c(4:5),
+    "Low"  = c(1:2))
+)
+
+```
+
+Notice that the NET rows are inserted into the table, and the metadata rows (N, DEFF, MOSE) are appended at the bottom.
+
+## Other details
+
+The column letters reflect the columns that the table would eventually fit into when exported to excel. By default, the first column is presumed to fall into column `C`, dictated by the default parameter `st_col_start = 3`. You can in theory set a new default by specifying `st_col_start`, if you just wanted to export a single crosstab.
+
+# 2. `banner()`: Combining crosstabs
+
+`banner()` generates multiple `crosstab()` tables against a common target variable (`var`) and combines them into one wide table.
+
+``` {r}
+#| warning: false
+#| message: false
+
+banner(
+  data = food,
+  var = "vegan",
+  bys = c("rating_meat", "rating_pizza", "rating_sushi", "rating_veg")
+)
+
+```
+
+Columns are grouped by the `by` variable. 
+
+`weight`, `digits`, and `var_nets` work the same as in `crosstab()`
+
+``` {r}
+#| warning: false
+#| message: false
+
+banner(
+  data = food,
+  var = "vegan",
+  bys = c("rating_meat", "rating_pizza", "rating_sushi", "rating_veg"),
+  weight = NULL, # example coming soon
+  digits = 2,
+  var_nets = list(Low = 1:2, High = 4:5)
+)
+
+```
+
+
+
+# 3. `write_banners()`: Exporting to Excel
+
+The `write_banners()` function takes a list of from banners from `banner()` and exports them to a single, formatted Excel file. It separates banner groups with borders and creates a hyperlinked Table of Contents.
+
+The typical workflow would be to write a list of banners using `purrr::map()`
+
+``` {r}
+#| warning: false
+#| message: false
+
+banners <- c("pescetarian", "veggie", "vegan") %>%
+  purrr::set_names() %>% # name the vector after itself, not required but convenient
+  purrr::map(function(x) {
+    
+    banner(
+      data = food, 
+      var = x,
+      bys = paste0("rating_", c("meat", "pizza", "sushi", "veg")))
+  })
+    
+
+write_banners(
+  banners_list = banners,
+  file = "my_survey_results.xlsx",
+  overwrite = TRUE
+)
+
+```
+
+
+
