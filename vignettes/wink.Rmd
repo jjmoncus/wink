@@ -27,14 +27,23 @@ registerS3method("knit_print", "data.frame", knit_print.data.frame)
 # as tables in knitr, which is different with the default print() behavior
 library(wink)
 
-results_location <- system.file("extdata", "my_survey_results.xlsx",
-                                package = "wink")
+# 1. Get the path to the original file in the source package structure
+original_path <- system.file("extdata", "my_survey_results.xlsx", package = "wink")
+
+# 2. Define the *relative name* that the link should use
+results_file_name <- "my_survey_results.xlsx"
+
+# 3. Copy the file to the current working directory (the build directory)
+# This ensures the file is copied alongside the final HTML output.
+if (file.exists(original_path)) {
+  file.copy(original_path, results_file_name, overwrite = TRUE)
+}
 ```
 
 
 The `wink` package provides functions for generating publication-ready survey tables, complete with significance testing and report-ready export features.
 
-The goal is to make Excel outputs that [look like this](`r results_location`).
+The goal is to make Excel outputs that [look like this](`r results_file_name`).
 
 The three main functions demonstrated here are:
 
