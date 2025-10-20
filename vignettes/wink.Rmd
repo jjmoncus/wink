@@ -111,8 +111,8 @@ crosstab(
   var = "veggie",
   by = "rating_pizza",
   var_nets = list(
-    "High" = c("Very High", "High"),
-    "Low"  = c("Very Low", "Low")
+    "Low"  = c("Very Low", "Low"),
+    "High" = c("High", "Very High")
     )
   )
 
@@ -127,8 +127,9 @@ crosstab(
   var = "veggie",
   by = "rating_pizza",
   var_nets = list(
-    "High" = c(4:5),
-    "Low"  = c(1:2))
+    "Low"  = c(1:2),
+    "High" = c(4:5)
+    )
 )
 
 ```
