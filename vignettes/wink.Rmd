@@ -31,6 +31,8 @@ library(wink)
 
 The `wink` package provides functions for generating publication-ready survey tables, complete with significance testing and report-ready export features.
 
+The goal is to make Excel outputs that [look like this](my_survey_results.xlsx).
+
 The three main functions demonstrated here are:
 
 - `crosstab()`: Generates a single, statistically-tested crosstab table.
@@ -205,6 +207,3 @@ write_banners(
 )
 
 ```
-
-
-
