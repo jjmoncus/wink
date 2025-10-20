@@ -4,9 +4,9 @@
 \name{wink-package}
 \alias{wink}
 \alias{wink-package}
-\title{wink: What the Package Does (Title Case)}
+\title{wink: Crosstab and Signifiance Testing for Weighted Survey Estimates (Title Case)}
 \description{
-More about what it does (maybe more than one line). Continuation lines should be indented.
+Quick and easy crosstabs and banners, displaying weighted (and unweighted) survey estimates and exported to Excel.
 }
 \seealso{
 Useful links:
@@ -16,7 +16,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Jane Doe \email{jane@example.com}
+\strong{Maintainer}: J.J. Moncus \email{jjmoncus706@gmail.com}
 
 }
 \keyword{internal}
