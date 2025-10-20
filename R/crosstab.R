@@ -108,13 +108,14 @@ crosstab_builder <- function(baby_crosstab,
 
 #' Rewriting the crosstab function
 #'
-#' @importFrom tibble add_column
+#' @importFrom tibble tibble add_column
 #' @importFrom tidyselect any_of
 #' @importFrom pewmethods get_totals calculate_deff
-#' @importFrom dplyr pull
+#' @importFrom dplyr pull mutate bind_rows filter slice
 #' @importFrom tidyr pivot_wider
 #' @importFrom forcats fct_collapse
 #' @importFrom rlang abort
+#' @importFrom stringr str_trim
 #'
 #' @export
 #'
