@@ -190,20 +190,6 @@ banner <- function(data,
       bys = bys,
       var_label = attr(data[[var]], "label")
     )
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

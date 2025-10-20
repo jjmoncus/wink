@@ -154,6 +154,7 @@ crosstab2 <- function(data,
   # if var_nets are provided,
   # ensure they're of the right form
   # and add `var_recode` to the data
+
   if (!is.null(var_nets)) {
 
     var_nets <- var_nets %>%
