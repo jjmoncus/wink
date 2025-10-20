@@ -7,7 +7,7 @@
 <!-- badges: end -->
 
 The goal of wink is to provide foundational functionality for generating
-Wincross-like tables of survey estimates, including significance testing
+tables of survey estimates, including significance testing.
 
 ## Installation
 
