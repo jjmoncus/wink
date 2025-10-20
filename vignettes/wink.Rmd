@@ -26,12 +26,15 @@ registerS3method("knit_print", "data.frame", knit_print.data.frame)
 # after you define and register the above method, data frames will be printed
 # as tables in knitr, which is different with the default print() behavior
 library(wink)
+
+results_location <- system.file("my_survey_results.xlsx",
+                                package = "wink")
 ```
 
 
 The `wink` package provides functions for generating publication-ready survey tables, complete with significance testing and report-ready export features.
 
-The goal is to make Excel outputs that [look like this](my_survey_results.xlsx).
+The goal is to make Excel outputs that [look like this](`r results_location`).
 
 The three main functions demonstrated here are:
 
