@@ -2,8 +2,8 @@
 
 export("%>%")
 export(banner)
-export(crosstab2)
-export(write_banners2)
+export(crosstab)
+export(write_banners)
 import(rlang)
 importFrom(dplyr,bind_cols)
 importFrom(dplyr,pull)

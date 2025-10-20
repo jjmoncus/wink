@@ -68,7 +68,7 @@ banner <- function(data,
                    min_group_n = 100) {
 
   # ------------------------------------------------------------------- #
-  # ----- gathering function params (same as for crosstab2) ----------- #
+  # ----- gathering function params (same as for crosstab) ----------- #
   # ------------------------------------------------------------------- #
 
   # If no argument is passed to weight, create a variable in the dataset called "unweighted" and set it to 1
@@ -155,7 +155,7 @@ banner <- function(data,
   tables <- list()
   for (i in seq_along(bys)) {
 
-    tables[[i]] <- crosstab2(data,
+    tables[[i]] <- crosstab(data,
                              var,
                              bys[[i]],
                              weight = weight,

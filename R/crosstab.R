@@ -118,7 +118,7 @@ crosstab_builder <- function(baby_crosstab,
 #'
 #' @export
 #'
-crosstab2 <- function(data,
+crosstab <- function(data,
                       var,
                       by,
                       weight = NULL,

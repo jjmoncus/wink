@@ -90,7 +90,7 @@
 #' \code{\link[openxlsx]{saveWorkbook}} for saving Excel files
 #'
 #' @export
-write_banners2 <- function(banners_list, file, overwrite = TRUE) {
+write_banners <- function(banners_list, file, overwrite = TRUE) {
 
   # ------------------------------------------- #
   # ----- gathering function params ----------- #
