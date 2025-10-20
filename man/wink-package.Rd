@@ -8,6 +8,13 @@
 \description{
 More about what it does (maybe more than one line). Continuation lines should be indented.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://jjmoncus.github.io/wink/}
+}
+
+}
 \author{
 \strong{Maintainer}: Jane Doe \email{jane@example.com}
 
