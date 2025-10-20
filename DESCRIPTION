@@ -1,16 +1,15 @@
 Package: wink
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Crosstab and Signifiance Testing for Weighted Survey Estimates (Title Case)
 Version: 0.0.0.9000
 Authors@R: c(
     person(
-      "Jane", "Doe",
-      email = "jane@example.com",
+      "J.J.", "Moncus",
+      email = "jjmoncus706@gmail.com",
       role = c("aut", "cre")
     )
   )
-Description: More about what it does (maybe more than one line).
-    Continuation lines should be indented.
+Description: Quick and easy crosstabs and banners, displaying weighted (and unweighted) survey estimates and exported to Excel.
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true

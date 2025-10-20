@@ -11,24 +11,21 @@ Wincross-like tables of survey estimates, including significance testing
 
 ## Installation
 
-You can install the development version of wink from
-[GitHub](https://github.com/) with:
+You can install the development version of wink from [the GitHub
+rep](https://github.com/jjmoncus/wink/) with:
 
 ``` r
-# install.packages("pak")
-pak::pak("jjmoncus/wink")
+devtools::install_github("jjmoncus/wink", 
+                         build_vignettes = TRUE, # helpful to see vignettes, set to FALSE if needed
+                         force = TRUE  # helpful if you've installed previous versions, forces an override, set to FALSE if needed
+                         )
 ```
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
-
-``` r
-library(wink)
-#| message: false 
-#| warning: false 
-## basic example code
-```
+See `vignette("wink")` for an intro to the package, or visit the [Get
+Started](https://jjmoncus.github.io/wink/articles/wink.html) link on the
+[website](https://jjmoncus.github.io/wink/index.html).
 
 For questions, reach out to J.J. Moncus at <jjmoncus706@gmail.com>, or
-raise an issue on Github.
+[raise an issue](https://github.com/jjmoncus/wink/issues).
