@@ -38,12 +38,17 @@ results_file_name <- "my_survey_results.xlsx"
 if (file.exists(original_path)) {
   file.copy(original_path, results_file_name, overwrite = TRUE)
 }
+
+# 4. Define the **markdown link** in a variable for easier use later.
+# We use the relative file name as the URL.
+download_link <- paste0("[look like this](", results_file_name, ")")
+
 ```
 
 
 The `wink` package provides functions for generating publication-ready survey tables, complete with significance testing and report-ready export features.
 
-The goal is to make Excel outputs that [look like this](`r results_file_name`).
+The goal is to make Excel outputs that `r download_link`.
 
 The three main functions demonstrated here are:
 
