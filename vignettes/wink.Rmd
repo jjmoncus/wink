@@ -27,7 +27,7 @@ registerS3method("knit_print", "data.frame", knit_print.data.frame)
 # as tables in knitr, which is different with the default print() behavior
 library(wink)
 
-results_location <- system.file("my_survey_results.xlsx",
+results_location <- system.file("extdata", "my_survey_results.xlsx",
                                 package = "wink")
 ```
 
