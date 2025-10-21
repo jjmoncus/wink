@@ -120,13 +120,14 @@ crosstab_builder <- function(baby_crosstab,
 #' @export
 #'
 crosstab <- function(data,
-                      var,
-                      by,
-                      weight = NULL,
-                      var_nets = NULL,
-                      digits = 0,
-                      min_group_n = 100,
-                      st_col_start = 3) {
+                     var,
+                     by,
+                     weight = NULL,
+                     var_nets = NULL,
+                     digits = 0,
+                     min_group_n = 100,
+                     st_col_start = 3,
+                     exclude = NULL) {
 
   # ------------------------------------------- #
   # ----- gathering function params ----------- #
