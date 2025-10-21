@@ -20,7 +20,6 @@ Imports:
     purrr,
     openxlsx,
     dplyr,
-    survey,
     tibble,
     tidyr,
     magrittr,
