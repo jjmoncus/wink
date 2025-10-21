@@ -51,6 +51,10 @@ and progresses through subsequent columns based on the number of columns in each
 
 Column dividers are tracked and stored as attributes to facilitate proper formatting
 and presentation of the combined results.
+
+\code{exclude_bys} must have length 1 or \code{length(bys)}. If length == \code{length(bys)}, then each
+pattern in \code{exclude_bys} is applied to each by of \code{bys} in turn. If length == 1, then
+the same pattern is applied to all \code{bys}.
 }
 \examples{
 \dontrun{

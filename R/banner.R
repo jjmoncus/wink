@@ -30,6 +30,10 @@
 #' Column dividers are tracked and stored as attributes to facilitate proper formatting
 #' and presentation of the combined results.
 #'
+#' `exclude_bys` must have length 1 or `length(bys)`. If length == `length(bys)`, then each
+#' pattern in `exclude_bys` is applied to each by of `bys` in turn. If length == 1, then
+#' the same pattern is applied to all `bys`.
+#'
 #' @examples
 #' \dontrun{
 #' # Create a survey design object
@@ -87,8 +91,16 @@ banner <- function(data,
   # need another check for `exclude_var` here, since it wont pass through `crosstab`'s checks when generating "Total" values
   if (is.null(exclude_var)) exclude_var <- "jh93f96gt006gbk075gj5k9g7ejkhg"
   # we allow exclude_bys to be just one pattern, recycled
-  if (length(exclude_bys == 1)) {
+  # or full length of bys
+  # but not in between - i.e. recycling seems dangerous
+  if (length(exclude_bys) == 1) {
+    # fine, recycle
     exclude_bys <- rep(exclude_bys, times = length(bys))
+  } else if (identical(length(exclude_bys), length(bys))) {
+    # fine, do nothing
+  } else {
+
+    abort(glue("'exclude_bys' must have length 1 or {length(bys)}, not {length(exclude_bys)}"))
   }
 
   # --------------------------------------------------------------- #
