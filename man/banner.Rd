@@ -11,7 +11,9 @@ banner(
   weight = NULL,
   var_nets = NULL,
   digits = 0,
-  min_group_n = 100
+  min_group_n = 100,
+  exclude_var = NULL,
+  exclude_bys = NULL
 )
 }
 \arguments{

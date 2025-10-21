@@ -65,7 +65,9 @@ banner <- function(data,
                    weight = NULL,
                    var_nets = NULL,
                    digits = 0,
-                   min_group_n = 100) {
+                   min_group_n = 100,
+                   exclude_var = NULL,
+                   exclude_bys = NULL) {
 
   # ------------------------------------------------------------------- #
   # ----- gathering function params (same as for crosstab) ----------- #
@@ -81,6 +83,13 @@ banner <- function(data,
   if (!(var %in% names(data))) abort("'var' must be in 'data' ")
   bad_bys <- keep(bys, \(x) {!(x %in% names(data))})
   if (length(bad_bys) > 0) abort(glue("{str_flatten(bad_bys, ', ', last = ' and ')} must be in 'data'"))
+
+  # need another check for `exclude_var` here, since it wont pass through `crosstab`'s checks when generating "Total" values
+  if (is.null(exclude_var)) exclude_var <- "jh93f96gt006gbk075gj5k9g7ejkhg"
+  # we allow exclude_bys to be just one pattern, recycled
+  if (length(exclude_bys == 1)) {
+    exclude_bys <- rep(exclude_bys, times = length(bys))
+  }
 
   # --------------------------------------------------------------- #
   # ----------------- numbers for Total col ----------------------- #
@@ -134,6 +143,9 @@ banner <- function(data,
   total_cols <- total_cols  %>%
     rename(levels = !!sym(var),
            Total = !!sym(weight)) %>%
+    # here we have to filter out the `exclude_var` matches so that `bind_cols` works later
+    filter(!str_detect(levels, exclude_var)) %>%
+    # THEN we make factor, so the factor variable doesn't contain any levels which have been excluded
     {mutate(., levels = factor(levels, levels = .$levels))} %>%
     split(~levels) %>%
     map(\(x) x %>% add_row(levels = "..",
@@ -156,17 +168,19 @@ banner <- function(data,
   for (i in seq_along(bys)) {
 
     tables[[i]] <- crosstab(data,
-                             var,
-                             bys[[i]],
-                             weight = weight,
-                             var_nets = var_nets,
-                             digits = digits,
-                             min_group_n = min_group_n,
-                             st_col_start = ticker)
+                            var,
+                            bys[[i]],
+                            weight = weight,
+                            var_nets = var_nets,
+                            digits = digits,
+                            min_group_n = min_group_n,
+                            st_col_start = ticker,
+                            exclude_var = exclude_var,
+                            exclude_by = exclude_bys[[i]])
     if (ncol(tables[[i]]) != 1) {
       # at this time, might have more columns than "cols_used" below, so cant interchange them
       # so long as the crosstab didnt error, it will have ncol > 1
-      # if so, can safely remove the first columen (var) from the appropriate ones
+      # if so, can safely remove the first column (var) from the later ones
         tables[[i]] <- tables[[i]] %>% select(-!!sym(var))
     }
     # raise start based on previous values
@@ -184,7 +198,7 @@ banner <- function(data,
   bind_cols(total_cols, tables) %>%
     as_tibble() %>%
     structure(
-      col_dividers = c(2, # brute force a divider after the total columsn
+      col_dividers = c(2, # brute force a divider after the total column
                        map_dbl(tables, ~ attr(.x, "col_divider"))), # gather all the dividers after each crosstab
       var = var,
       bys = bys,
