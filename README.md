@@ -4,9 +4,9 @@
 # wink
 
 <!-- badges: start -->
-<!-- badges: end -->
 
 <img src="man/figures/logo.png" align="right" height="139" alt="[wink hex sticker]" />
+<!-- badges: end -->
 
 The goal of wink is to provide foundational functionality for generating
 tables of survey estimates, including significance testing.
