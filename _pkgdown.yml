@@ -2,3 +2,7 @@ url: https://jjmoncus.github.io/wink/
 template:
   bootstrap: 5
 
+navbar:
+  logo:
+    src: man/figures/logo.png
+
