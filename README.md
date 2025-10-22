@@ -1,11 +1,9 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# wink
+# wink <img src="man/figures/logo.png" align="right" height="139" alt="[wink hex sticker]" />
 
 <!-- badges: start -->
-
-<img src="man/figures/logo.png" align="right" height="139" alt="[wink hex sticker]" />
 <!-- badges: end -->
 
 The goal of wink is to provide foundational functionality for generating
