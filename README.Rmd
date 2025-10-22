@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# wink <a href="https://jjmoncus.github.io/wink/"><img src="man/figures/logo.png" align="right" height="180" /></a>
+# wink <a href="https://jjmoncus.github.io/wink/"><img src="man/figures/logo.png" align="right" height="139" /></a>
 
 <!-- badges: start -->
 <!-- badges: end -->
