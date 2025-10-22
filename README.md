@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# wink <a href="https://jjmoncus.github.io/wink/"><img src="man/figures/logo.png" align="right" height="138" /></a>
+# wink <a href="https://jjmoncus.github.io/wink/"><img src="man/figures/logo.png" align="right" height="180" /></a>
 
 <!-- badges: start -->
 <!-- badges: end -->
