@@ -3,7 +3,7 @@ pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   wink: wink.html
-last_built: 2025-10-22T23:27Z
+last_built: 2025-10-22T23:31Z
 urls:
   reference: https://jjmoncus.github.io/wink/reference
   article: https://jjmoncus.github.io/wink/articles
