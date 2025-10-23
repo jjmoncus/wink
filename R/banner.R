@@ -209,14 +209,18 @@ banner <- function(data,
     ticker <- ticker + cols_used
   }
 
-  bind_cols(total_cols, tables) %>%
-    as_tibble() %>%
+  out <- bind_cols(total_cols, tables) %>%
+    as_tibble()
+
+  out %>%
     structure(
       col_dividers = c(2, # brute force a divider after the total column
                        map_dbl(tables, ~ attr(.x, "col_divider"))), # gather all the dividers after each crosstab
       var = var,
       bys = bys,
-      var_label = attr(data[[var]], "label")
+      var_label = attr(data[[var]], "label"),
+      min_group_n = min_group_n,
+      too_low_n = out %>% filter(levels == "n") %>% unlist() %>% {which(as.numeric(.) < min_group_n)} %>% suppressWarnings() # we know we're introducing NAs by coercion on the first column, dont message this
     )
 }
 
