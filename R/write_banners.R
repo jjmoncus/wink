@@ -161,8 +161,10 @@ write_banners <- function(banners_list, file, overwrite = TRUE) {
                style = createStyle(halign = "center"))
     }
 
+    # declare how many rows of "buffer" there are, and work from there
+    buffer_rows <- 4
     # Write data to the sheet (starting in row 5)
-    writeData(wb, sheet = var_name, x = data, startRow = 5, startCol = 1)
+    writeData(wb, sheet = var_name, x = data, startRow = buffer_rows + 1, startCol = 1)
 
     # Apply right border style to the divider columns
     addStyle(
@@ -217,8 +219,24 @@ write_banners <- function(banners_list, file, overwrite = TRUE) {
 
     # widen height of rows, just to make it easier to read
     setRowHeights(wb, var_name,
-                  rows = 4:(nrow(data) + 5), # have to add extra rows for however many rows are taken up above the data
+                  rows = 4:(nrow(data) + buffer_rows + 1), # have to add extra rows for however many rows are taken up above the data
                   heights = 28)
+
+    # --- color `too_low_n` cells red
+
+    # a) identify which excel row is now the one with "n" values in it
+    row_where_n <- which(data$levels == "n") + buffer_rows + 1 # have to add all the buffer rows
+    too_low_n_cols <- attr(data, "too_low_n")
+    addStyle(
+      wb,
+      sheet = var_name,
+      style = createStyle(fontColour = "red"),
+      rows = row_where_n,
+      cols = too_low_n_cols,
+      gridExpand = FALSE,
+      stack = TRUE
+    )
+
   })
 
   # --------------------------------------------- #
