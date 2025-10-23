@@ -98,6 +98,8 @@ banner <- function(data,
     exclude_bys <- rep(exclude_bys, times = length(bys))
   } else if (identical(length(exclude_bys), length(bys))) {
     # fine, do nothing
+  } else if (is.null(exclude_bys)) {
+    # fine, do nothing
   } else {
 
     abort(glue("'exclude_bys' must have length 1 or {length(bys)}, not {length(exclude_bys)}"))
