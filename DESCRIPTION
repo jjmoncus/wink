@@ -35,6 +35,7 @@ Depends:
     R (>= 3.5)
 Suggests: 
     knitr,
+    kableExtra,
     rmarkdown
 VignetteBuilder: knitr
 URL: https://jjmoncus.github.io/wink/
