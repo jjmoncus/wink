@@ -63,34 +63,39 @@ Moncus</h4>
 publication-ready survey tables, complete with significance testing and
 report-ready export features.</p>
 <p>The goal is to make Excel outputs that <a href="my_survey_results.xlsx">look like this</a>.</p>
-<p>The three main functions demonstrated here are:</p>
+<p>The two main functions demonstrated here are:</p>
 <ul>
-<li><p><code><a href="../reference/crosstab.html">crosstab()</a></code>: Generates a single, statistically-tested
-crosstab table.</p></li>
-<li><p><code><a href="../reference/banner.html">banner()</a></code>: Generates multiple <code><a href="../reference/crosstab.html">crosstab()</a></code>
-tables against a common target variable and combines them into one wide
-“banner” table.</p></li>
+<li><p><code><a href="../reference/banner.html">banner()</a></code>: Generates multiple, statistically tested
+crosstab tables against a common target variable and combines them into
+one wide “banner” table.</p></li>
 <li><p><code><a href="../reference/write_banners.html">write_banners()</a></code>: Exports banner tables to a
 formatted Excel workbook.</p></li>
 </ul>
-<p>The typical user will not need to use <code><a href="../reference/crosstab.html">crosstab()</a></code>. It is
-meant to be the guts for how the rest of the package works and is
-exposed just for convenience. A typical workflow will be to generate
-lists of tables using <code><a href="../reference/banner.html">banner()</a></code> and then export them with
+<p>A typical workflow will be to generate lists of tables using
+<code><a href="../reference/banner.html">banner()</a></code> and then export them with
 <code><a href="../reference/write_banners.html">write_banners()</a></code>.</p>
+<p>The workhorse underneath <code><a href="../reference/banner.html">banner()</a></code> is
+<code><a href="../reference/crosstab.html">crosstab()</a></code>, which generates the percentages for a single
+crosstab, and which most user will not need to use. It is meant to be
+the guts for how the rest of the package works and is exposed just for
+convenience. See <code><a href="../reference/crosstab.html">crosstab()</a></code>’s documentation for the
+specifics.</p>
 <div class="section level2">
 <h2 id="setup-and-data">Setup and Data<a class="anchor" aria-label="anchor" href="#setup-and-data"></a>
 </h2>
 <p>You can install the most up-to-date version of the package via the
 github repo.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"jjmoncus/wink"</span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jjmoncus.github.io/wink/">wink</a></span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"jjmoncus/wink"</span><span class="op">)</span></span></code></pre></div>
+<p>Or if you want to make sure you build vignettes:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"jjmoncus/wink"</span>,</span>
+<span>                         build_vignettes <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                         force <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>For this example, we’ll use the synthetic <code>food</code> dataset
 that comes with the package.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co"># In a real session, the data loads automatically when your package is attached.</span></span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># In a real session, the data loads automatically when your package is attached.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">food</span>, n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
 <table style="width:100%;" class="table">
 <colgroup>
@@ -191,37 +196,39 @@ that comes with the package.</p>
 responses, including demographics and food attitude ratings.</p>
 </div>
 <div class="section level2">
-<h2 id="crosstab-generating-a-single-crosstab">1. <code>crosstab()</code>: Generating a single crosstab<a class="anchor" aria-label="anchor" href="#crosstab-generating-a-single-crosstab"></a>
+<h2 id="banner-generating-crosstabs">1. <code>banner()</code>: Generating crosstabs<a class="anchor" aria-label="anchor" href="#banner-generating-crosstabs"></a>
 </h2>
 <div class="section level3">
-<h3 id="percentages-of-var-split-by-by">Percentages of <code>var</code>, split by <code>by</code><a class="anchor" aria-label="anchor" href="#percentages-of-var-split-by-by"></a>
+<h3 id="percentages-of-var-split-by-bys">Percentages of <code>var</code>, split by <code>bys</code><a class="anchor" aria-label="anchor" href="#percentages-of-var-split-by-bys"></a>
 </h3>
-<p>The <code><a href="../reference/crosstab.html">crosstab()</a></code> function generates a percentage table for
-one variable (<code>var</code>) broken down by another (<code>by</code>)
+<p>The <code><a href="../reference/banner.html">banner()</a></code> function generates a percentage table for
+one variable (<code>var</code>) broken down others (<code>bys</code>)
 and performs column-to-column statistical testing (represented by letter
 rows).</p>
 <p>unweighted N’s, Design Effects (DEFF), and Margins of Sampling Error
-(MOSE), are included at the bottom.</p>
-<p>This is a crosstab for the likelihood of being pescetarian
-(<code>pescetarian</code>) by taste for meat
+(MOSE) for each group are included at the bottom..</p>
+<p>Here’s a banner for the likelihood of being pescetarian
+(<code>pescetarian</code>), by taste for meat
 (<code>rating_meat</code>).</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/crosstab.html">crosstab</a></span><span class="op">(</span></span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/banner.html">banner</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">food</span>,</span>
 <span>  var <span class="op">=</span> <span class="st">"pescetarian"</span>,</span>
-<span>  by <span class="op">=</span> <span class="st">"rating_meat"</span></span>
+<span>  bys <span class="op">=</span> <span class="st">"rating_meat"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <colgroup>
-<col width="10%">
-<col width="16%">
-<col width="15%">
-<col width="27%">
-<col width="15%">
-<col width="15%">
+<col width="7%">
+<col width="13%">
+<col width="14%">
+<col width="13%">
+<col width="24%">
+<col width="13%">
+<col width="13%">
 </colgroup>
 <thead><tr class="header">
-<th align="left">pescetarian</th>
+<th align="left">levels</th>
+<th align="left">Total</th>
 <th align="left">Very much dislike</th>
 <th align="left">Somewhat dislike</th>
 <th align="left">About equally like and dislike</th>
@@ -231,6 +238,7 @@ rows).</p>
 <tbody>
 <tr class="odd">
 <td align="left">Very Low</td>
+<td align="left">13</td>
 <td align="left">19</td>
 <td align="left">12</td>
 <td align="left">12</td>
@@ -239,6 +247,7 @@ rows).</p>
 </tr>
 <tr class="even">
 <td align="left">..</td>
+<td align="left">NA</td>
 <td align="left">G</td>
 <td align="left"></td>
 <td align="left"></td>
@@ -247,6 +256,7 @@ rows).</p>
 </tr>
 <tr class="odd">
 <td align="left">Low</td>
+<td align="left">15</td>
 <td align="left">20</td>
 <td align="left">17</td>
 <td align="left">15</td>
@@ -255,6 +265,7 @@ rows).</p>
 </tr>
 <tr class="even">
 <td align="left">..</td>
+<td align="left">NA</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -263,6 +274,7 @@ rows).</p>
 </tr>
 <tr class="odd">
 <td align="left">Moderate</td>
+<td align="left">30</td>
 <td align="left">29</td>
 <td align="left">30</td>
 <td align="left">31</td>
@@ -271,6 +283,7 @@ rows).</p>
 </tr>
 <tr class="even">
 <td align="left">..</td>
+<td align="left">NA</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -279,6 +292,7 @@ rows).</p>
 </tr>
 <tr class="odd">
 <td align="left">High</td>
+<td align="left">21</td>
 <td align="left">13</td>
 <td align="left">21</td>
 <td align="left">20</td>
@@ -287,6 +301,7 @@ rows).</p>
 </tr>
 <tr class="even">
 <td align="left">..</td>
+<td align="left">NA</td>
 <td align="left"></td>
 <td align="left">C</td>
 <td align="left">C</td>
@@ -295,6 +310,7 @@ rows).</p>
 </tr>
 <tr class="odd">
 <td align="left">Very High</td>
+<td align="left">21</td>
 <td align="left">19</td>
 <td align="left">20</td>
 <td align="left">21</td>
@@ -303,6 +319,7 @@ rows).</p>
 </tr>
 <tr class="even">
 <td align="left">..</td>
+<td align="left">NA</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -310,7 +327,8 @@ rows).</p>
 <td align="left"></td>
 </tr>
 <tr class="odd">
-<td align="left">N</td>
+<td align="left">n</td>
+<td align="left">2000</td>
 <td align="left">100</td>
 <td align="left">399</td>
 <td align="left">587</td>
@@ -318,7 +336,8 @@ rows).</p>
 <td align="left">209</td>
 </tr>
 <tr class="even">
-<td align="left">DEFF</td>
+<td align="left">deff</td>
+<td align="left">1</td>
 <td align="left">1</td>
 <td align="left">1</td>
 <td align="left">1</td>
@@ -326,7 +345,8 @@ rows).</p>
 <td align="left">1</td>
 </tr>
 <tr class="odd">
-<td align="left">MOSE</td>
+<td align="left">moe</td>
+<td align="left">2.19134661794979</td>
 <td align="left">9.8</td>
 <td align="left">4.90613650835324</td>
 <td align="left">4.04489288272368</td>
@@ -335,52 +355,109 @@ rows).</p>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section level3">
-<h3 id="weighting">Weighting<a class="anchor" aria-label="anchor" href="#weighting"></a>
-</h3>
-<p>Example coming soon</p>
-</div>
-<div class="section level3">
-<h3 id="rounding">Rounding<a class="anchor" aria-label="anchor" href="#rounding"></a>
-</h3>
-<p><code><a href="../reference/crosstab.html">crosstab()</a></code> automatically rounds to whole percentages,
-but you can specify using <code>digits</code>.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/crosstab.html">crosstab</a></span><span class="op">(</span></span>
+<p>By default, <code><a href="../reference/banner.html">banner()</a></code>, includes a Total column in the
+front, with percentages across <code>var</code> for the full sample
+(i.e. split by nothing.)</p>
+<p>As you add more <code>bys</code>, each new crosstab is concatenated
+to the next.</p>
+<p>If two or more <code>bys</code> share factor levels, then we would
+naturally end up with columns with the same name, so these are renamed
+according to <code>tibble()</code> rules (might come back to this
+later).</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/banner.html">banner</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">food</span>,</span>
 <span>  var <span class="op">=</span> <span class="st">"pescetarian"</span>,</span>
-<span>  by <span class="op">=</span> <span class="st">"rating_meat"</span>,</span>
-<span>  digits <span class="op">=</span> <span class="fl">2</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span>  bys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rating_meat"</span>, <span class="st">"rating_sushi"</span>, <span class="st">"rating_veg"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; New names:</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much dislike` -&gt; `Very much dislike...3`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat dislike` -&gt; `Somewhat dislike...4`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `About equally like and dislike` -&gt; `About equally like and dislike...5`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...6`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much like` -&gt; `Very much like...7`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much dislike` -&gt; `Very much dislike...8`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat dislike` -&gt; `Somewhat dislike...9`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `About equally like and dislike` -&gt; `About equally like and dislike...10`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...11`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much like` -&gt; `Very much like...12`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much dislike` -&gt; `Very much dislike...13`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat dislike` -&gt; `Somewhat dislike...14`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `About equally like and dislike` -&gt; `About equally like and dislike...15`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...16`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much like` -&gt; `Very much like...17`</span></span></code></pre></div>
 <table class="table">
 <colgroup>
-<col width="10%">
-<col width="16%">
-<col width="15%">
-<col width="27%">
-<col width="15%">
-<col width="15%">
+<col width="2%">
+<col width="4%">
+<col width="5%">
+<col width="5%">
+<col width="9%">
+<col width="4%">
+<col width="5%">
+<col width="5%">
+<col width="5%">
+<col width="9%">
+<col width="5%">
+<col width="5%">
+<col width="6%">
+<col width="5%">
+<col width="9%">
+<col width="5%">
+<col width="5%">
 </colgroup>
 <thead><tr class="header">
-<th align="left">pescetarian</th>
-<th align="left">Very much dislike</th>
-<th align="left">Somewhat dislike</th>
-<th align="left">About equally like and dislike</th>
-<th align="left">Somewhat like</th>
-<th align="left">Very much like</th>
+<th align="left">levels</th>
+<th align="left">Total</th>
+<th align="left">Very much dislike…3</th>
+<th align="left">Somewhat dislike…4</th>
+<th align="left">About equally like and dislike…5</th>
+<th align="left">Somewhat like…6</th>
+<th align="left">Very much like…7</th>
+<th align="left">Very much dislike…8</th>
+<th align="left">Somewhat dislike…9</th>
+<th align="left">About equally like and dislike…10</th>
+<th align="left">Somewhat like…11</th>
+<th align="left">Very much like…12</th>
+<th align="left">Very much dislike…13</th>
+<th align="left">Somewhat dislike…14</th>
+<th align="left">About equally like and dislike…15</th>
+<th align="left">Somewhat like…16</th>
+<th align="left">Very much like…17</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="left">Very Low</td>
+<td align="left">13</td>
 <td align="left">19</td>
-<td align="left">12.28</td>
-<td align="left">12.44</td>
-<td align="left">13.05</td>
-<td align="left">11.48</td>
+<td align="left">12</td>
+<td align="left">12</td>
+<td align="left">13</td>
+<td align="left">11</td>
+<td align="left">12</td>
+<td align="left">13</td>
+<td align="left">12</td>
+<td align="left">14</td>
+<td align="left">15</td>
+<td align="left">12</td>
+<td align="left">13</td>
+<td align="left">13</td>
+<td align="left">13</td>
+<td align="left">9</td>
 </tr>
 <tr class="even">
 <td align="left">..</td>
+<td align="left">NA</td>
+<td align="left">G</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -389,14 +466,425 @@ but you can specify using <code>digits</code>.</p>
 </tr>
 <tr class="odd">
 <td align="left">Low</td>
+<td align="left">15</td>
 <td align="left">20</td>
-<td align="left">16.54</td>
-<td align="left">14.65</td>
-<td align="left">14.89</td>
-<td align="left">12.92</td>
+<td align="left">17</td>
+<td align="left">15</td>
+<td align="left">15</td>
+<td align="left">13</td>
+<td align="left">15</td>
+<td align="left">17</td>
+<td align="left">14</td>
+<td align="left">15</td>
+<td align="left">15</td>
+<td align="left">17</td>
+<td align="left">15</td>
+<td align="left">16</td>
+<td align="left">13</td>
+<td align="left">15</td>
 </tr>
 <tr class="even">
 <td align="left">..</td>
+<td align="left">NA</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Moderate</td>
+<td align="left">30</td>
+<td align="left">29</td>
+<td align="left">30</td>
+<td align="left">31</td>
+<td align="left">28</td>
+<td align="left">33</td>
+<td align="left">31</td>
+<td align="left">29</td>
+<td align="left">31</td>
+<td align="left">31</td>
+<td align="left">25</td>
+<td align="left">33</td>
+<td align="left">29</td>
+<td align="left">28</td>
+<td align="left">31</td>
+<td align="left">34</td>
+</tr>
+<tr class="even">
+<td align="left">..</td>
+<td align="left">NA</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">L</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">High</td>
+<td align="left">21</td>
+<td align="left">13</td>
+<td align="left">21</td>
+<td align="left">20</td>
+<td align="left">23</td>
+<td align="left">22</td>
+<td align="left">21</td>
+<td align="left">22</td>
+<td align="left">22</td>
+<td align="left">18</td>
+<td align="left">24</td>
+<td align="left">20</td>
+<td align="left">20</td>
+<td align="left">23</td>
+<td align="left">19</td>
+<td align="left">32</td>
+</tr>
+<tr class="even">
+<td align="left">..</td>
+<td align="left">NA</td>
+<td align="left"></td>
+<td align="left">C</td>
+<td align="left">C</td>
+<td align="left">C</td>
+<td align="left">C</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">K</td>
+<td align="left"></td>
+<td align="left">K</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">M N P</td>
+</tr>
+<tr class="odd">
+<td align="left">Very High</td>
+<td align="left">21</td>
+<td align="left">19</td>
+<td align="left">20</td>
+<td align="left">21</td>
+<td align="left">22</td>
+<td align="left">21</td>
+<td align="left">21</td>
+<td align="left">19</td>
+<td align="left">21</td>
+<td align="left">23</td>
+<td align="left">23</td>
+<td align="left">18</td>
+<td align="left">23</td>
+<td align="left">21</td>
+<td align="left">24</td>
+<td align="left">9</td>
+</tr>
+<tr class="even">
+<td align="left">..</td>
+<td align="left">NA</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Q</td>
+<td align="left">M Q</td>
+<td align="left">Q</td>
+<td align="left">M Q</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">n</td>
+<td align="left">2000</td>
+<td align="left">100</td>
+<td align="left">399</td>
+<td align="left">587</td>
+<td align="left">705</td>
+<td align="left">209</td>
+<td align="left">198</td>
+<td align="left">462</td>
+<td align="left">604</td>
+<td align="left">516</td>
+<td align="left">220</td>
+<td align="left">326</td>
+<td align="left">683</td>
+<td align="left">537</td>
+<td align="left">357</td>
+<td align="left">97</td>
+</tr>
+<tr class="even">
+<td align="left">deff</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+</tr>
+<tr class="odd">
+<td align="left">moe</td>
+<td align="left">2.19134661794979</td>
+<td align="left">9.8</td>
+<td align="left">4.90613650835324</td>
+<td align="left">4.04489288272368</td>
+<td align="left">3.69089352805808</td>
+<td align="left">6.77880174588753</td>
+<td align="left">6.96455673428328</td>
+<td align="left">4.55937263095251</td>
+<td align="left">3.98756344797868</td>
+<td align="left">4.31420944099556</td>
+<td align="left">6.60715865213977</td>
+<td align="left">5.42771800109277</td>
+<td align="left">3.74986578578757</td>
+<td align="left">4.22901214962061</td>
+<td align="left">5.18671001544464</td>
+<td align="left">9.95039241830947</td>
+</tr>
+</tbody>
+</table>
+<p>Metadata about each crosstab of the banner is stored underneath as
+attributes. Some attributes let you know what was called in order to
+generate the table (<code>var</code>, <code>by</code>,
+<code>min_group_n</code>), while others are useful for writing banners
+to Excel outputs (<code>col_dividers</code>,
+<code>too_low_n</code>).</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/banner.html">banner</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">food</span>,</span>
+<span>  var <span class="op">=</span> <span class="st">"pescetarian"</span>,</span>
+<span>  bys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rating_meat"</span>, <span class="st">"rating_sushi"</span>, <span class="st">"rating_veg"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; New names:</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much dislike` -&gt; `Very much dislike...3`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat dislike` -&gt; `Somewhat dislike...4`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `About equally like and dislike` -&gt; `About equally like and dislike...5`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...6`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much like` -&gt; `Very much like...7`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much dislike` -&gt; `Very much dislike...8`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat dislike` -&gt; `Somewhat dislike...9`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `About equally like and dislike` -&gt; `About equally like and dislike...10`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...11`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much like` -&gt; `Very much like...12`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much dislike` -&gt; `Very much dislike...13`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat dislike` -&gt; `Somewhat dislike...14`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `About equally like and dislike` -&gt; `About equally like and dislike...15`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...16`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much like` -&gt; `Very much like...17`</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $class</span></span>
+<span><span class="co">#&gt; [1] "tbl_df"     "tbl"        "data.frame"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $row.names</span></span>
+<span><span class="co">#&gt;  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $names</span></span>
+<span><span class="co">#&gt;  [1] "levels"                              "Total"                              </span></span>
+<span><span class="co">#&gt;  [3] "Very much dislike...3"               "Somewhat dislike...4"               </span></span>
+<span><span class="co">#&gt;  [5] "About equally like and dislike...5"  "Somewhat like...6"                  </span></span>
+<span><span class="co">#&gt;  [7] "Very much like...7"                  "Very much dislike...8"              </span></span>
+<span><span class="co">#&gt;  [9] "Somewhat dislike...9"                "About equally like and dislike...10"</span></span>
+<span><span class="co">#&gt; [11] "Somewhat like...11"                  "Very much like...12"                </span></span>
+<span><span class="co">#&gt; [13] "Very much dislike...13"              "Somewhat dislike...14"              </span></span>
+<span><span class="co">#&gt; [15] "About equally like and dislike...15" "Somewhat like...16"                 </span></span>
+<span><span class="co">#&gt; [17] "Very much like...17"                </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $col_dividers</span></span>
+<span><span class="co">#&gt; [1]  2  7 12 17</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $var</span></span>
+<span><span class="co">#&gt; [1] "pescetarian"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $bys</span></span>
+<span><span class="co">#&gt; [1] "rating_meat"  "rating_sushi" "rating_veg"  </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $var_label</span></span>
+<span><span class="co">#&gt; [1] "Q2. How likely are you to choose to eat pescetarian within the coming 12 months?"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $min_group_n</span></span>
+<span><span class="co">#&gt; [1] 100</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $too_low_n</span></span>
+<span><span class="co">#&gt; [1] 17</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="weighting">Weighting<a class="anchor" aria-label="anchor" href="#weighting"></a>
+</h3>
+<p>Specifying <code>weight</code> generates weighted estimates.</p>
+<p>Unweighted estimates will naturally have design effects equal to 1,
+whereas weighted estimates will have unique <code>deff</code> values for
+each group.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># for example, here's add an arbitrary weight variable</span></span>
+<span><span class="va">food</span> <span class="op">&lt;-</span> <span class="va">food</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>weight_1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">food</span><span class="op">)</span>, <span class="fl">0</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span> <span class="co"># randomly give everyone a weight between 0 and 3</span></span>
+<span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/banner.html">banner</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">food</span>,</span>
+<span>  var <span class="op">=</span> <span class="st">"pescetarian"</span>,</span>
+<span>  bys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rating_meat"</span>, <span class="st">"rating_sushi"</span>, <span class="st">"rating_veg"</span><span class="op">)</span>,</span>
+<span>  weight <span class="op">=</span> <span class="st">"weight_1"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; New names:</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much dislike` -&gt; `Very much dislike...3`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat dislike` -&gt; `Somewhat dislike...4`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `About equally like and dislike` -&gt; `About equally like and dislike...5`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...6`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much like` -&gt; `Very much like...7`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much dislike` -&gt; `Very much dislike...8`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat dislike` -&gt; `Somewhat dislike...9`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `About equally like and dislike` -&gt; `About equally like and dislike...10`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...11`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much like` -&gt; `Very much like...12`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much dislike` -&gt; `Very much dislike...13`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat dislike` -&gt; `Somewhat dislike...14`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `About equally like and dislike` -&gt; `About equally like and dislike...15`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...16`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much like` -&gt; `Very much like...17`</span></span></code></pre></div>
+<table class="table">
+<colgroup>
+<col width="2%">
+<col width="4%">
+<col width="5%">
+<col width="5%">
+<col width="9%">
+<col width="4%">
+<col width="5%">
+<col width="5%">
+<col width="5%">
+<col width="9%">
+<col width="5%">
+<col width="5%">
+<col width="6%">
+<col width="5%">
+<col width="9%">
+<col width="5%">
+<col width="5%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">levels</th>
+<th align="left">Total</th>
+<th align="left">Very much dislike…3</th>
+<th align="left">Somewhat dislike…4</th>
+<th align="left">About equally like and dislike…5</th>
+<th align="left">Somewhat like…6</th>
+<th align="left">Very much like…7</th>
+<th align="left">Very much dislike…8</th>
+<th align="left">Somewhat dislike…9</th>
+<th align="left">About equally like and dislike…10</th>
+<th align="left">Somewhat like…11</th>
+<th align="left">Very much like…12</th>
+<th align="left">Very much dislike…13</th>
+<th align="left">Somewhat dislike…14</th>
+<th align="left">About equally like and dislike…15</th>
+<th align="left">Somewhat like…16</th>
+<th align="left">Very much like…17</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Very Low</td>
+<td align="left">13</td>
+<td align="left">20</td>
+<td align="left">12</td>
+<td align="left">11</td>
+<td align="left">14</td>
+<td align="left">14</td>
+<td align="left">11</td>
+<td align="left">13</td>
+<td align="left">12</td>
+<td align="left">14</td>
+<td align="left">15</td>
+<td align="left">13</td>
+<td align="left">13</td>
+<td align="left">13</td>
+<td align="left">14</td>
+<td align="left">9</td>
+</tr>
+<tr class="even">
+<td align="left">..</td>
+<td align="left">NA</td>
+<td align="left">E</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Low</td>
+<td align="left">16</td>
+<td align="left">23</td>
+<td align="left">15</td>
+<td align="left">16</td>
+<td align="left">15</td>
+<td align="left">14</td>
+<td align="left">14</td>
+<td align="left">18</td>
+<td align="left">16</td>
+<td align="left">15</td>
+<td align="left">14</td>
+<td align="left">17</td>
+<td align="left">16</td>
+<td align="left">16</td>
+<td align="left">14</td>
+<td align="left">16</td>
+</tr>
+<tr class="even">
+<td align="left">..</td>
+<td align="left">NA</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -406,13 +894,35 @@ but you can specify using <code>digits</code>.</p>
 <tr class="odd">
 <td align="left">Moderate</td>
 <td align="left">29</td>
-<td align="left">30.33</td>
-<td align="left">31.01</td>
-<td align="left">27.52</td>
-<td align="left">33.01</td>
+<td align="left">25</td>
+<td align="left">29</td>
+<td align="left">32</td>
+<td align="left">26</td>
+<td align="left">30</td>
+<td align="left">29</td>
+<td align="left">28</td>
+<td align="left">29</td>
+<td align="left">31</td>
+<td align="left">26</td>
+<td align="left">32</td>
+<td align="left">29</td>
+<td align="left">26</td>
+<td align="left">30</td>
+<td align="left">33</td>
 </tr>
 <tr class="even">
 <td align="left">..</td>
+<td align="left">NA</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">F</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -421,46 +931,430 @@ but you can specify using <code>digits</code>.</p>
 </tr>
 <tr class="odd">
 <td align="left">High</td>
-<td align="left">13</td>
-<td align="left">21.3</td>
-<td align="left">20.44</td>
-<td align="left">22.55</td>
-<td align="left">21.53</td>
+<td align="left">21</td>
+<td align="left">14</td>
+<td align="left">23</td>
+<td align="left">19</td>
+<td align="left">22</td>
+<td align="left">21</td>
+<td align="left">21</td>
+<td align="left">21</td>
+<td align="left">22</td>
+<td align="left">18</td>
+<td align="left">22</td>
+<td align="left">19</td>
+<td align="left">19</td>
+<td align="left">23</td>
+<td align="left">19</td>
+<td align="left">33</td>
 </tr>
 <tr class="even">
 <td align="left">..</td>
+<td align="left">NA</td>
 <td align="left"></td>
 <td align="left">C</td>
+<td align="left"></td>
 <td align="left">C</td>
-<td align="left">C</td>
-<td align="left">C</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">M N P</td>
 </tr>
 <tr class="odd">
 <td align="left">Very High</td>
-<td align="left">19</td>
-<td align="left">19.55</td>
-<td align="left">21.47</td>
-<td align="left">21.99</td>
-<td align="left">21.05</td>
+<td align="left">22</td>
+<td align="left">18</td>
+<td align="left">21</td>
+<td align="left">21</td>
+<td align="left">23</td>
+<td align="left">21</td>
+<td align="left">25</td>
+<td align="left">20</td>
+<td align="left">21</td>
+<td align="left">22</td>
+<td align="left">24</td>
+<td align="left">20</td>
+<td align="left">23</td>
+<td align="left">21</td>
+<td align="left">23</td>
+<td align="left">9</td>
 </tr>
 <tr class="even">
 <td align="left">..</td>
+<td align="left">NA</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Q</td>
+<td align="left">Q</td>
+<td align="left">Q</td>
+<td align="left">Q</td>
 <td align="left"></td>
 </tr>
 <tr class="odd">
-<td align="left">N</td>
+<td align="left">n</td>
+<td align="left">2000</td>
 <td align="left">100</td>
 <td align="left">399</td>
 <td align="left">587</td>
 <td align="left">705</td>
 <td align="left">209</td>
+<td align="left">198</td>
+<td align="left">462</td>
+<td align="left">604</td>
+<td align="left">516</td>
+<td align="left">220</td>
+<td align="left">326</td>
+<td align="left">683</td>
+<td align="left">537</td>
+<td align="left">357</td>
+<td align="left">97</td>
 </tr>
 <tr class="even">
-<td align="left">DEFF</td>
+<td align="left">deff</td>
+<td align="left">1.33097982494573</td>
+<td align="left">1.38330754570892</td>
+<td align="left">1.32133016925362</td>
+<td align="left">1.32762152042622</td>
+<td align="left">1.34266933819994</td>
+<td align="left">1.30019617969682</td>
+<td align="left">1.34158176860122</td>
+<td align="left">1.33088984244884</td>
+<td align="left">1.3402271515181</td>
+<td align="left">1.31992176550898</td>
+<td align="left">1.32514212062221</td>
+<td align="left">1.32600132560028</td>
+<td align="left">1.31856047708934</td>
+<td align="left">1.32341198547036</td>
+<td align="left">1.35392009493203</td>
+<td align="left">1.41198478764911</td>
+</tr>
+<tr class="odd">
+<td align="left">moe</td>
+<td align="left">2.52811493397539</td>
+<td align="left">11.5261813576693</td>
+<td align="left">5.63956106326059</td>
+<td align="left">4.66062506906177</td>
+<td align="left">4.2767715543108</td>
+<td align="left">7.72960632390341</td>
+<td align="left">8.06681420652895</td>
+<td align="left">5.25988371780648</td>
+<td align="left">4.61632963259642</td>
+<td align="left">4.95650239192317</td>
+<td align="left">7.60581862381921</td>
+<td align="left">6.25013293872486</td>
+<td align="left">4.3059179580144</td>
+<td align="left">4.86504055161124</td>
+<td align="left">6.03515578083581</td>
+<td align="left">11.8237494273798</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level3">
+<h3 id="rounding">Rounding<a class="anchor" aria-label="anchor" href="#rounding"></a>
+</h3>
+<p><code><a href="../reference/banner.html">banner()</a></code> automatically rounds to whole percentages, but
+you can specify using <code>digits</code>.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/banner.html">banner</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">food</span>,</span>
+<span>  var <span class="op">=</span> <span class="st">"pescetarian"</span>,</span>
+<span>  bys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rating_meat"</span>, <span class="st">"rating_sushi"</span>, <span class="st">"rating_veg"</span><span class="op">)</span>,</span>
+<span>  digits <span class="op">=</span> <span class="fl">2</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; New names:</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much dislike` -&gt; `Very much dislike...3`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat dislike` -&gt; `Somewhat dislike...4`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `About equally like and dislike` -&gt; `About equally like and dislike...5`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...6`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much like` -&gt; `Very much like...7`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much dislike` -&gt; `Very much dislike...8`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat dislike` -&gt; `Somewhat dislike...9`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `About equally like and dislike` -&gt; `About equally like and dislike...10`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...11`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much like` -&gt; `Very much like...12`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much dislike` -&gt; `Very much dislike...13`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat dislike` -&gt; `Somewhat dislike...14`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `About equally like and dislike` -&gt; `About equally like and dislike...15`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...16`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much like` -&gt; `Very much like...17`</span></span></code></pre></div>
+<table class="table">
+<colgroup>
+<col width="2%">
+<col width="4%">
+<col width="5%">
+<col width="5%">
+<col width="9%">
+<col width="4%">
+<col width="5%">
+<col width="5%">
+<col width="5%">
+<col width="9%">
+<col width="5%">
+<col width="5%">
+<col width="6%">
+<col width="5%">
+<col width="9%">
+<col width="5%">
+<col width="5%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">levels</th>
+<th align="left">Total</th>
+<th align="left">Very much dislike…3</th>
+<th align="left">Somewhat dislike…4</th>
+<th align="left">About equally like and dislike…5</th>
+<th align="left">Somewhat like…6</th>
+<th align="left">Very much like…7</th>
+<th align="left">Very much dislike…8</th>
+<th align="left">Somewhat dislike…9</th>
+<th align="left">About equally like and dislike…10</th>
+<th align="left">Somewhat like…11</th>
+<th align="left">Very much like…12</th>
+<th align="left">Very much dislike…13</th>
+<th align="left">Somewhat dislike…14</th>
+<th align="left">About equally like and dislike…15</th>
+<th align="left">Somewhat like…16</th>
+<th align="left">Very much like…17</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Very Low</td>
+<td align="left">12.85</td>
+<td align="left">19</td>
+<td align="left">12.28</td>
+<td align="left">12.44</td>
+<td align="left">13.05</td>
+<td align="left">11.48</td>
+<td align="left">11.62</td>
+<td align="left">12.99</td>
+<td align="left">11.92</td>
+<td align="left">13.57</td>
+<td align="left">14.55</td>
+<td align="left">11.96</td>
+<td align="left">13.47</td>
+<td align="left">12.85</td>
+<td align="left">13.45</td>
+<td align="left">9.28</td>
+</tr>
+<tr class="even">
+<td align="left">..</td>
+<td align="left">NA</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Low</td>
+<td align="left">15.2</td>
+<td align="left">20</td>
+<td align="left">16.54</td>
+<td align="left">14.65</td>
+<td align="left">14.89</td>
+<td align="left">12.92</td>
+<td align="left">15.15</td>
+<td align="left">17.32</td>
+<td align="left">14.07</td>
+<td align="left">14.92</td>
+<td align="left">14.55</td>
+<td align="left">17.18</td>
+<td align="left">15.08</td>
+<td align="left">15.83</td>
+<td align="left">12.61</td>
+<td align="left">15.46</td>
+</tr>
+<tr class="even">
+<td align="left">..</td>
+<td align="left">NA</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">P</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Moderate</td>
+<td align="left">29.75</td>
+<td align="left">29</td>
+<td align="left">30.33</td>
+<td align="left">31.01</td>
+<td align="left">27.52</td>
+<td align="left">33.01</td>
+<td align="left">30.81</td>
+<td align="left">29.22</td>
+<td align="left">30.96</td>
+<td align="left">30.62</td>
+<td align="left">24.55</td>
+<td align="left">32.52</td>
+<td align="left">28.55</td>
+<td align="left">27.75</td>
+<td align="left">31.37</td>
+<td align="left">34.02</td>
+</tr>
+<tr class="even">
+<td align="left">..</td>
+<td align="left">NA</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">L</td>
+<td align="left">L</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">High</td>
+<td align="left">21.1</td>
+<td align="left">13</td>
+<td align="left">21.3</td>
+<td align="left">20.44</td>
+<td align="left">22.55</td>
+<td align="left">21.53</td>
+<td align="left">21.21</td>
+<td align="left">21.86</td>
+<td align="left">22.02</td>
+<td align="left">18.22</td>
+<td align="left">23.64</td>
+<td align="left">20.25</td>
+<td align="left">19.91</td>
+<td align="left">22.53</td>
+<td align="left">19.05</td>
+<td align="left">31.96</td>
+</tr>
+<tr class="even">
+<td align="left">..</td>
+<td align="left">NA</td>
+<td align="left"></td>
+<td align="left">C</td>
+<td align="left">C</td>
+<td align="left">C</td>
+<td align="left">C</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">K</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">M N O P</td>
+</tr>
+<tr class="odd">
+<td align="left">Very High</td>
+<td align="left">21.1</td>
+<td align="left">19</td>
+<td align="left">19.55</td>
+<td align="left">21.47</td>
+<td align="left">21.99</td>
+<td align="left">21.05</td>
+<td align="left">21.21</td>
+<td align="left">18.61</td>
+<td align="left">21.03</td>
+<td align="left">22.67</td>
+<td align="left">22.73</td>
+<td align="left">18.1</td>
+<td align="left">22.99</td>
+<td align="left">21.04</td>
+<td align="left">23.53</td>
+<td align="left">9.28</td>
+</tr>
+<tr class="even">
+<td align="left">..</td>
+<td align="left">NA</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Q</td>
+<td align="left">M Q</td>
+<td align="left">Q</td>
+<td align="left">M Q</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">n</td>
+<td align="left">2000</td>
+<td align="left">100</td>
+<td align="left">399</td>
+<td align="left">587</td>
+<td align="left">705</td>
+<td align="left">209</td>
+<td align="left">198</td>
+<td align="left">462</td>
+<td align="left">604</td>
+<td align="left">516</td>
+<td align="left">220</td>
+<td align="left">326</td>
+<td align="left">683</td>
+<td align="left">537</td>
+<td align="left">357</td>
+<td align="left">97</td>
+</tr>
+<tr class="even">
+<td align="left">deff</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
 <td align="left">1</td>
 <td align="left">1</td>
 <td align="left">1</td>
@@ -468,12 +1362,23 @@ but you can specify using <code>digits</code>.</p>
 <td align="left">1</td>
 </tr>
 <tr class="odd">
-<td align="left">MOSE</td>
+<td align="left">moe</td>
+<td align="left">2.19134661794979</td>
 <td align="left">9.8</td>
 <td align="left">4.90613650835324</td>
 <td align="left">4.04489288272368</td>
 <td align="left">3.69089352805808</td>
 <td align="left">6.77880174588753</td>
+<td align="left">6.96455673428328</td>
+<td align="left">4.55937263095251</td>
+<td align="left">3.98756344797868</td>
+<td align="left">4.31420944099556</td>
+<td align="left">6.60715865213977</td>
+<td align="left">5.42771800109277</td>
+<td align="left">3.74986578578757</td>
+<td align="left">4.22901214962061</td>
+<td align="left">5.18671001544464</td>
+<td align="left">9.95039241830947</td>
 </tr>
 </tbody>
 </table>
@@ -483,46 +1388,106 @@ but you can specify using <code>digits</code>.</p>
 </h3>
 <p>You can define NET (summary) categories using the
 <code>var_nets</code> argument, which takes a named list of character
-vectors.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="fu"><a href="../reference/crosstab.html">crosstab</a></span><span class="op">(</span></span>
+vectors. Each NET category is inserted into the table right above the
+first level contributing to it.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/banner.html">banner</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">food</span>,</span>
-<span>  var <span class="op">=</span> <span class="st">"veggie"</span>,</span>
-<span>  by <span class="op">=</span> <span class="st">"rating_pizza"</span>,</span>
+<span>  var <span class="op">=</span> <span class="st">"pescetarian"</span>,</span>
+<span>  bys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rating_meat"</span>, <span class="st">"rating_sushi"</span>, <span class="st">"rating_veg"</span><span class="op">)</span>,</span>
 <span>  var_nets <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>    <span class="st">"Low"</span>  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Very Low"</span>, <span class="st">"Low"</span><span class="op">)</span>,</span>
 <span>    <span class="st">"High"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"High"</span>, <span class="st">"Very High"</span><span class="op">)</span></span>
 <span>    <span class="op">)</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; New names:</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much dislike` -&gt; `Very much dislike...3`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat dislike` -&gt; `Somewhat dislike...4`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `About equally like and dislike` -&gt; `About equally like and dislike...5`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...6`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much like` -&gt; `Very much like...7`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much dislike` -&gt; `Very much dislike...8`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat dislike` -&gt; `Somewhat dislike...9`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `About equally like and dislike` -&gt; `About equally like and dislike...10`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...11`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much like` -&gt; `Very much like...12`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much dislike` -&gt; `Very much dislike...13`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat dislike` -&gt; `Somewhat dislike...14`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `About equally like and dislike` -&gt; `About equally like and dislike...15`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...16`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much like` -&gt; `Very much like...17`</span></span></code></pre></div>
 <table class="table">
 <colgroup>
+<col width="2%">
+<col width="4%">
+<col width="5%">
+<col width="5%">
 <col width="9%">
-<col width="16%">
-<col width="15%">
-<col width="28%">
-<col width="15%">
-<col width="15%">
+<col width="4%">
+<col width="5%">
+<col width="5%">
+<col width="5%">
+<col width="9%">
+<col width="5%">
+<col width="5%">
+<col width="6%">
+<col width="5%">
+<col width="9%">
+<col width="5%">
+<col width="5%">
 </colgroup>
 <thead><tr class="header">
-<th align="left">veggie</th>
-<th align="left">Very much dislike</th>
-<th align="left">Somewhat dislike</th>
-<th align="left">About equally like and dislike</th>
-<th align="left">Somewhat like</th>
-<th align="left">Very much like</th>
+<th align="left">levels</th>
+<th align="left">Total</th>
+<th align="left">Very much dislike…3</th>
+<th align="left">Somewhat dislike…4</th>
+<th align="left">About equally like and dislike…5</th>
+<th align="left">Somewhat like…6</th>
+<th align="left">Very much like…7</th>
+<th align="left">Very much dislike…8</th>
+<th align="left">Somewhat dislike…9</th>
+<th align="left">About equally like and dislike…10</th>
+<th align="left">Somewhat like…11</th>
+<th align="left">Very much like…12</th>
+<th align="left">Very much dislike…13</th>
+<th align="left">Somewhat dislike…14</th>
+<th align="left">About equally like and dislike…15</th>
+<th align="left">Somewhat like…16</th>
+<th align="left">Very much like…17</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="left">NET: Low</td>
-<td align="left">41</td>
-<td align="left">42</td>
-<td align="left">42</td>
+<td align="left">28</td>
 <td align="left">39</td>
-<td align="left">41</td>
+<td align="left">29</td>
+<td align="left">27</td>
+<td align="left">28</td>
+<td align="left">24</td>
+<td align="left">27</td>
+<td align="left">30</td>
+<td align="left">26</td>
+<td align="left">28</td>
+<td align="left">29</td>
+<td align="left">29</td>
+<td align="left">29</td>
+<td align="left">29</td>
+<td align="left">26</td>
+<td align="left">25</td>
 </tr>
 <tr class="even">
 <td align="left">..</td>
+<td align="left">NA</td>
+<td align="left">D E F G</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -531,30 +1496,74 @@ vectors.</p>
 </tr>
 <tr class="odd">
 <td align="left">Very Low</td>
-<td align="left">16</td>
+<td align="left">13</td>
 <td align="left">19</td>
-<td align="left">15</td>
-<td align="left">14</td>
 <td align="left">12</td>
+<td align="left">12</td>
+<td align="left">13</td>
+<td align="left">11</td>
+<td align="left">12</td>
+<td align="left">13</td>
+<td align="left">12</td>
+<td align="left">14</td>
+<td align="left">15</td>
+<td align="left">12</td>
+<td align="left">13</td>
+<td align="left">13</td>
+<td align="left">13</td>
+<td align="left">9</td>
 </tr>
 <tr class="even">
 <td align="left">..</td>
+<td align="left">NA</td>
+<td align="left">G</td>
 <td align="left"></td>
-<td align="left">E F G</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 </tr>
 <tr class="odd">
 <td align="left">Low</td>
-<td align="left">25</td>
-<td align="left">24</td>
-<td align="left">27</td>
-<td align="left">26</td>
-<td align="left">29</td>
+<td align="left">15</td>
+<td align="left">20</td>
+<td align="left">17</td>
+<td align="left">15</td>
+<td align="left">15</td>
+<td align="left">13</td>
+<td align="left">15</td>
+<td align="left">17</td>
+<td align="left">14</td>
+<td align="left">15</td>
+<td align="left">15</td>
+<td align="left">17</td>
+<td align="left">15</td>
+<td align="left">16</td>
+<td align="left">13</td>
+<td align="left">15</td>
 </tr>
 <tr class="even">
 <td align="left">..</td>
+<td align="left">NA</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -563,14 +1572,36 @@ vectors.</p>
 </tr>
 <tr class="odd">
 <td align="left">Moderate</td>
-<td align="left">41</td>
-<td align="left">38</td>
-<td align="left">39</td>
-<td align="left">40</td>
-<td align="left">39</td>
+<td align="left">30</td>
+<td align="left">29</td>
+<td align="left">30</td>
+<td align="left">31</td>
+<td align="left">28</td>
+<td align="left">33</td>
+<td align="left">31</td>
+<td align="left">29</td>
+<td align="left">31</td>
+<td align="left">31</td>
+<td align="left">25</td>
+<td align="left">33</td>
+<td align="left">29</td>
+<td align="left">28</td>
+<td align="left">31</td>
+<td align="left">34</td>
 </tr>
 <tr class="even">
 <td align="left">..</td>
+<td align="left">NA</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">L</td>
+<td align="left"></td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -579,62 +1610,150 @@ vectors.</p>
 </tr>
 <tr class="odd">
 <td align="left">NET: High</td>
-<td align="left">18</td>
-<td align="left">20</td>
-<td align="left">19</td>
-<td align="left">21</td>
-<td align="left">20</td>
+<td align="left">42</td>
+<td align="left">32</td>
+<td align="left">41</td>
+<td align="left">42</td>
+<td align="left">45</td>
+<td align="left">43</td>
+<td align="left">42</td>
+<td align="left">40</td>
+<td align="left">43</td>
+<td align="left">41</td>
+<td align="left">46</td>
+<td align="left">38</td>
+<td align="left">43</td>
+<td align="left">44</td>
+<td align="left">43</td>
+<td align="left">41</td>
 </tr>
 <tr class="even">
 <td align="left">..</td>
+<td align="left">NA</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">C</td>
+<td align="left">C</td>
+<td align="left">C</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">M</td>
 <td align="left"></td>
 <td align="left"></td>
 </tr>
 <tr class="odd">
 <td align="left">High</td>
-<td align="left">6</td>
-<td align="left">11</td>
-<td align="left">11</td>
-<td align="left">11</td>
-<td align="left">10</td>
+<td align="left">21</td>
+<td align="left">13</td>
+<td align="left">21</td>
+<td align="left">20</td>
+<td align="left">23</td>
+<td align="left">22</td>
+<td align="left">21</td>
+<td align="left">22</td>
+<td align="left">22</td>
+<td align="left">18</td>
+<td align="left">24</td>
+<td align="left">20</td>
+<td align="left">20</td>
+<td align="left">23</td>
+<td align="left">19</td>
+<td align="left">32</td>
 </tr>
 <tr class="even">
 <td align="left">..</td>
+<td align="left">NA</td>
 <td align="left"></td>
 <td align="left">C</td>
 <td align="left">C</td>
 <td align="left">C</td>
+<td align="left">C</td>
 <td align="left"></td>
+<td align="left"></td>
+<td align="left">K</td>
+<td align="left"></td>
+<td align="left">K</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">M N P</td>
 </tr>
 <tr class="odd">
 <td align="left">Very High</td>
-<td align="left">12</td>
+<td align="left">21</td>
+<td align="left">19</td>
+<td align="left">20</td>
+<td align="left">21</td>
+<td align="left">22</td>
+<td align="left">21</td>
+<td align="left">21</td>
+<td align="left">19</td>
+<td align="left">21</td>
+<td align="left">23</td>
+<td align="left">23</td>
+<td align="left">18</td>
+<td align="left">23</td>
+<td align="left">21</td>
+<td align="left">24</td>
 <td align="left">9</td>
-<td align="left">9</td>
-<td align="left">10</td>
-<td align="left">11</td>
 </tr>
 <tr class="even">
 <td align="left">..</td>
+<td align="left">NA</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Q</td>
+<td align="left">M Q</td>
+<td align="left">Q</td>
+<td align="left">M Q</td>
 <td align="left"></td>
 </tr>
 <tr class="odd">
-<td align="left">N</td>
+<td align="left">n</td>
+<td align="left">2000</td>
 <td align="left">100</td>
 <td align="left">399</td>
 <td align="left">587</td>
 <td align="left">705</td>
 <td align="left">209</td>
+<td align="left">198</td>
+<td align="left">462</td>
+<td align="left">604</td>
+<td align="left">516</td>
+<td align="left">220</td>
+<td align="left">326</td>
+<td align="left">683</td>
+<td align="left">537</td>
+<td align="left">357</td>
+<td align="left">97</td>
 </tr>
 <tr class="even">
-<td align="left">DEFF</td>
+<td align="left">deff</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
 <td align="left">1</td>
 <td align="left">1</td>
 <td align="left">1</td>
@@ -642,55 +1761,125 @@ vectors.</p>
 <td align="left">1</td>
 </tr>
 <tr class="odd">
-<td align="left">MOSE</td>
+<td align="left">moe</td>
+<td align="left">2.19134661794979</td>
 <td align="left">9.8</td>
 <td align="left">4.90613650835324</td>
 <td align="left">4.04489288272368</td>
 <td align="left">3.69089352805808</td>
 <td align="left">6.77880174588753</td>
+<td align="left">6.96455673428328</td>
+<td align="left">4.55937263095251</td>
+<td align="left">3.98756344797868</td>
+<td align="left">4.31420944099556</td>
+<td align="left">6.60715865213977</td>
+<td align="left">5.42771800109277</td>
+<td align="left">3.74986578578757</td>
+<td align="left">4.22901214962061</td>
+<td align="left">5.18671001544464</td>
+<td align="left">9.95039241830947</td>
 </tr>
 </tbody>
 </table>
-<p><code>var_nets</code> can also be specified by referring to levels by
-number.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/crosstab.html">crosstab</a></span><span class="op">(</span></span>
+<p>You can also specify <code>var_nets</code> with levels numbers.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/banner.html">banner</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">food</span>,</span>
-<span>  var <span class="op">=</span> <span class="st">"veggie"</span>,</span>
-<span>  by <span class="op">=</span> <span class="st">"rating_pizza"</span>,</span>
+<span>  var <span class="op">=</span> <span class="st">"pescetarian"</span>,</span>
+<span>  bys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rating_meat"</span>, <span class="st">"rating_sushi"</span>, <span class="st">"rating_veg"</span><span class="op">)</span>,</span>
 <span>  var_nets <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>    <span class="st">"Low"</span>  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span>,</span>
 <span>    <span class="st">"High"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span></span>
 <span>    <span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; New names:</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much dislike` -&gt; `Very much dislike...3`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat dislike` -&gt; `Somewhat dislike...4`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `About equally like and dislike` -&gt; `About equally like and dislike...5`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...6`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much like` -&gt; `Very much like...7`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much dislike` -&gt; `Very much dislike...8`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat dislike` -&gt; `Somewhat dislike...9`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `About equally like and dislike` -&gt; `About equally like and dislike...10`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...11`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much like` -&gt; `Very much like...12`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much dislike` -&gt; `Very much dislike...13`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat dislike` -&gt; `Somewhat dislike...14`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `About equally like and dislike` -&gt; `About equally like and dislike...15`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...16`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much like` -&gt; `Very much like...17`</span></span></code></pre></div>
 <table class="table">
 <colgroup>
+<col width="2%">
+<col width="4%">
+<col width="5%">
+<col width="5%">
 <col width="9%">
-<col width="16%">
-<col width="15%">
-<col width="28%">
-<col width="15%">
-<col width="15%">
+<col width="4%">
+<col width="5%">
+<col width="5%">
+<col width="5%">
+<col width="9%">
+<col width="5%">
+<col width="5%">
+<col width="6%">
+<col width="5%">
+<col width="9%">
+<col width="5%">
+<col width="5%">
 </colgroup>
 <thead><tr class="header">
-<th align="left">veggie</th>
-<th align="left">Very much dislike</th>
-<th align="left">Somewhat dislike</th>
-<th align="left">About equally like and dislike</th>
-<th align="left">Somewhat like</th>
-<th align="left">Very much like</th>
+<th align="left">levels</th>
+<th align="left">Total</th>
+<th align="left">Very much dislike…3</th>
+<th align="left">Somewhat dislike…4</th>
+<th align="left">About equally like and dislike…5</th>
+<th align="left">Somewhat like…6</th>
+<th align="left">Very much like…7</th>
+<th align="left">Very much dislike…8</th>
+<th align="left">Somewhat dislike…9</th>
+<th align="left">About equally like and dislike…10</th>
+<th align="left">Somewhat like…11</th>
+<th align="left">Very much like…12</th>
+<th align="left">Very much dislike…13</th>
+<th align="left">Somewhat dislike…14</th>
+<th align="left">About equally like and dislike…15</th>
+<th align="left">Somewhat like…16</th>
+<th align="left">Very much like…17</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="left">NET: Low</td>
-<td align="left">41</td>
-<td align="left">42</td>
-<td align="left">42</td>
+<td align="left">28</td>
 <td align="left">39</td>
-<td align="left">41</td>
+<td align="left">29</td>
+<td align="left">27</td>
+<td align="left">28</td>
+<td align="left">24</td>
+<td align="left">27</td>
+<td align="left">30</td>
+<td align="left">26</td>
+<td align="left">28</td>
+<td align="left">29</td>
+<td align="left">29</td>
+<td align="left">29</td>
+<td align="left">29</td>
+<td align="left">26</td>
+<td align="left">25</td>
 </tr>
 <tr class="even">
 <td align="left">..</td>
+<td align="left">NA</td>
+<td align="left">D E F G</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -699,30 +1888,74 @@ number.</p>
 </tr>
 <tr class="odd">
 <td align="left">Very Low</td>
-<td align="left">16</td>
+<td align="left">13</td>
 <td align="left">19</td>
-<td align="left">15</td>
-<td align="left">14</td>
 <td align="left">12</td>
+<td align="left">12</td>
+<td align="left">13</td>
+<td align="left">11</td>
+<td align="left">12</td>
+<td align="left">13</td>
+<td align="left">12</td>
+<td align="left">14</td>
+<td align="left">15</td>
+<td align="left">12</td>
+<td align="left">13</td>
+<td align="left">13</td>
+<td align="left">13</td>
+<td align="left">9</td>
 </tr>
 <tr class="even">
 <td align="left">..</td>
+<td align="left">NA</td>
+<td align="left">G</td>
 <td align="left"></td>
-<td align="left">E F G</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 </tr>
 <tr class="odd">
 <td align="left">Low</td>
-<td align="left">25</td>
-<td align="left">24</td>
-<td align="left">27</td>
-<td align="left">26</td>
-<td align="left">29</td>
+<td align="left">15</td>
+<td align="left">20</td>
+<td align="left">17</td>
+<td align="left">15</td>
+<td align="left">15</td>
+<td align="left">13</td>
+<td align="left">15</td>
+<td align="left">17</td>
+<td align="left">14</td>
+<td align="left">15</td>
+<td align="left">15</td>
+<td align="left">17</td>
+<td align="left">15</td>
+<td align="left">16</td>
+<td align="left">13</td>
+<td align="left">15</td>
 </tr>
 <tr class="even">
 <td align="left">..</td>
+<td align="left">NA</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -731,14 +1964,36 @@ number.</p>
 </tr>
 <tr class="odd">
 <td align="left">Moderate</td>
-<td align="left">41</td>
-<td align="left">38</td>
-<td align="left">39</td>
-<td align="left">40</td>
-<td align="left">39</td>
+<td align="left">30</td>
+<td align="left">29</td>
+<td align="left">30</td>
+<td align="left">31</td>
+<td align="left">28</td>
+<td align="left">33</td>
+<td align="left">31</td>
+<td align="left">29</td>
+<td align="left">31</td>
+<td align="left">31</td>
+<td align="left">25</td>
+<td align="left">33</td>
+<td align="left">29</td>
+<td align="left">28</td>
+<td align="left">31</td>
+<td align="left">34</td>
 </tr>
 <tr class="even">
 <td align="left">..</td>
+<td align="left">NA</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">L</td>
+<td align="left"></td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -747,62 +2002,150 @@ number.</p>
 </tr>
 <tr class="odd">
 <td align="left">NET: High</td>
-<td align="left">18</td>
-<td align="left">20</td>
-<td align="left">19</td>
-<td align="left">21</td>
-<td align="left">20</td>
+<td align="left">42</td>
+<td align="left">32</td>
+<td align="left">41</td>
+<td align="left">42</td>
+<td align="left">45</td>
+<td align="left">43</td>
+<td align="left">42</td>
+<td align="left">40</td>
+<td align="left">43</td>
+<td align="left">41</td>
+<td align="left">46</td>
+<td align="left">38</td>
+<td align="left">43</td>
+<td align="left">44</td>
+<td align="left">43</td>
+<td align="left">41</td>
 </tr>
 <tr class="even">
 <td align="left">..</td>
+<td align="left">NA</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">C</td>
+<td align="left">C</td>
+<td align="left">C</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">M</td>
 <td align="left"></td>
 <td align="left"></td>
 </tr>
 <tr class="odd">
 <td align="left">High</td>
-<td align="left">6</td>
-<td align="left">11</td>
-<td align="left">11</td>
-<td align="left">11</td>
-<td align="left">10</td>
+<td align="left">21</td>
+<td align="left">13</td>
+<td align="left">21</td>
+<td align="left">20</td>
+<td align="left">23</td>
+<td align="left">22</td>
+<td align="left">21</td>
+<td align="left">22</td>
+<td align="left">22</td>
+<td align="left">18</td>
+<td align="left">24</td>
+<td align="left">20</td>
+<td align="left">20</td>
+<td align="left">23</td>
+<td align="left">19</td>
+<td align="left">32</td>
 </tr>
 <tr class="even">
 <td align="left">..</td>
+<td align="left">NA</td>
 <td align="left"></td>
 <td align="left">C</td>
 <td align="left">C</td>
 <td align="left">C</td>
+<td align="left">C</td>
 <td align="left"></td>
+<td align="left"></td>
+<td align="left">K</td>
+<td align="left"></td>
+<td align="left">K</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">M N P</td>
 </tr>
 <tr class="odd">
 <td align="left">Very High</td>
-<td align="left">12</td>
+<td align="left">21</td>
+<td align="left">19</td>
+<td align="left">20</td>
+<td align="left">21</td>
+<td align="left">22</td>
+<td align="left">21</td>
+<td align="left">21</td>
+<td align="left">19</td>
+<td align="left">21</td>
+<td align="left">23</td>
+<td align="left">23</td>
+<td align="left">18</td>
+<td align="left">23</td>
+<td align="left">21</td>
+<td align="left">24</td>
 <td align="left">9</td>
-<td align="left">9</td>
-<td align="left">10</td>
-<td align="left">11</td>
 </tr>
 <tr class="even">
 <td align="left">..</td>
+<td align="left">NA</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Q</td>
+<td align="left">M Q</td>
+<td align="left">Q</td>
+<td align="left">M Q</td>
 <td align="left"></td>
 </tr>
 <tr class="odd">
-<td align="left">N</td>
+<td align="left">n</td>
+<td align="left">2000</td>
 <td align="left">100</td>
 <td align="left">399</td>
 <td align="left">587</td>
 <td align="left">705</td>
 <td align="left">209</td>
+<td align="left">198</td>
+<td align="left">462</td>
+<td align="left">604</td>
+<td align="left">516</td>
+<td align="left">220</td>
+<td align="left">326</td>
+<td align="left">683</td>
+<td align="left">537</td>
+<td align="left">357</td>
+<td align="left">97</td>
 </tr>
 <tr class="even">
-<td align="left">DEFF</td>
+<td align="left">deff</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
 <td align="left">1</td>
 <td align="left">1</td>
 <td align="left">1</td>
@@ -810,65 +2153,77 @@ number.</p>
 <td align="left">1</td>
 </tr>
 <tr class="odd">
-<td align="left">MOSE</td>
+<td align="left">moe</td>
+<td align="left">2.19134661794979</td>
 <td align="left">9.8</td>
 <td align="left">4.90613650835324</td>
 <td align="left">4.04489288272368</td>
 <td align="left">3.69089352805808</td>
 <td align="left">6.77880174588753</td>
+<td align="left">6.96455673428328</td>
+<td align="left">4.55937263095251</td>
+<td align="left">3.98756344797868</td>
+<td align="left">4.31420944099556</td>
+<td align="left">6.60715865213977</td>
+<td align="left">5.42771800109277</td>
+<td align="left">3.74986578578757</td>
+<td align="left">4.22901214962061</td>
+<td align="left">5.18671001544464</td>
+<td align="left">9.95039241830947</td>
 </tr>
 </tbody>
 </table>
-<p>Notice that the NET rows are inserted into the table, and the
-metadata rows (N, DEFF, MOSE) are appended at the bottom.</p>
 </div>
 <div class="section level3">
-<h3 id="other-details">Other details<a class="anchor" aria-label="anchor" href="#other-details"></a>
+<h3 id="excluding-columns-or-rows">Excluding columns or rows<a class="anchor" aria-label="anchor" href="#excluding-columns-or-rows"></a>
 </h3>
-<p>The column letters reflect the columns that the table would
-eventually fit into when exported to excel. By default, the first column
-is presumed to fall into column <code>C</code>, dictated by the default
-parameter <code>st_col_start = 3</code>. You can in theory set a new
-default by specifying <code>st_col_start</code>, if you just wanted to
-export a single crosstab.</p>
-</div>
-</div>
-<div class="section level2">
-<h2 id="banner-combining-crosstabs">2. <code>banner()</code>: Combining crosstabs<a class="anchor" aria-label="anchor" href="#banner-combining-crosstabs"></a>
-</h2>
-<p><code><a href="../reference/banner.html">banner()</a></code> generates multiple <code><a href="../reference/crosstab.html">crosstab()</a></code>
-tables against a common target variable (<code>var</code>) and combines
-them into one wide table.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<p>You may want to selectively leave out columns of <code>bys</code> or
+rows of <code>var</code> that aren’t of interest. Supply a regex to
+<code>exclude_var</code> or <code>exclude_bys</code> to remove any
+columns/rows that match, without disrupting significance testing. Both
+are NULL by default (i.e. removing nothing).</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/banner.html">banner</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">food</span>,</span>
-<span>  var <span class="op">=</span> <span class="st">"vegan"</span>,</span>
-<span>  bys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rating_meat"</span>, <span class="st">"rating_pizza"</span>, <span class="st">"rating_sushi"</span>, <span class="st">"rating_veg"</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span>  var <span class="op">=</span> <span class="st">"pescetarian"</span>,</span>
+<span>  bys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rating_meat"</span>, <span class="st">"rating_sushi"</span>, <span class="st">"rating_veg"</span><span class="op">)</span>,</span>
+<span>  exclude_var <span class="op">=</span> <span class="st">"Moderate"</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; New names:</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much dislike` -&gt; `Very much dislike...3`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat dislike` -&gt; `Somewhat dislike...4`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `About equally like and dislike` -&gt; `About equally like and dislike...5`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...6`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much like` -&gt; `Very much like...7`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much dislike` -&gt; `Very much dislike...8`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat dislike` -&gt; `Somewhat dislike...9`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `About equally like and dislike` -&gt; `About equally like and dislike...10`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...11`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much like` -&gt; `Very much like...12`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much dislike` -&gt; `Very much dislike...13`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat dislike` -&gt; `Somewhat dislike...14`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `About equally like and dislike` -&gt; `About equally like and dislike...15`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...16`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much like` -&gt; `Very much like...17`</span></span></code></pre></div>
 <table class="table">
 <colgroup>
-<col width="1%">
-<col width="3%">
+<col width="2%">
 <col width="4%">
+<col width="5%">
+<col width="5%">
+<col width="9%">
 <col width="4%">
+<col width="5%">
+<col width="5%">
+<col width="5%">
+<col width="9%">
+<col width="5%">
+<col width="5%">
 <col width="6%">
-<col width="3%">
-<col width="3%">
-<col width="4%">
-<col width="4%">
-<col width="7%">
-<col width="3%">
-<col width="3%">
-<col width="4%">
-<col width="4%">
-<col width="7%">
-<col width="3%">
-<col width="3%">
-<col width="4%">
-<col width="4%">
-<col width="7%">
-<col width="3%">
-<col width="3%">
+<col width="5%">
+<col width="9%">
+<col width="5%">
+<col width="5%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">levels</th>
@@ -888,40 +2243,31 @@ them into one wide table.</p>
 <th align="left">About equally like and dislike…15</th>
 <th align="left">Somewhat like…16</th>
 <th align="left">Very much like…17</th>
-<th align="left">Very much dislike…18</th>
-<th align="left">Somewhat dislike…19</th>
-<th align="left">About equally like and dislike…20</th>
-<th align="left">Somewhat like…21</th>
-<th align="left">Very much like…22</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="left">Very Low</td>
-<td align="left">15</td>
+<td align="left">13</td>
+<td align="left">19</td>
 <td align="left">12</td>
-<td align="left">16</td>
-<td align="left">16</td>
-<td align="left">15</td>
-<td align="left">16</td>
 <td align="left">12</td>
-<td align="left">16</td>
-<td align="left">16</td>
-<td align="left">15</td>
-<td align="left">16</td>
-<td align="left">21</td>
-<td align="left">18</td>
-<td align="left">14</td>
-<td align="left">16</td>
+<td align="left">13</td>
 <td align="left">11</td>
-<td align="left">17</td>
+<td align="left">12</td>
+<td align="left">13</td>
+<td align="left">12</td>
 <td align="left">14</td>
-<td align="left">16</td>
 <td align="left">15</td>
-<td align="left">16</td>
+<td align="left">12</td>
+<td align="left">13</td>
+<td align="left">13</td>
+<td align="left">13</td>
+<td align="left">9</td>
 </tr>
 <tr class="even">
 <td align="left">..</td>
 <td align="left">NA</td>
+<td align="left">G</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -930,12 +2276,6 @@ them into one wide table.</p>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">O Q</td>
-<td align="left">O Q</td>
-<td align="left"></td>
-<td align="left">Q</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -945,84 +2285,26 @@ them into one wide table.</p>
 </tr>
 <tr class="odd">
 <td align="left">Low</td>
-<td align="left">24</td>
+<td align="left">15</td>
 <td align="left">20</td>
-<td align="left">22</td>
-<td align="left">24</td>
-<td align="left">25</td>
-<td align="left">27</td>
-<td align="left">20</td>
-<td align="left">22</td>
-<td align="left">24</td>
-<td align="left">25</td>
-<td align="left">27</td>
-<td align="left">23</td>
-<td align="left">25</td>
-<td align="left">24</td>
-<td align="left">24</td>
-<td align="left">24</td>
-<td align="left">24</td>
-<td align="left">26</td>
-<td align="left">23</td>
-<td align="left">23</td>
-<td align="left">21</td>
+<td align="left">17</td>
+<td align="left">15</td>
+<td align="left">15</td>
+<td align="left">13</td>
+<td align="left">15</td>
+<td align="left">17</td>
+<td align="left">14</td>
+<td align="left">15</td>
+<td align="left">15</td>
+<td align="left">17</td>
+<td align="left">15</td>
+<td align="left">16</td>
+<td align="left">13</td>
+<td align="left">15</td>
 </tr>
 <tr class="even">
 <td align="left">..</td>
 <td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-</tr>
-<tr class="odd">
-<td align="left">Moderate</td>
-<td align="left">42</td>
-<td align="left">44</td>
-<td align="left">43</td>
-<td align="left">41</td>
-<td align="left">41</td>
-<td align="left">40</td>
-<td align="left">44</td>
-<td align="left">43</td>
-<td align="left">41</td>
-<td align="left">41</td>
-<td align="left">40</td>
-<td align="left">40</td>
-<td align="left">40</td>
-<td align="left">44</td>
-<td align="left">40</td>
-<td align="left">44</td>
-<td align="left">41</td>
-<td align="left">41</td>
-<td align="left">44</td>
-<td align="left">40</td>
-<td align="left">43</td>
-</tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -1041,108 +2323,83 @@ them into one wide table.</p>
 </tr>
 <tr class="odd">
 <td align="left">High</td>
-<td align="left">14</td>
+<td align="left">21</td>
+<td align="left">13</td>
+<td align="left">21</td>
+<td align="left">20</td>
+<td align="left">23</td>
+<td align="left">22</td>
+<td align="left">21</td>
+<td align="left">22</td>
+<td align="left">22</td>
+<td align="left">18</td>
+<td align="left">24</td>
+<td align="left">20</td>
+<td align="left">20</td>
+<td align="left">23</td>
 <td align="left">19</td>
-<td align="left">15</td>
-<td align="left">14</td>
-<td align="left">14</td>
-<td align="left">11</td>
-<td align="left">19</td>
-<td align="left">15</td>
-<td align="left">14</td>
-<td align="left">14</td>
-<td align="left">11</td>
-<td align="left">13</td>
-<td align="left">13</td>
-<td align="left">13</td>
-<td align="left">16</td>
-<td align="left">15</td>
-<td align="left">13</td>
-<td align="left">13</td>
-<td align="left">13</td>
-<td align="left">17</td>
-<td align="left">13</td>
+<td align="left">32</td>
 </tr>
 <tr class="even">
 <td align="left">..</td>
 <td align="left">NA</td>
-<td align="left">G</td>
+<td align="left"></td>
+<td align="left">C</td>
+<td align="left">C</td>
+<td align="left">C</td>
+<td align="left">C</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">K</td>
+<td align="left"></td>
+<td align="left">K</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">L</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">S T</td>
-<td align="left"></td>
+<td align="left">M N P</td>
 </tr>
 <tr class="odd">
 <td align="left">Very High</td>
-<td align="left">5</td>
-<td align="left">5</td>
-<td align="left">4</td>
-<td align="left">6</td>
-<td align="left">5</td>
-<td align="left">6</td>
-<td align="left">5</td>
-<td align="left">4</td>
-<td align="left">6</td>
-<td align="left">5</td>
-<td align="left">6</td>
-<td align="left">4</td>
-<td align="left">4</td>
-<td align="left">6</td>
-<td align="left">4</td>
-<td align="left">6</td>
-<td align="left">5</td>
-<td align="left">5</td>
-<td align="left">4</td>
-<td align="left">5</td>
-<td align="left">6</td>
+<td align="left">21</td>
+<td align="left">19</td>
+<td align="left">20</td>
+<td align="left">21</td>
+<td align="left">22</td>
+<td align="left">21</td>
+<td align="left">21</td>
+<td align="left">19</td>
+<td align="left">21</td>
+<td align="left">23</td>
+<td align="left">23</td>
+<td align="left">18</td>
+<td align="left">23</td>
+<td align="left">21</td>
+<td align="left">24</td>
+<td align="left">9</td>
 </tr>
 <tr class="even">
 <td align="left">..</td>
 <td align="left">NA</td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">D</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">I</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">N P</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Q</td>
+<td align="left">M Q</td>
+<td align="left">Q</td>
+<td align="left">M Q</td>
 <td align="left"></td>
 </tr>
 <tr class="odd">
 <td align="left">n</td>
 <td align="left">2000</td>
-<td align="left">100</td>
-<td align="left">399</td>
-<td align="left">587</td>
-<td align="left">705</td>
-<td align="left">209</td>
 <td align="left">100</td>
 <td align="left">399</td>
 <td align="left">587</td>
@@ -1177,20 +2434,10 @@ them into one wide table.</p>
 <td align="left">1</td>
 <td align="left">1</td>
 <td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
 </tr>
 <tr class="odd">
 <td align="left">moe</td>
 <td align="left">2.19134661794979</td>
-<td align="left">9.8</td>
-<td align="left">4.90613650835324</td>
-<td align="left">4.04489288272368</td>
-<td align="left">3.69089352805808</td>
-<td align="left">6.77880174588753</td>
 <td align="left">9.8</td>
 <td align="left">4.90613650835324</td>
 <td align="left">4.04489288272368</td>
@@ -1209,91 +2456,107 @@ them into one wide table.</p>
 </tr>
 </tbody>
 </table>
-<p>Columns are grouped by the <code>by</code> variable.</p>
-<p><code>weight</code>, <code>digits</code>, and <code>var_nets</code>
-work the same as in <code><a href="../reference/crosstab.html">crosstab()</a></code></p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/banner.html">banner</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">food</span>,</span>
-<span>  var <span class="op">=</span> <span class="st">"vegan"</span>,</span>
-<span>  bys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rating_meat"</span>, <span class="st">"rating_pizza"</span>, <span class="st">"rating_sushi"</span>, <span class="st">"rating_veg"</span><span class="op">)</span>,</span>
-<span>  weight <span class="op">=</span> <span class="cn">NULL</span>, <span class="co"># example coming soon</span></span>
-<span>  digits <span class="op">=</span> <span class="fl">2</span>,</span>
-<span>  var_nets <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Low <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, High <span class="op">=</span> <span class="fl">4</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span>  var <span class="op">=</span> <span class="st">"pescetarian"</span>,</span>
+<span>  bys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rating_meat"</span>, <span class="st">"rating_sushi"</span>, <span class="st">"rating_veg"</span><span class="op">)</span>,</span>
+<span>  exclude_bys <span class="op">=</span> <span class="st">"equal"</span> <span class="co"># providing one pattern recycles across all bys</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; New names:</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much dislike` -&gt; `Very much dislike...3`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat dislike` -&gt; `Somewhat dislike...4`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...5`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much like` -&gt; `Very much like...6`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much dislike` -&gt; `Very much dislike...7`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat dislike` -&gt; `Somewhat dislike...8`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...9`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much like` -&gt; `Very much like...10`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much dislike` -&gt; `Very much dislike...11`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat dislike` -&gt; `Somewhat dislike...12`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...13`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much like` -&gt; `Very much like...14`</span></span></code></pre></div>
 <table class="table">
 <colgroup>
-<col width="1%">
 <col width="3%">
-<col width="4%">
-<col width="4%">
 <col width="6%">
-<col width="3%">
-<col width="3%">
-<col width="4%">
-<col width="4%">
+<col width="8%">
 <col width="7%">
-<col width="3%">
-<col width="3%">
-<col width="4%">
-<col width="4%">
+<col width="6%">
+<col width="6%">
+<col width="8%">
 <col width="7%">
-<col width="3%">
-<col width="3%">
-<col width="4%">
-<col width="4%">
+<col width="6%">
 <col width="7%">
-<col width="3%">
-<col width="3%">
+<col width="8%">
+<col width="8%">
+<col width="6%">
+<col width="7%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">levels</th>
 <th align="left">Total</th>
 <th align="left">Very much dislike…3</th>
 <th align="left">Somewhat dislike…4</th>
-<th align="left">About equally like and dislike…5</th>
-<th align="left">Somewhat like…6</th>
-<th align="left">Very much like…7</th>
-<th align="left">Very much dislike…8</th>
-<th align="left">Somewhat dislike…9</th>
-<th align="left">About equally like and dislike…10</th>
-<th align="left">Somewhat like…11</th>
-<th align="left">Very much like…12</th>
-<th align="left">Very much dislike…13</th>
-<th align="left">Somewhat dislike…14</th>
-<th align="left">About equally like and dislike…15</th>
-<th align="left">Somewhat like…16</th>
-<th align="left">Very much like…17</th>
-<th align="left">Very much dislike…18</th>
-<th align="left">Somewhat dislike…19</th>
-<th align="left">About equally like and dislike…20</th>
-<th align="left">Somewhat like…21</th>
-<th align="left">Very much like…22</th>
+<th align="left">Somewhat like…5</th>
+<th align="left">Very much like…6</th>
+<th align="left">Very much dislike…7</th>
+<th align="left">Somewhat dislike…8</th>
+<th align="left">Somewhat like…9</th>
+<th align="left">Very much like…10</th>
+<th align="left">Very much dislike…11</th>
+<th align="left">Somewhat dislike…12</th>
+<th align="left">Somewhat like…13</th>
+<th align="left">Very much like…14</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">NET: Low</td>
-<td align="left">39.5</td>
-<td align="left">32</td>
-<td align="left">38.6</td>
-<td align="left">39.35</td>
-<td align="left">40.14</td>
-<td align="left">43.06</td>
-<td align="left">32</td>
-<td align="left">38.6</td>
-<td align="left">39.35</td>
-<td align="left">40.14</td>
-<td align="left">43.06</td>
-<td align="left">43.43</td>
-<td align="left">42.64</td>
-<td align="left">37.42</td>
-<td align="left">39.73</td>
-<td align="left">34.55</td>
-<td align="left">41.1</td>
-<td align="left">40.7</td>
-<td align="left">38.55</td>
-<td align="left">37.82</td>
-<td align="left">37.11</td>
+<td align="left">Very Low</td>
+<td align="left">13</td>
+<td align="left">19</td>
+<td align="left">12</td>
+<td align="left">13</td>
+<td align="left">11</td>
+<td align="left">12</td>
+<td align="left">13</td>
+<td align="left">14</td>
+<td align="left">15</td>
+<td align="left">12</td>
+<td align="left">13</td>
+<td align="left">13</td>
+<td align="left">9</td>
+</tr>
+<tr class="even">
+<td align="left">..</td>
+<td align="left">NA</td>
+<td align="left">F</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Low</td>
+<td align="left">15</td>
+<td align="left">20</td>
+<td align="left">17</td>
+<td align="left">15</td>
+<td align="left">13</td>
+<td align="left">15</td>
+<td align="left">17</td>
+<td align="left">15</td>
+<td align="left">15</td>
+<td align="left">17</td>
+<td align="left">15</td>
+<td align="left">13</td>
+<td align="left">15</td>
 </tr>
 <tr class="even">
 <td align="left">..</td>
@@ -1302,309 +2565,109 @@ work the same as in <code><a href="../reference/crosstab.html">crosstab()</a></c
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Moderate</td>
+<td align="left">30</td>
+<td align="left">29</td>
+<td align="left">30</td>
+<td align="left">28</td>
+<td align="left">33</td>
+<td align="left">31</td>
+<td align="left">29</td>
+<td align="left">31</td>
+<td align="left">25</td>
+<td align="left">33</td>
+<td align="left">29</td>
+<td align="left">31</td>
+<td align="left">34</td>
+</tr>
+<tr class="even">
+<td align="left">..</td>
+<td align="left">NA</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">High</td>
+<td align="left">21</td>
+<td align="left">13</td>
+<td align="left">21</td>
+<td align="left">23</td>
+<td align="left">22</td>
+<td align="left">21</td>
+<td align="left">22</td>
+<td align="left">18</td>
+<td align="left">24</td>
+<td align="left">20</td>
+<td align="left">20</td>
+<td align="left">19</td>
+<td align="left">32</td>
+</tr>
+<tr class="even">
+<td align="left">..</td>
+<td align="left">NA</td>
+<td align="left"></td>
+<td align="left">C</td>
+<td align="left">C</td>
 <td align="left">C</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left"></td>
-<td align="left">H</td>
-<td align="left">Q</td>
-<td align="left">O Q</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-</tr>
-<tr class="odd">
-<td align="left">Very Low</td>
-<td align="left">15.45</td>
-<td align="left">12</td>
-<td align="left">16.29</td>
-<td align="left">15.5</td>
-<td align="left">15.18</td>
-<td align="left">16.27</td>
-<td align="left">12</td>
-<td align="left">16.29</td>
-<td align="left">15.5</td>
-<td align="left">15.18</td>
-<td align="left">16.27</td>
-<td align="left">20.71</td>
-<td align="left">17.53</td>
-<td align="left">13.74</td>
-<td align="left">15.5</td>
-<td align="left">10.91</td>
-<td align="left">16.87</td>
-<td align="left">14.35</td>
-<td align="left">16.01</td>
-<td align="left">15.13</td>
-<td align="left">16.49</td>
-</tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">O Q</td>
-<td align="left">O Q</td>
-<td align="left"></td>
-<td align="left">Q</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-</tr>
-<tr class="odd">
-<td align="left">Low</td>
-<td align="left">24.05</td>
-<td align="left">20</td>
-<td align="left">22.31</td>
-<td align="left">23.85</td>
-<td align="left">24.96</td>
-<td align="left">26.79</td>
-<td align="left">20</td>
-<td align="left">22.31</td>
-<td align="left">23.85</td>
-<td align="left">24.96</td>
-<td align="left">26.79</td>
-<td align="left">22.73</td>
-<td align="left">25.11</td>
-<td align="left">23.68</td>
-<td align="left">24.22</td>
-<td align="left">23.64</td>
-<td align="left">24.23</td>
-<td align="left">26.35</td>
-<td align="left">22.53</td>
-<td align="left">22.69</td>
-<td align="left">20.62</td>
-</tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-</tr>
-<tr class="odd">
-<td align="left">Moderate</td>
-<td align="left">41.7</td>
-<td align="left">44</td>
-<td align="left">43.11</td>
-<td align="left">41.4</td>
-<td align="left">41.42</td>
-<td align="left">39.71</td>
-<td align="left">44</td>
-<td align="left">43.11</td>
-<td align="left">41.4</td>
-<td align="left">41.42</td>
-<td align="left">39.71</td>
-<td align="left">39.9</td>
-<td align="left">40.48</td>
-<td align="left">43.71</td>
-<td align="left">40.31</td>
-<td align="left">43.64</td>
-<td align="left">40.8</td>
-<td align="left">40.85</td>
-<td align="left">43.95</td>
-<td align="left">40.34</td>
-<td align="left">43.3</td>
-</tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-</tr>
-<tr class="odd">
-<td align="left">NET: High</td>
-<td align="left">18.8</td>
-<td align="left">24</td>
-<td align="left">18.3</td>
-<td align="left">19.25</td>
-<td align="left">18.44</td>
-<td align="left">17.22</td>
-<td align="left">24</td>
-<td align="left">18.3</td>
-<td align="left">19.25</td>
-<td align="left">18.44</td>
-<td align="left">17.22</td>
-<td align="left">16.67</td>
-<td align="left">16.88</td>
-<td align="left">18.87</td>
-<td align="left">19.96</td>
-<td align="left">21.82</td>
-<td align="left">18.1</td>
-<td align="left">18.45</td>
-<td align="left">17.5</td>
-<td align="left">21.85</td>
-<td align="left">19.59</td>
-</tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-</tr>
-<tr class="odd">
-<td align="left">High</td>
-<td align="left">13.85</td>
-<td align="left">19</td>
-<td align="left">14.79</td>
-<td align="left">13.63</td>
-<td align="left">13.62</td>
-<td align="left">11</td>
-<td align="left">19</td>
-<td align="left">14.79</td>
-<td align="left">13.63</td>
-<td align="left">13.62</td>
-<td align="left">11</td>
-<td align="left">12.63</td>
-<td align="left">12.77</td>
-<td align="left">12.75</td>
-<td align="left">15.89</td>
-<td align="left">15.45</td>
-<td align="left">13.19</td>
-<td align="left">13.18</td>
-<td align="left">13.22</td>
-<td align="left">16.81</td>
-<td align="left">13.4</td>
-</tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left">G</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">L</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-</tr>
-<tr class="odd">
-<td align="left">Very High</td>
-<td align="left">4.95</td>
-<td align="left">5</td>
-<td align="left">3.51</td>
-<td align="left">5.62</td>
-<td align="left">4.82</td>
-<td align="left">6.22</td>
-<td align="left">5</td>
-<td align="left">3.51</td>
-<td align="left">5.62</td>
-<td align="left">4.82</td>
-<td align="left">6.22</td>
-<td align="left">4.04</td>
-<td align="left">4.11</td>
-<td align="left">6.13</td>
-<td align="left">4.07</td>
-<td align="left">6.36</td>
-<td align="left">4.91</td>
-<td align="left">5.27</td>
-<td align="left">4.28</td>
-<td align="left">5.04</td>
-<td align="left">6.19</td>
-</tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">D</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
 <td align="left">I</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left">K L M</td>
+</tr>
+<tr class="odd">
+<td align="left">Very High</td>
+<td align="left">21</td>
+<td align="left">19</td>
+<td align="left">20</td>
+<td align="left">22</td>
+<td align="left">21</td>
+<td align="left">21</td>
+<td align="left">19</td>
+<td align="left">23</td>
+<td align="left">23</td>
+<td align="left">18</td>
+<td align="left">23</td>
+<td align="left">24</td>
+<td align="left">9</td>
+</tr>
+<tr class="even">
+<td align="left">..</td>
+<td align="left">NA</td>
 <td align="left"></td>
-<td align="left">N P</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
+<td align="left">N</td>
+<td align="left">K N</td>
+<td align="left">K N</td>
 <td align="left"></td>
 </tr>
 <tr class="odd">
@@ -1612,35 +2675,19 @@ work the same as in <code><a href="../reference/crosstab.html">crosstab()</a></c
 <td align="left">2000</td>
 <td align="left">100</td>
 <td align="left">399</td>
-<td align="left">587</td>
-<td align="left">705</td>
-<td align="left">209</td>
-<td align="left">100</td>
-<td align="left">399</td>
-<td align="left">587</td>
 <td align="left">705</td>
 <td align="left">209</td>
 <td align="left">198</td>
 <td align="left">462</td>
-<td align="left">604</td>
 <td align="left">516</td>
 <td align="left">220</td>
 <td align="left">326</td>
 <td align="left">683</td>
-<td align="left">537</td>
 <td align="left">357</td>
 <td align="left">97</td>
 </tr>
 <tr class="even">
 <td align="left">deff</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
 <td align="left">1</td>
 <td align="left">1</td>
 <td align="left">1</td>
@@ -1660,40 +2707,309 @@ work the same as in <code><a href="../reference/crosstab.html">crosstab()</a></c
 <td align="left">2.19134661794979</td>
 <td align="left">9.8</td>
 <td align="left">4.90613650835324</td>
-<td align="left">4.04489288272368</td>
 <td align="left">3.69089352805808</td>
 <td align="left">6.77880174588753</td>
-<td align="left">9.8</td>
+<td align="left">6.96455673428328</td>
+<td align="left">4.55937263095251</td>
+<td align="left">4.31420944099556</td>
+<td align="left">6.60715865213977</td>
+<td align="left">5.42771800109277</td>
+<td align="left">3.74986578578757</td>
+<td align="left">5.18671001544464</td>
+<td align="left">9.95039241830947</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/banner.html">banner</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">food</span>,</span>
+<span>  var <span class="op">=</span> <span class="st">"pescetarian"</span>,</span>
+<span>  bys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rating_meat"</span>, <span class="st">"rating_sushi"</span>, <span class="st">"rating_veg"</span><span class="op">)</span>,</span>
+<span>  exclude_bys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Very much dislike"</span>, <span class="st">"equally"</span>, <span class="st">"Very much like"</span><span class="op">)</span> <span class="co"># Otherwise, add as many patterns as there are `bys`</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; New names:</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat dislike` -&gt; `Somewhat dislike...3`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `About equally like and dislike` -&gt; `About equally like and dislike...4`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...5`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much like` -&gt; `Very much like...6`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much dislike` -&gt; `Very much dislike...7`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat dislike` -&gt; `Somewhat dislike...8`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...9`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much like` -&gt; `Very much like...10`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much dislike` -&gt; `Very much dislike...11`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat dislike` -&gt; `Somewhat dislike...12`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `About equally like and dislike` -&gt; `About equally like and dislike...13`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...14`</span></span></code></pre></div>
+<table class="table">
+<colgroup>
+<col width="3%">
+<col width="5%">
+<col width="6%">
+<col width="11%">
+<col width="5%">
+<col width="6%">
+<col width="7%">
+<col width="6%">
+<col width="5%">
+<col width="6%">
+<col width="7%">
+<col width="7%">
+<col width="11%">
+<col width="6%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">levels</th>
+<th align="left">Total</th>
+<th align="left">Somewhat dislike…3</th>
+<th align="left">About equally like and dislike…4</th>
+<th align="left">Somewhat like…5</th>
+<th align="left">Very much like…6</th>
+<th align="left">Very much dislike…7</th>
+<th align="left">Somewhat dislike…8</th>
+<th align="left">Somewhat like…9</th>
+<th align="left">Very much like…10</th>
+<th align="left">Very much dislike…11</th>
+<th align="left">Somewhat dislike…12</th>
+<th align="left">About equally like and dislike…13</th>
+<th align="left">Somewhat like…14</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Very Low</td>
+<td align="left">13</td>
+<td align="left">12</td>
+<td align="left">12</td>
+<td align="left">13</td>
+<td align="left">11</td>
+<td align="left">12</td>
+<td align="left">13</td>
+<td align="left">14</td>
+<td align="left">15</td>
+<td align="left">12</td>
+<td align="left">13</td>
+<td align="left">13</td>
+<td align="left">13</td>
+</tr>
+<tr class="even">
+<td align="left">..</td>
+<td align="left">NA</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Low</td>
+<td align="left">15</td>
+<td align="left">17</td>
+<td align="left">15</td>
+<td align="left">15</td>
+<td align="left">13</td>
+<td align="left">15</td>
+<td align="left">17</td>
+<td align="left">15</td>
+<td align="left">15</td>
+<td align="left">17</td>
+<td align="left">15</td>
+<td align="left">16</td>
+<td align="left">13</td>
+</tr>
+<tr class="even">
+<td align="left">..</td>
+<td align="left">NA</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Moderate</td>
+<td align="left">30</td>
+<td align="left">30</td>
+<td align="left">31</td>
+<td align="left">28</td>
+<td align="left">33</td>
+<td align="left">31</td>
+<td align="left">29</td>
+<td align="left">31</td>
+<td align="left">25</td>
+<td align="left">33</td>
+<td align="left">29</td>
+<td align="left">28</td>
+<td align="left">31</td>
+</tr>
+<tr class="even">
+<td align="left">..</td>
+<td align="left">NA</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">High</td>
+<td align="left">21</td>
+<td align="left">21</td>
+<td align="left">20</td>
+<td align="left">23</td>
+<td align="left">22</td>
+<td align="left">21</td>
+<td align="left">22</td>
+<td align="left">18</td>
+<td align="left">24</td>
+<td align="left">20</td>
+<td align="left">20</td>
+<td align="left">23</td>
+<td align="left">19</td>
+</tr>
+<tr class="even">
+<td align="left">..</td>
+<td align="left">NA</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">I</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Very High</td>
+<td align="left">21</td>
+<td align="left">20</td>
+<td align="left">21</td>
+<td align="left">22</td>
+<td align="left">21</td>
+<td align="left">21</td>
+<td align="left">19</td>
+<td align="left">23</td>
+<td align="left">23</td>
+<td align="left">18</td>
+<td align="left">23</td>
+<td align="left">21</td>
+<td align="left">24</td>
+</tr>
+<tr class="even">
+<td align="left">..</td>
+<td align="left">NA</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">K</td>
+<td align="left"></td>
+<td align="left">K</td>
+</tr>
+<tr class="odd">
+<td align="left">n</td>
+<td align="left">2000</td>
+<td align="left">399</td>
+<td align="left">587</td>
+<td align="left">705</td>
+<td align="left">209</td>
+<td align="left">198</td>
+<td align="left">462</td>
+<td align="left">516</td>
+<td align="left">220</td>
+<td align="left">326</td>
+<td align="left">683</td>
+<td align="left">537</td>
+<td align="left">357</td>
+</tr>
+<tr class="even">
+<td align="left">deff</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+</tr>
+<tr class="odd">
+<td align="left">moe</td>
+<td align="left">2.19134661794979</td>
 <td align="left">4.90613650835324</td>
 <td align="left">4.04489288272368</td>
 <td align="left">3.69089352805808</td>
 <td align="left">6.77880174588753</td>
 <td align="left">6.96455673428328</td>
 <td align="left">4.55937263095251</td>
-<td align="left">3.98756344797868</td>
 <td align="left">4.31420944099556</td>
 <td align="left">6.60715865213977</td>
 <td align="left">5.42771800109277</td>
 <td align="left">3.74986578578757</td>
 <td align="left">4.22901214962061</td>
 <td align="left">5.18671001544464</td>
-<td align="left">9.95039241830947</td>
 </tr>
 </tbody>
 </table>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/banner.html">banner</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">food</span>,</span>
+<span>  var <span class="op">=</span> <span class="st">"pescetarian"</span>,</span>
+<span>  bys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rating_meat"</span>, <span class="st">"rating_sushi"</span>, <span class="st">"rating_veg"</span><span class="op">)</span>,</span>
+<span>  exclude_bys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Very much dislike"</span>, <span class="st">"Very much like"</span><span class="op">)</span> <span class="co"># adding fewer than `length(bys)` gives you an error</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+</div>
 </div>
 <div class="section level2">
 <h2 id="write_banners-exporting-to-excel">3. <code>write_banners()</code>: Exporting to Excel<a class="anchor" aria-label="anchor" href="#write_banners-exporting-to-excel"></a>
 </h2>
-<p>The <code><a href="../reference/write_banners.html">write_banners()</a></code> function takes a list of from
-banners from <code><a href="../reference/banner.html">banner()</a></code> and exports them to a single,
-formatted Excel file. It separates banner groups with borders and
-creates a hyperlinked Table of Contents.</p>
+<p><code><a href="../reference/write_banners.html">write_banners()</a></code> takes a list of banners from
+<code><a href="../reference/banner.html">banner()</a></code> and exports them to a single, formatted Excel
+file. It separates banner groups with borders, adds merged-cell subheads
+over each group of by-columns, and creates a hyperlinked Table of
+Contents.</p>
+<p>Any by-groups with n less than <code>min_group_n</code> will be
+highlighted in red, and there will be a message just below the table
+specifying what <code>min_group_n</code> value was used for
+comparisons.</p>
 <p>The typical workflow would be to write a list of banners using
 <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::map()</a></code></p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">banners</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pescetarian"</span>, <span class="st">"veggie"</span>, <span class="st">"vegan"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="co"># name the vector after itself, not required but convenient</span></span>
+<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="co"># name the vector after itself, not required for `write_banners` but maybe convenient for you later</span></span>
 <span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    </span>
 <span>    <span class="fu"><a href="../reference/banner.html">banner</a></span><span class="op">(</span></span>
@@ -1701,13 +3017,13 @@ creates a hyperlinked Table of Contents.</p>
 <span>      var <span class="op">=</span> <span class="va">x</span>,</span>
 <span>      bys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"rating_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"meat"</span>, <span class="st">"pizza"</span>, <span class="st">"sushi"</span>, <span class="st">"veg"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="op">}</span><span class="op">)</span></span>
-<span>    </span>
 <span></span>
-<span><span class="fu"><a href="../reference/write_banners.html">write_banners</a></span><span class="op">(</span></span>
-<span>  banners_list <span class="op">=</span> <span class="va">banners</span>,</span>
-<span>  file <span class="op">=</span> <span class="st">"my_survey_results.xlsx"</span>,</span>
-<span>  overwrite <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/write_banners.html">write_banners</a></span><span class="op">(</span>banners <span class="op">=</span> <span class="va">banners</span>, file <span class="op">=</span> <span class="st">"my_survey_results.xlsx"</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p>You can also write a single banner, if you so choose (i.e. it doesn’t
+need to be preemptively wrapped in a list).</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/banner.html">banner</a></span><span class="op">(</span><span class="va">food</span>, <span class="st">"pescetarian"</span>, bys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"rating_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"meat"</span>, <span class="st">"pizza"</span>, <span class="st">"sushi"</span>, <span class="st">"veg"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/write_banners.html">write_banners</a></span><span class="op">(</span>file <span class="op">=</span> <span class="st">"single_banner.xlsx"</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
