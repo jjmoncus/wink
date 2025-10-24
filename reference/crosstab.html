@@ -45,12 +45,22 @@
 <span>  var_nets <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  digits <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  min_group_n <span class="op">=</span> <span class="fl">100</span>,</span>
-<span>  st_col_start <span class="op">=</span> <span class="fl">3</span></span>
+<span>  st_col_start <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  exclude_var <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  exclude_by <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>When specifying <code>var_nets</code> using numbers instead of characters, remember to specify integers with reference to the <em>original factor levels of the variable</em>,
+as opposed to the number-row of the table you think each level corresponds to. Interactions with <code>exclude_var</code> and <code>exclude_by</code>, might result
+in number-rows no longer matching the original levels</p>
+<p>Silently drops levels of <code>by</code> for which there are no observations.</p>
+    </div>
 
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">

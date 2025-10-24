@@ -50,7 +50,9 @@ with appropriate column dividers for presentation.</p>
 <span>  weight <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  var_nets <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  digits <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>  min_group_n <span class="op">=</span> <span class="fl">100</span></span>
+<span>  min_group_n <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  exclude_var <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  exclude_bys <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -95,6 +97,9 @@ the survey data and design specifications, if you would like weighted percentage
 and progresses through subsequent columns based on the number of columns in each table.</p>
 <p>Column dividers are tracked and stored as attributes to facilitate proper formatting
 and presentation of the combined results.</p>
+<p><code>exclude_bys</code> must have length 1 or <code>length(bys)</code>. If length == <code>length(bys)</code>, then each
+pattern in <code>exclude_bys</code> is applied to each by of <code>bys</code> in turn. If length == 1, then
+the same pattern is applied to all <code>bys</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
