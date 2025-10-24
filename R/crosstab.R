@@ -108,6 +108,16 @@ crosstab_builder <- function(baby_crosstab,
 
 #' Rewriting the crosstab function
 #'
+#'
+#'
+#' @details
+#' When specifying `var_nets` using numbers instead of characters, remember to specify integers with reference to the _original factor levels of the variable_,
+#' as opposed to the number-row of the table you think each level corresponds to. Interactions with `exclude_var` and `exclude_by`, might result
+#' in number-rows no longer matching the original levels
+#'
+#' Silently drops levels of `by` for which there are no observations.
+#'
+#'
 #' @importFrom tibble tibble add_column
 #' @importFrom tidyselect any_of
 #' @importFrom pewmethods get_totals calculate_deff
@@ -115,18 +125,20 @@ crosstab_builder <- function(baby_crosstab,
 #' @importFrom tidyr pivot_wider
 #' @importFrom forcats fct_collapse
 #' @importFrom rlang abort
-#' @importFrom stringr str_trim
+#' @importFrom stringr str_trim str_detect
 #'
 #' @export
 #'
 crosstab <- function(data,
-                      var,
-                      by,
-                      weight = NULL,
-                      var_nets = NULL,
-                      digits = 0,
-                      min_group_n = 100,
-                      st_col_start = 3) {
+                     var,
+                     by,
+                     weight = NULL,
+                     var_nets = NULL,
+                     digits = 0,
+                     min_group_n = 100,
+                     st_col_start = 3,
+                     exclude_var = NULL,
+                     exclude_by = NULL) {
 
   # ------------------------------------------- #
   # ----- gathering function params ----------- #
@@ -171,6 +183,13 @@ crosstab <- function(data,
       mutate(var_recode = fct_collapse(!!sym_var, !!!var_nets))
   }
 
+
+  # some check that `exclude_by` is well-formed
+  # some check that `exclude_var` is well-formed
+  if (is.null(exclude_var)) exclude_var <- "jh93f96gt006gbk075gj5k9g7ejkhg"
+  if (is.null(exclude_by)) exclude_by <- "jh93f96gt006gbk075gj5k9g7ejkhg" # if NULL, change the pattern to something extremely unlikely to be matched, so all levels pass through
+
+
   # ------------------------------------------- #
   # ------ calculating table params ----------- #
   # ------------------------------------------- #
@@ -183,15 +202,23 @@ crosstab <- function(data,
                        .[[weight]])}) %>%
     bind_rows(.id = "by_level")
 
-  # Filter banner groups by min unweighted N (default is 100)
-  by_levels_to_use <- by_params %>% filter(n >= min_group_n) %>% pull(by_level)
+  # Filter `by` groups based on whatever final rules we decide
+  # (at the moment, we're leaning towards filtering using string matching)
+
+  by_levels_to_use <- by_params %>%
+    filter(!str_detect(by_level, exclude_by)) %>%
+    # silently also cut any by_levels with n.= 0
+    # `get_totals` already does this, we just replicate here so significance testing can run later
+    filter(n > 0) %>%
+    pull(by_level)
+  # by_levels_to_use <- by_params %>% filter(n >= min_group_n) %>% pull(by_level)
   n_unweighteds <- by_params %>% filter(by_level %in% by_levels_to_use) %>% pull(n) %>% set_names(by_levels_to_use)
   deffs <- by_params %>% filter(by_level %in% by_levels_to_use) %>% pull(deff) %>% set_names(by_levels_to_use)
   moses <- by_params %>% filter(by_level %in% by_levels_to_use) %>% pull(moe) %>% set_names(by_levels_to_use)
 
   # Return basic table if none pass cutoff
   if (length(by_levels_to_use) == 0) {
-    out <- tibble("{by}" := paste0("No groups with unweighted N > ", min_group_n))
+    out <- tibble("{by}" := paste0("No groups left"))
     # otherwise continue
   } else {
 
@@ -230,11 +257,11 @@ crosstab <- function(data,
 
     baby_crosstab <- baby_crosstab %>%
       select(-weight_name, -any_of(by_levels_to_cut)) %>%
+      # this is where we finally apply exclude_var
+      filter(!str_detect(!!sym_var, exclude_var)) %>%
       structure("var" = var,
                 "by_levels_used" = by_levels_to_use,
                 "var_levels" = var_levels)
-
-
 
 
     # -------------------------------------------------- #
