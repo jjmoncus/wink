@@ -10,6 +10,7 @@ vignette: >
 
 ```{r, include = FALSE}
 library(knitr)
+library(kableExtra)
 
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -18,7 +19,11 @@ knitr::opts_chunk$set(
 
 # write tables for data frames
 knit_print.data.frame = function(x, ...) {
-    res = paste(c("", "", kable(x, output = FALSE)), collapse = "\n")
+    res = paste(c("", "", kable(x, output = FALSE) %>%
+                    kable_styling(
+                      font_size = 10,
+                      full_width = FALSE
+                    )), collapse = "\n")
     asis_output(res)
 }
 # register the method
