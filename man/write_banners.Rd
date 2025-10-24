@@ -4,10 +4,10 @@
 \alias{write_banners}
 \title{Export Banner Crosstabs to Formatted Excel Workbook}
 \usage{
-write_banners(banners_list, file, overwrite = TRUE)
+write_banners(banners, file, overwrite = TRUE)
 }
 \arguments{
-\item{banners_list}{A list of data frames, typically the output from banner analysis
+\item{banners}{A list of data frames, typically the output from banner analysis
 functions. Each element should have the following attributes:
 \itemize{
 \item \code{target}: Character string used as the worksheet name
@@ -72,7 +72,7 @@ banner_results <- banners(
 
 # Export to Excel with default settings
 write_banners(
-  banners_list = list(satisfaction = banner_results),
+  banners = list(satisfaction = banner_results),
   file = "survey_banners.xlsx"
 )
 
@@ -83,7 +83,7 @@ multiple_results <- list(
 )
 
 write_banners(
-  banners_list = multiple_results,
+  banners = multiple_results,
   file = "all_survey_results.xlsx",
   overwrite = FALSE
 )

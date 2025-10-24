@@ -6,6 +6,8 @@
 \alias{wink-package}
 \title{wink: Crosstab and Signifiance Testing for Weighted Survey Estimates (Title Case)}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 Quick and easy crosstabs and banners, displaying weighted (and unweighted) survey estimates and exported to Excel.
 }
 \seealso{

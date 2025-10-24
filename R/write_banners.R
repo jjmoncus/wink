@@ -6,7 +6,7 @@
 #' styling, including borders and column dividers. A Table of Contents sheet with
 #' hyperlinks is automatically generated.
 #'
-#' @param banners_list A list of data frames, typically the output from banner analysis
+#' @param banners A list of data frames, typically the output from banner analysis
 #'   functions. Each element should have the following attributes:
 #'   \itemize{
 #'     \item \code{target}: Character string used as the worksheet name
@@ -54,7 +54,7 @@
 #'
 #' # Export to Excel with default settings
 #' write_banners(
-#'   banners_list = list(satisfaction = banner_results),
+#'   banners = list(satisfaction = banner_results),
 #'   file = "survey_banners.xlsx"
 #' )
 #'
@@ -65,7 +65,7 @@
 #' )
 #'
 #' write_banners(
-#'   banners_list = multiple_results,
+#'   banners = multiple_results,
 #'   file = "all_survey_results.xlsx",
 #'   overwrite = FALSE
 #' )
@@ -90,15 +90,23 @@
 #' \code{\link[openxlsx]{saveWorkbook}} for saving Excel files
 #'
 #' @export
-write_banners <- function(banners_list, file, overwrite = TRUE) {
+write_banners <- function(banners, file, overwrite = TRUE) {
 
   # ------------------------------------------- #
   # ----- gathering function params ----------- #
   # ------------------------------------------- #
 
+
+  if (inherits(banners, "data.frame")) {
+
+    # if it's a table, we presume you've just passed one banner,
+    # need to wrap it in a list for the rest to move forward
+    banners <- list(banners)
+  }
+
   # Get labels (`var_label` or fallback to `var`)
-  question_wordings <- banners_list %>%
-    set_names(map_chr(banners_list, ~attr(.x, "var"))) %>%
+  question_wordings <- banners %>%
+    set_names(map_chr(banners, ~attr(.x, "var"))) %>%
     map_chr(~ {
     lbl <- attr(.x, "var_label")
     if (is.null(lbl) || is.na(lbl) || lbl == "") {
@@ -120,7 +128,7 @@ write_banners <- function(banners_list, file, overwrite = TRUE) {
   # ------------------------------------------------- #
 
   # for each element of the banners list, create sheet + add table + add stylings
-  walk(banners_list, function(data) {
+  walk(banners, function(data) {
 
     var_name <- attr(data, "var")
 
