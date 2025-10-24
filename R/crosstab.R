@@ -125,7 +125,7 @@ crosstab_builder <- function(baby_crosstab,
 #' @importFrom tidyr pivot_wider
 #' @importFrom forcats fct_collapse
 #' @importFrom rlang abort
-#' @importFrom stringr str_trim str_detect
+#' @importFrom stringr str_trim str_detect str_remove
 #'
 #' @export
 #'
@@ -248,10 +248,11 @@ crosstab <- function(data,
         rename(!!sym_var := var_recode) # this renaming is just so the rows can be added by column name below
 
       # each row of nets_percent needs to go right above the first row of its correspnding parent levels
-      for (i in 1:nrow(nets_percents)) {
+      for (net_level in nets_percents[[var]]) {
 
-        baby_crosstab <- baby_crosstab %>% add_row(!!!slice(nets_percents, i),
-                                                   .before = which(baby_crosstab[[var]] == var_nets[[i]][1]))
+        baby_crosstab <- baby_crosstab %>%
+          add_row(nets_percents %>% filter(!!sym_var == net_level), # i think guaranteed to be only one? not sure
+                  .before = which(baby_crosstab[[var]] %in% var_nets[[glue("{str_remove(net_level,'NET: ')}")]])[1]) # put it above the first level contained in the net_level
       }
     }
 
