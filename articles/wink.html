@@ -97,98 +97,217 @@ that comes with the package.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># In a real session, the data loads automatically when your package is attached.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">food</span>, n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
-<table style="width:100%;" class="table">
-<colgroup>
-<col width="5%">
-<col width="2%">
-<col width="3%">
-<col width="5%">
-<col width="16%">
-<col width="16%">
-<col width="16%">
-<col width="16%">
-<col width="6%">
-<col width="4%">
-<col width="4%">
-</colgroup>
-<thead><tr class="header">
-<th align="right">unique_id</th>
-<th align="right">age</th>
-<th align="left">gender</th>
-<th align="left">region</th>
-<th align="left">rating_meat</th>
-<th align="left">rating_pizza</th>
-<th align="left">rating_sushi</th>
-<th align="left">rating_veg</th>
-<th align="left">pescetarian</th>
-<th align="left">veggie</th>
-<th align="left">vegan</th>
+<table class="table table" style="font-size: 10px; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead><tr>
+<th style="text-align:right;">
+unique_id
+</th>
+<th style="text-align:right;">
+age
+</th>
+<th style="text-align:left;">
+gender
+</th>
+<th style="text-align:left;">
+region
+</th>
+<th style="text-align:left;">
+rating_meat
+</th>
+<th style="text-align:left;">
+rating_pizza
+</th>
+<th style="text-align:left;">
+rating_sushi
+</th>
+<th style="text-align:left;">
+rating_veg
+</th>
+<th style="text-align:left;">
+pescetarian
+</th>
+<th style="text-align:left;">
+veggie
+</th>
+<th style="text-align:left;">
+vegan
+</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
-<td align="right">1</td>
-<td align="right">47</td>
-<td align="left">Male</td>
-<td align="left">West Coast</td>
-<td align="left">Somewhat dislike</td>
-<td align="left">Somewhat dislike</td>
-<td align="left">Somewhat dislike</td>
-<td align="left">Somewhat dislike</td>
-<td align="left">High</td>
-<td align="left">Low</td>
-<td align="left">Moderate</td>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+47
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+West Coast
+</td>
+<td style="text-align:left;">
+Somewhat dislike
+</td>
+<td style="text-align:left;">
+Somewhat dislike
+</td>
+<td style="text-align:left;">
+Somewhat dislike
+</td>
+<td style="text-align:left;">
+Somewhat dislike
+</td>
+<td style="text-align:left;">
+High
+</td>
+<td style="text-align:left;">
+Low
+</td>
+<td style="text-align:left;">
+Moderate
+</td>
 </tr>
-<tr class="even">
-<td align="right">2</td>
-<td align="right">51</td>
-<td align="left">Male</td>
-<td align="left">Southwest</td>
-<td align="left">Somewhat like</td>
-<td align="left">Somewhat like</td>
-<td align="left">Somewhat dislike</td>
-<td align="left">Very much dislike</td>
-<td align="left">Moderate</td>
-<td align="left">Moderate</td>
-<td align="left">Low</td>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+51
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Southwest
+</td>
+<td style="text-align:left;">
+Somewhat like
+</td>
+<td style="text-align:left;">
+Somewhat like
+</td>
+<td style="text-align:left;">
+Somewhat dislike
+</td>
+<td style="text-align:left;">
+Very much dislike
+</td>
+<td style="text-align:left;">
+Moderate
+</td>
+<td style="text-align:left;">
+Moderate
+</td>
+<td style="text-align:left;">
+Low
+</td>
 </tr>
-<tr class="odd">
-<td align="right">3</td>
-<td align="right">63</td>
-<td align="left">Female</td>
-<td align="left">South</td>
-<td align="left">About equally like and dislike</td>
-<td align="left">About equally like and dislike</td>
-<td align="left">About equally like and dislike</td>
-<td align="left">About equally like and dislike</td>
-<td align="left">Very High</td>
-<td align="left">Low</td>
-<td align="left">Moderate</td>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+63
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+South
+</td>
+<td style="text-align:left;">
+About equally like and dislike
+</td>
+<td style="text-align:left;">
+About equally like and dislike
+</td>
+<td style="text-align:left;">
+About equally like and dislike
+</td>
+<td style="text-align:left;">
+About equally like and dislike
+</td>
+<td style="text-align:left;">
+Very High
+</td>
+<td style="text-align:left;">
+Low
+</td>
+<td style="text-align:left;">
+Moderate
+</td>
 </tr>
-<tr class="even">
-<td align="right">4</td>
-<td align="right">40</td>
-<td align="left">Female</td>
-<td align="left">West Coast</td>
-<td align="left">Very much like</td>
-<td align="left">Very much like</td>
-<td align="left">About equally like and dislike</td>
-<td align="left">Somewhat like</td>
-<td align="left">High</td>
-<td align="left">Moderate</td>
-<td align="left">Moderate</td>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+40
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+West Coast
+</td>
+<td style="text-align:left;">
+Very much like
+</td>
+<td style="text-align:left;">
+Very much like
+</td>
+<td style="text-align:left;">
+About equally like and dislike
+</td>
+<td style="text-align:left;">
+Somewhat like
+</td>
+<td style="text-align:left;">
+High
+</td>
+<td style="text-align:left;">
+Moderate
+</td>
+<td style="text-align:left;">
+Moderate
+</td>
 </tr>
-<tr class="odd">
-<td align="right">5</td>
-<td align="right">42</td>
-<td align="left">Male</td>
-<td align="left">East Coast</td>
-<td align="left">Very much like</td>
-<td align="left">Very much like</td>
-<td align="left">Somewhat dislike</td>
-<td align="left">About equally like and dislike</td>
-<td align="left">Very Low</td>
-<td align="left">Low</td>
-<td align="left">Low</td>
+<tr>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+42
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+East Coast
+</td>
+<td style="text-align:left;">
+Very much like
+</td>
+<td style="text-align:left;">
+Very much like
+</td>
+<td style="text-align:left;">
+Somewhat dislike
+</td>
+<td style="text-align:left;">
+About equally like and dislike
+</td>
+<td style="text-align:left;">
+Very Low
+</td>
+<td style="text-align:left;">
+Low
+</td>
+<td style="text-align:left;">
+Low
+</td>
 </tr>
 </tbody>
 </table>
@@ -216,142 +335,309 @@ rows).</p>
 <span>  var <span class="op">=</span> <span class="st">"pescetarian"</span>,</span>
 <span>  bys <span class="op">=</span> <span class="st">"rating_meat"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<table class="table">
-<colgroup>
-<col width="7%">
-<col width="13%">
-<col width="14%">
-<col width="13%">
-<col width="24%">
-<col width="13%">
-<col width="13%">
-</colgroup>
-<thead><tr class="header">
-<th align="left">levels</th>
-<th align="left">Total</th>
-<th align="left">Very much dislike</th>
-<th align="left">Somewhat dislike</th>
-<th align="left">About equally like and dislike</th>
-<th align="left">Somewhat like</th>
-<th align="left">Very much like</th>
+<table class="table table" style="font-size: 10px; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead><tr>
+<th style="text-align:left;">
+levels
+</th>
+<th style="text-align:left;">
+Total
+</th>
+<th style="text-align:left;">
+Very much dislike
+</th>
+<th style="text-align:left;">
+Somewhat dislike
+</th>
+<th style="text-align:left;">
+About equally like and dislike
+</th>
+<th style="text-align:left;">
+Somewhat like
+</th>
+<th style="text-align:left;">
+Very much like
+</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
-<td align="left">Very Low</td>
-<td align="left">13</td>
-<td align="left">19</td>
-<td align="left">12</td>
-<td align="left">12</td>
-<td align="left">13</td>
-<td align="left">11</td>
+<tr>
+<td style="text-align:left;">
+Very Low
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+11
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left">G</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+G
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Low</td>
-<td align="left">15</td>
-<td align="left">20</td>
-<td align="left">17</td>
-<td align="left">15</td>
-<td align="left">15</td>
-<td align="left">13</td>
+<tr>
+<td style="text-align:left;">
+Low
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+17
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+13
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Moderate</td>
-<td align="left">30</td>
-<td align="left">29</td>
-<td align="left">30</td>
-<td align="left">31</td>
-<td align="left">28</td>
-<td align="left">33</td>
+<tr>
+<td style="text-align:left;">
+Moderate
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:left;">
+31
+</td>
+<td style="text-align:left;">
+28
+</td>
+<td style="text-align:left;">
+33
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">High</td>
-<td align="left">21</td>
-<td align="left">13</td>
-<td align="left">21</td>
-<td align="left">20</td>
-<td align="left">23</td>
-<td align="left">22</td>
+<tr>
+<td style="text-align:left;">
+High
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+22
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left">C</td>
-<td align="left">C</td>
-<td align="left">C</td>
-<td align="left">C</td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+C
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Very High</td>
-<td align="left">21</td>
-<td align="left">19</td>
-<td align="left">20</td>
-<td align="left">21</td>
-<td align="left">22</td>
-<td align="left">21</td>
+<tr>
+<td style="text-align:left;">
+Very High
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+21
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">n</td>
-<td align="left">2000</td>
-<td align="left">100</td>
-<td align="left">399</td>
-<td align="left">587</td>
-<td align="left">705</td>
-<td align="left">209</td>
+<tr>
+<td style="text-align:left;">
+n
+</td>
+<td style="text-align:left;">
+2000
+</td>
+<td style="text-align:left;">
+100
+</td>
+<td style="text-align:left;">
+399
+</td>
+<td style="text-align:left;">
+587
+</td>
+<td style="text-align:left;">
+705
+</td>
+<td style="text-align:left;">
+209
+</td>
 </tr>
-<tr class="even">
-<td align="left">deff</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
+<tr>
+<td style="text-align:left;">
+deff
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
 </tr>
-<tr class="odd">
-<td align="left">moe</td>
-<td align="left">2.19134661794979</td>
-<td align="left">9.8</td>
-<td align="left">4.90613650835324</td>
-<td align="left">4.04489288272368</td>
-<td align="left">3.69089352805808</td>
-<td align="left">6.77880174588753</td>
+<tr>
+<td style="text-align:left;">
+moe
+</td>
+<td style="text-align:left;">
+2.19134661794979
+</td>
+<td style="text-align:left;">
+9.8
+</td>
+<td style="text-align:left;">
+4.90613650835324
+</td>
+<td style="text-align:left;">
+4.04489288272368
+</td>
+<td style="text-align:left;">
+3.69089352805808
+</td>
+<td style="text-align:left;">
+6.77880174588753
+</td>
 </tr>
 </tbody>
 </table>
@@ -386,292 +672,687 @@ later).</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `About equally like and dislike` -&gt; `About equally like and dislike...15`</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...16`</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much like` -&gt; `Very much like...17`</span></span></code></pre></div>
-<table class="table">
-<colgroup>
-<col width="2%">
-<col width="4%">
-<col width="5%">
-<col width="5%">
-<col width="9%">
-<col width="4%">
-<col width="5%">
-<col width="5%">
-<col width="5%">
-<col width="9%">
-<col width="5%">
-<col width="5%">
-<col width="6%">
-<col width="5%">
-<col width="9%">
-<col width="5%">
-<col width="5%">
-</colgroup>
-<thead><tr class="header">
-<th align="left">levels</th>
-<th align="left">Total</th>
-<th align="left">Very much dislike…3</th>
-<th align="left">Somewhat dislike…4</th>
-<th align="left">About equally like and dislike…5</th>
-<th align="left">Somewhat like…6</th>
-<th align="left">Very much like…7</th>
-<th align="left">Very much dislike…8</th>
-<th align="left">Somewhat dislike…9</th>
-<th align="left">About equally like and dislike…10</th>
-<th align="left">Somewhat like…11</th>
-<th align="left">Very much like…12</th>
-<th align="left">Very much dislike…13</th>
-<th align="left">Somewhat dislike…14</th>
-<th align="left">About equally like and dislike…15</th>
-<th align="left">Somewhat like…16</th>
-<th align="left">Very much like…17</th>
+<table class="table table" style="font-size: 10px; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead><tr>
+<th style="text-align:left;">
+levels
+</th>
+<th style="text-align:left;">
+Total
+</th>
+<th style="text-align:left;">
+Very much dislike…3
+</th>
+<th style="text-align:left;">
+Somewhat dislike…4
+</th>
+<th style="text-align:left;">
+About equally like and dislike…5
+</th>
+<th style="text-align:left;">
+Somewhat like…6
+</th>
+<th style="text-align:left;">
+Very much like…7
+</th>
+<th style="text-align:left;">
+Very much dislike…8
+</th>
+<th style="text-align:left;">
+Somewhat dislike…9
+</th>
+<th style="text-align:left;">
+About equally like and dislike…10
+</th>
+<th style="text-align:left;">
+Somewhat like…11
+</th>
+<th style="text-align:left;">
+Very much like…12
+</th>
+<th style="text-align:left;">
+Very much dislike…13
+</th>
+<th style="text-align:left;">
+Somewhat dislike…14
+</th>
+<th style="text-align:left;">
+About equally like and dislike…15
+</th>
+<th style="text-align:left;">
+Somewhat like…16
+</th>
+<th style="text-align:left;">
+Very much like…17
+</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
-<td align="left">Very Low</td>
-<td align="left">13</td>
-<td align="left">19</td>
-<td align="left">12</td>
-<td align="left">12</td>
-<td align="left">13</td>
-<td align="left">11</td>
-<td align="left">12</td>
-<td align="left">13</td>
-<td align="left">12</td>
-<td align="left">14</td>
-<td align="left">15</td>
-<td align="left">12</td>
-<td align="left">13</td>
-<td align="left">13</td>
-<td align="left">13</td>
-<td align="left">9</td>
+<tr>
+<td style="text-align:left;">
+Very Low
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+9
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left">G</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+G
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Low</td>
-<td align="left">15</td>
-<td align="left">20</td>
-<td align="left">17</td>
-<td align="left">15</td>
-<td align="left">15</td>
-<td align="left">13</td>
-<td align="left">15</td>
-<td align="left">17</td>
-<td align="left">14</td>
-<td align="left">15</td>
-<td align="left">15</td>
-<td align="left">17</td>
-<td align="left">15</td>
-<td align="left">16</td>
-<td align="left">13</td>
-<td align="left">15</td>
+<tr>
+<td style="text-align:left;">
+Low
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+17
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+17
+</td>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+17
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+15
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Moderate</td>
-<td align="left">30</td>
-<td align="left">29</td>
-<td align="left">30</td>
-<td align="left">31</td>
-<td align="left">28</td>
-<td align="left">33</td>
-<td align="left">31</td>
-<td align="left">29</td>
-<td align="left">31</td>
-<td align="left">31</td>
-<td align="left">25</td>
-<td align="left">33</td>
-<td align="left">29</td>
-<td align="left">28</td>
-<td align="left">31</td>
-<td align="left">34</td>
+<tr>
+<td style="text-align:left;">
+Moderate
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:left;">
+31
+</td>
+<td style="text-align:left;">
+28
+</td>
+<td style="text-align:left;">
+33
+</td>
+<td style="text-align:left;">
+31
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+31
+</td>
+<td style="text-align:left;">
+31
+</td>
+<td style="text-align:left;">
+25
+</td>
+<td style="text-align:left;">
+33
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+28
+</td>
+<td style="text-align:left;">
+31
+</td>
+<td style="text-align:left;">
+34
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">L</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+L
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">High</td>
-<td align="left">21</td>
-<td align="left">13</td>
-<td align="left">21</td>
-<td align="left">20</td>
-<td align="left">23</td>
-<td align="left">22</td>
-<td align="left">21</td>
-<td align="left">22</td>
-<td align="left">22</td>
-<td align="left">18</td>
-<td align="left">24</td>
-<td align="left">20</td>
-<td align="left">20</td>
-<td align="left">23</td>
-<td align="left">19</td>
-<td align="left">32</td>
+<tr>
+<td style="text-align:left;">
+High
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+18
+</td>
+<td style="text-align:left;">
+24
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+32
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left">C</td>
-<td align="left">C</td>
-<td align="left">C</td>
-<td align="left">C</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">K</td>
-<td align="left"></td>
-<td align="left">K</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">M N P</td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+K
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+K
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+M N P
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Very High</td>
-<td align="left">21</td>
-<td align="left">19</td>
-<td align="left">20</td>
-<td align="left">21</td>
-<td align="left">22</td>
-<td align="left">21</td>
-<td align="left">21</td>
-<td align="left">19</td>
-<td align="left">21</td>
-<td align="left">23</td>
-<td align="left">23</td>
-<td align="left">18</td>
-<td align="left">23</td>
-<td align="left">21</td>
-<td align="left">24</td>
-<td align="left">9</td>
+<tr>
+<td style="text-align:left;">
+Very High
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+18
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+24
+</td>
+<td style="text-align:left;">
+9
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">Q</td>
-<td align="left">M Q</td>
-<td align="left">Q</td>
-<td align="left">M Q</td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+Q
+</td>
+<td style="text-align:left;">
+M Q
+</td>
+<td style="text-align:left;">
+Q
+</td>
+<td style="text-align:left;">
+M Q
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">n</td>
-<td align="left">2000</td>
-<td align="left">100</td>
-<td align="left">399</td>
-<td align="left">587</td>
-<td align="left">705</td>
-<td align="left">209</td>
-<td align="left">198</td>
-<td align="left">462</td>
-<td align="left">604</td>
-<td align="left">516</td>
-<td align="left">220</td>
-<td align="left">326</td>
-<td align="left">683</td>
-<td align="left">537</td>
-<td align="left">357</td>
-<td align="left">97</td>
+<tr>
+<td style="text-align:left;">
+n
+</td>
+<td style="text-align:left;">
+2000
+</td>
+<td style="text-align:left;">
+100
+</td>
+<td style="text-align:left;">
+399
+</td>
+<td style="text-align:left;">
+587
+</td>
+<td style="text-align:left;">
+705
+</td>
+<td style="text-align:left;">
+209
+</td>
+<td style="text-align:left;">
+198
+</td>
+<td style="text-align:left;">
+462
+</td>
+<td style="text-align:left;">
+604
+</td>
+<td style="text-align:left;">
+516
+</td>
+<td style="text-align:left;">
+220
+</td>
+<td style="text-align:left;">
+326
+</td>
+<td style="text-align:left;">
+683
+</td>
+<td style="text-align:left;">
+537
+</td>
+<td style="text-align:left;">
+357
+</td>
+<td style="text-align:left;">
+97
+</td>
 </tr>
-<tr class="even">
-<td align="left">deff</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
+<tr>
+<td style="text-align:left;">
+deff
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
 </tr>
-<tr class="odd">
-<td align="left">moe</td>
-<td align="left">2.19134661794979</td>
-<td align="left">9.8</td>
-<td align="left">4.90613650835324</td>
-<td align="left">4.04489288272368</td>
-<td align="left">3.69089352805808</td>
-<td align="left">6.77880174588753</td>
-<td align="left">6.96455673428328</td>
-<td align="left">4.55937263095251</td>
-<td align="left">3.98756344797868</td>
-<td align="left">4.31420944099556</td>
-<td align="left">6.60715865213977</td>
-<td align="left">5.42771800109277</td>
-<td align="left">3.74986578578757</td>
-<td align="left">4.22901214962061</td>
-<td align="left">5.18671001544464</td>
-<td align="left">9.95039241830947</td>
+<tr>
+<td style="text-align:left;">
+moe
+</td>
+<td style="text-align:left;">
+2.19134661794979
+</td>
+<td style="text-align:left;">
+9.8
+</td>
+<td style="text-align:left;">
+4.90613650835324
+</td>
+<td style="text-align:left;">
+4.04489288272368
+</td>
+<td style="text-align:left;">
+3.69089352805808
+</td>
+<td style="text-align:left;">
+6.77880174588753
+</td>
+<td style="text-align:left;">
+6.96455673428328
+</td>
+<td style="text-align:left;">
+4.55937263095251
+</td>
+<td style="text-align:left;">
+3.98756344797868
+</td>
+<td style="text-align:left;">
+4.31420944099556
+</td>
+<td style="text-align:left;">
+6.60715865213977
+</td>
+<td style="text-align:left;">
+5.42771800109277
+</td>
+<td style="text-align:left;">
+3.74986578578757
+</td>
+<td style="text-align:left;">
+4.22901214962061
+</td>
+<td style="text-align:left;">
+5.18671001544464
+</td>
+<td style="text-align:left;">
+9.95039241830947
+</td>
 </tr>
 </tbody>
 </table>
@@ -775,292 +1456,683 @@ each group.</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `About equally like and dislike` -&gt; `About equally like and dislike...15`</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...16`</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much like` -&gt; `Very much like...17`</span></span></code></pre></div>
-<table class="table">
-<colgroup>
-<col width="2%">
-<col width="4%">
-<col width="5%">
-<col width="5%">
-<col width="9%">
-<col width="4%">
-<col width="5%">
-<col width="5%">
-<col width="5%">
-<col width="9%">
-<col width="5%">
-<col width="5%">
-<col width="6%">
-<col width="5%">
-<col width="9%">
-<col width="5%">
-<col width="5%">
-</colgroup>
-<thead><tr class="header">
-<th align="left">levels</th>
-<th align="left">Total</th>
-<th align="left">Very much dislike…3</th>
-<th align="left">Somewhat dislike…4</th>
-<th align="left">About equally like and dislike…5</th>
-<th align="left">Somewhat like…6</th>
-<th align="left">Very much like…7</th>
-<th align="left">Very much dislike…8</th>
-<th align="left">Somewhat dislike…9</th>
-<th align="left">About equally like and dislike…10</th>
-<th align="left">Somewhat like…11</th>
-<th align="left">Very much like…12</th>
-<th align="left">Very much dislike…13</th>
-<th align="left">Somewhat dislike…14</th>
-<th align="left">About equally like and dislike…15</th>
-<th align="left">Somewhat like…16</th>
-<th align="left">Very much like…17</th>
+<table class="table table" style="font-size: 10px; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead><tr>
+<th style="text-align:left;">
+levels
+</th>
+<th style="text-align:left;">
+Total
+</th>
+<th style="text-align:left;">
+Very much dislike…3
+</th>
+<th style="text-align:left;">
+Somewhat dislike…4
+</th>
+<th style="text-align:left;">
+About equally like and dislike…5
+</th>
+<th style="text-align:left;">
+Somewhat like…6
+</th>
+<th style="text-align:left;">
+Very much like…7
+</th>
+<th style="text-align:left;">
+Very much dislike…8
+</th>
+<th style="text-align:left;">
+Somewhat dislike…9
+</th>
+<th style="text-align:left;">
+About equally like and dislike…10
+</th>
+<th style="text-align:left;">
+Somewhat like…11
+</th>
+<th style="text-align:left;">
+Very much like…12
+</th>
+<th style="text-align:left;">
+Very much dislike…13
+</th>
+<th style="text-align:left;">
+Somewhat dislike…14
+</th>
+<th style="text-align:left;">
+About equally like and dislike…15
+</th>
+<th style="text-align:left;">
+Somewhat like…16
+</th>
+<th style="text-align:left;">
+Very much like…17
+</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
-<td align="left">Very Low</td>
-<td align="left">13</td>
-<td align="left">20</td>
-<td align="left">12</td>
-<td align="left">11</td>
-<td align="left">14</td>
-<td align="left">14</td>
-<td align="left">11</td>
-<td align="left">13</td>
-<td align="left">12</td>
-<td align="left">14</td>
-<td align="left">15</td>
-<td align="left">13</td>
-<td align="left">13</td>
-<td align="left">13</td>
-<td align="left">14</td>
-<td align="left">9</td>
+<tr>
+<td style="text-align:left;">
+Very Low
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+9
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left">E</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+E
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Low</td>
-<td align="left">16</td>
-<td align="left">23</td>
-<td align="left">15</td>
-<td align="left">16</td>
-<td align="left">15</td>
-<td align="left">14</td>
-<td align="left">14</td>
-<td align="left">18</td>
-<td align="left">16</td>
-<td align="left">15</td>
-<td align="left">14</td>
-<td align="left">17</td>
-<td align="left">16</td>
-<td align="left">16</td>
-<td align="left">14</td>
-<td align="left">16</td>
+<tr>
+<td style="text-align:left;">
+Low
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+18
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+17
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+16
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Moderate</td>
-<td align="left">29</td>
-<td align="left">25</td>
-<td align="left">29</td>
-<td align="left">32</td>
-<td align="left">26</td>
-<td align="left">30</td>
-<td align="left">29</td>
-<td align="left">28</td>
-<td align="left">29</td>
-<td align="left">31</td>
-<td align="left">26</td>
-<td align="left">32</td>
-<td align="left">29</td>
-<td align="left">26</td>
-<td align="left">30</td>
-<td align="left">33</td>
+<tr>
+<td style="text-align:left;">
+Moderate
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+25
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+32
+</td>
+<td style="text-align:left;">
+26
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+28
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+31
+</td>
+<td style="text-align:left;">
+26
+</td>
+<td style="text-align:left;">
+32
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+26
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:left;">
+33
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">F</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">High</td>
-<td align="left">21</td>
-<td align="left">14</td>
-<td align="left">23</td>
-<td align="left">19</td>
-<td align="left">22</td>
-<td align="left">21</td>
-<td align="left">21</td>
-<td align="left">21</td>
-<td align="left">22</td>
-<td align="left">18</td>
-<td align="left">22</td>
-<td align="left">19</td>
-<td align="left">19</td>
-<td align="left">23</td>
-<td align="left">19</td>
-<td align="left">33</td>
+<tr>
+<td style="text-align:left;">
+High
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+18
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+33
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left">C</td>
-<td align="left"></td>
-<td align="left">C</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">M N P</td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+M N P
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Very High</td>
-<td align="left">22</td>
-<td align="left">18</td>
-<td align="left">21</td>
-<td align="left">21</td>
-<td align="left">23</td>
-<td align="left">21</td>
-<td align="left">25</td>
-<td align="left">20</td>
-<td align="left">21</td>
-<td align="left">22</td>
-<td align="left">24</td>
-<td align="left">20</td>
-<td align="left">23</td>
-<td align="left">21</td>
-<td align="left">23</td>
-<td align="left">9</td>
+<tr>
+<td style="text-align:left;">
+Very High
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+18
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+25
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+24
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+9
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">Q</td>
-<td align="left">Q</td>
-<td align="left">Q</td>
-<td align="left">Q</td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+Q
+</td>
+<td style="text-align:left;">
+Q
+</td>
+<td style="text-align:left;">
+Q
+</td>
+<td style="text-align:left;">
+Q
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">n</td>
-<td align="left">2000</td>
-<td align="left">100</td>
-<td align="left">399</td>
-<td align="left">587</td>
-<td align="left">705</td>
-<td align="left">209</td>
-<td align="left">198</td>
-<td align="left">462</td>
-<td align="left">604</td>
-<td align="left">516</td>
-<td align="left">220</td>
-<td align="left">326</td>
-<td align="left">683</td>
-<td align="left">537</td>
-<td align="left">357</td>
-<td align="left">97</td>
+<tr>
+<td style="text-align:left;">
+n
+</td>
+<td style="text-align:left;">
+2000
+</td>
+<td style="text-align:left;">
+100
+</td>
+<td style="text-align:left;">
+399
+</td>
+<td style="text-align:left;">
+587
+</td>
+<td style="text-align:left;">
+705
+</td>
+<td style="text-align:left;">
+209
+</td>
+<td style="text-align:left;">
+198
+</td>
+<td style="text-align:left;">
+462
+</td>
+<td style="text-align:left;">
+604
+</td>
+<td style="text-align:left;">
+516
+</td>
+<td style="text-align:left;">
+220
+</td>
+<td style="text-align:left;">
+326
+</td>
+<td style="text-align:left;">
+683
+</td>
+<td style="text-align:left;">
+537
+</td>
+<td style="text-align:left;">
+357
+</td>
+<td style="text-align:left;">
+97
+</td>
 </tr>
-<tr class="even">
-<td align="left">deff</td>
-<td align="left">1.33097982494573</td>
-<td align="left">1.38330754570892</td>
-<td align="left">1.32133016925362</td>
-<td align="left">1.32762152042622</td>
-<td align="left">1.34266933819994</td>
-<td align="left">1.30019617969682</td>
-<td align="left">1.34158176860122</td>
-<td align="left">1.33088984244884</td>
-<td align="left">1.3402271515181</td>
-<td align="left">1.31992176550898</td>
-<td align="left">1.32514212062221</td>
-<td align="left">1.32600132560028</td>
-<td align="left">1.31856047708934</td>
-<td align="left">1.32341198547036</td>
-<td align="left">1.35392009493203</td>
-<td align="left">1.41198478764911</td>
+<tr>
+<td style="text-align:left;">
+deff
+</td>
+<td style="text-align:left;">
+1.33097982494573
+</td>
+<td style="text-align:left;">
+1.38330754570892
+</td>
+<td style="text-align:left;">
+1.32133016925362
+</td>
+<td style="text-align:left;">
+1.32762152042622
+</td>
+<td style="text-align:left;">
+1.34266933819994
+</td>
+<td style="text-align:left;">
+1.30019617969682
+</td>
+<td style="text-align:left;">
+1.34158176860122
+</td>
+<td style="text-align:left;">
+1.33088984244884
+</td>
+<td style="text-align:left;">
+1.3402271515181
+</td>
+<td style="text-align:left;">
+1.31992176550898
+</td>
+<td style="text-align:left;">
+1.32514212062221
+</td>
+<td style="text-align:left;">
+1.32600132560028
+</td>
+<td style="text-align:left;">
+1.31856047708934
+</td>
+<td style="text-align:left;">
+1.32341198547036
+</td>
+<td style="text-align:left;">
+1.35392009493203
+</td>
+<td style="text-align:left;">
+1.41198478764911
+</td>
 </tr>
-<tr class="odd">
-<td align="left">moe</td>
-<td align="left">2.52811493397539</td>
-<td align="left">11.5261813576693</td>
-<td align="left">5.63956106326059</td>
-<td align="left">4.66062506906177</td>
-<td align="left">4.2767715543108</td>
-<td align="left">7.72960632390341</td>
-<td align="left">8.06681420652895</td>
-<td align="left">5.25988371780648</td>
-<td align="left">4.61632963259642</td>
-<td align="left">4.95650239192317</td>
-<td align="left">7.60581862381921</td>
-<td align="left">6.25013293872486</td>
-<td align="left">4.3059179580144</td>
-<td align="left">4.86504055161124</td>
-<td align="left">6.03515578083581</td>
-<td align="left">11.8237494273798</td>
+<tr>
+<td style="text-align:left;">
+moe
+</td>
+<td style="text-align:left;">
+2.52811493397539
+</td>
+<td style="text-align:left;">
+11.5261813576693
+</td>
+<td style="text-align:left;">
+5.63956106326059
+</td>
+<td style="text-align:left;">
+4.66062506906177
+</td>
+<td style="text-align:left;">
+4.2767715543108
+</td>
+<td style="text-align:left;">
+7.72960632390341
+</td>
+<td style="text-align:left;">
+8.06681420652895
+</td>
+<td style="text-align:left;">
+5.25988371780648
+</td>
+<td style="text-align:left;">
+4.61632963259642
+</td>
+<td style="text-align:left;">
+4.95650239192317
+</td>
+<td style="text-align:left;">
+7.60581862381921
+</td>
+<td style="text-align:left;">
+6.25013293872486
+</td>
+<td style="text-align:left;">
+4.3059179580144
+</td>
+<td style="text-align:left;">
+4.86504055161124
+</td>
+<td style="text-align:left;">
+6.03515578083581
+</td>
+<td style="text-align:left;">
+11.8237494273798
+</td>
 </tr>
 </tbody>
 </table>
@@ -1093,292 +2165,687 @@ you can specify using <code>digits</code>.</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `About equally like and dislike` -&gt; `About equally like and dislike...15`</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...16`</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much like` -&gt; `Very much like...17`</span></span></code></pre></div>
-<table class="table">
-<colgroup>
-<col width="2%">
-<col width="4%">
-<col width="5%">
-<col width="5%">
-<col width="9%">
-<col width="4%">
-<col width="5%">
-<col width="5%">
-<col width="5%">
-<col width="9%">
-<col width="5%">
-<col width="5%">
-<col width="6%">
-<col width="5%">
-<col width="9%">
-<col width="5%">
-<col width="5%">
-</colgroup>
-<thead><tr class="header">
-<th align="left">levels</th>
-<th align="left">Total</th>
-<th align="left">Very much dislike…3</th>
-<th align="left">Somewhat dislike…4</th>
-<th align="left">About equally like and dislike…5</th>
-<th align="left">Somewhat like…6</th>
-<th align="left">Very much like…7</th>
-<th align="left">Very much dislike…8</th>
-<th align="left">Somewhat dislike…9</th>
-<th align="left">About equally like and dislike…10</th>
-<th align="left">Somewhat like…11</th>
-<th align="left">Very much like…12</th>
-<th align="left">Very much dislike…13</th>
-<th align="left">Somewhat dislike…14</th>
-<th align="left">About equally like and dislike…15</th>
-<th align="left">Somewhat like…16</th>
-<th align="left">Very much like…17</th>
+<table class="table table" style="font-size: 10px; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead><tr>
+<th style="text-align:left;">
+levels
+</th>
+<th style="text-align:left;">
+Total
+</th>
+<th style="text-align:left;">
+Very much dislike…3
+</th>
+<th style="text-align:left;">
+Somewhat dislike…4
+</th>
+<th style="text-align:left;">
+About equally like and dislike…5
+</th>
+<th style="text-align:left;">
+Somewhat like…6
+</th>
+<th style="text-align:left;">
+Very much like…7
+</th>
+<th style="text-align:left;">
+Very much dislike…8
+</th>
+<th style="text-align:left;">
+Somewhat dislike…9
+</th>
+<th style="text-align:left;">
+About equally like and dislike…10
+</th>
+<th style="text-align:left;">
+Somewhat like…11
+</th>
+<th style="text-align:left;">
+Very much like…12
+</th>
+<th style="text-align:left;">
+Very much dislike…13
+</th>
+<th style="text-align:left;">
+Somewhat dislike…14
+</th>
+<th style="text-align:left;">
+About equally like and dislike…15
+</th>
+<th style="text-align:left;">
+Somewhat like…16
+</th>
+<th style="text-align:left;">
+Very much like…17
+</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
-<td align="left">Very Low</td>
-<td align="left">12.85</td>
-<td align="left">19</td>
-<td align="left">12.28</td>
-<td align="left">12.44</td>
-<td align="left">13.05</td>
-<td align="left">11.48</td>
-<td align="left">11.62</td>
-<td align="left">12.99</td>
-<td align="left">11.92</td>
-<td align="left">13.57</td>
-<td align="left">14.55</td>
-<td align="left">11.96</td>
-<td align="left">13.47</td>
-<td align="left">12.85</td>
-<td align="left">13.45</td>
-<td align="left">9.28</td>
+<tr>
+<td style="text-align:left;">
+Very Low
+</td>
+<td style="text-align:left;">
+12.85
+</td>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+12.28
+</td>
+<td style="text-align:left;">
+12.44
+</td>
+<td style="text-align:left;">
+13.05
+</td>
+<td style="text-align:left;">
+11.48
+</td>
+<td style="text-align:left;">
+11.62
+</td>
+<td style="text-align:left;">
+12.99
+</td>
+<td style="text-align:left;">
+11.92
+</td>
+<td style="text-align:left;">
+13.57
+</td>
+<td style="text-align:left;">
+14.55
+</td>
+<td style="text-align:left;">
+11.96
+</td>
+<td style="text-align:left;">
+13.47
+</td>
+<td style="text-align:left;">
+12.85
+</td>
+<td style="text-align:left;">
+13.45
+</td>
+<td style="text-align:left;">
+9.28
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Low</td>
-<td align="left">15.2</td>
-<td align="left">20</td>
-<td align="left">16.54</td>
-<td align="left">14.65</td>
-<td align="left">14.89</td>
-<td align="left">12.92</td>
-<td align="left">15.15</td>
-<td align="left">17.32</td>
-<td align="left">14.07</td>
-<td align="left">14.92</td>
-<td align="left">14.55</td>
-<td align="left">17.18</td>
-<td align="left">15.08</td>
-<td align="left">15.83</td>
-<td align="left">12.61</td>
-<td align="left">15.46</td>
+<tr>
+<td style="text-align:left;">
+Low
+</td>
+<td style="text-align:left;">
+15.2
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+16.54
+</td>
+<td style="text-align:left;">
+14.65
+</td>
+<td style="text-align:left;">
+14.89
+</td>
+<td style="text-align:left;">
+12.92
+</td>
+<td style="text-align:left;">
+15.15
+</td>
+<td style="text-align:left;">
+17.32
+</td>
+<td style="text-align:left;">
+14.07
+</td>
+<td style="text-align:left;">
+14.92
+</td>
+<td style="text-align:left;">
+14.55
+</td>
+<td style="text-align:left;">
+17.18
+</td>
+<td style="text-align:left;">
+15.08
+</td>
+<td style="text-align:left;">
+15.83
+</td>
+<td style="text-align:left;">
+12.61
+</td>
+<td style="text-align:left;">
+15.46
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">P</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+P
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Moderate</td>
-<td align="left">29.75</td>
-<td align="left">29</td>
-<td align="left">30.33</td>
-<td align="left">31.01</td>
-<td align="left">27.52</td>
-<td align="left">33.01</td>
-<td align="left">30.81</td>
-<td align="left">29.22</td>
-<td align="left">30.96</td>
-<td align="left">30.62</td>
-<td align="left">24.55</td>
-<td align="left">32.52</td>
-<td align="left">28.55</td>
-<td align="left">27.75</td>
-<td align="left">31.37</td>
-<td align="left">34.02</td>
+<tr>
+<td style="text-align:left;">
+Moderate
+</td>
+<td style="text-align:left;">
+29.75
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+30.33
+</td>
+<td style="text-align:left;">
+31.01
+</td>
+<td style="text-align:left;">
+27.52
+</td>
+<td style="text-align:left;">
+33.01
+</td>
+<td style="text-align:left;">
+30.81
+</td>
+<td style="text-align:left;">
+29.22
+</td>
+<td style="text-align:left;">
+30.96
+</td>
+<td style="text-align:left;">
+30.62
+</td>
+<td style="text-align:left;">
+24.55
+</td>
+<td style="text-align:left;">
+32.52
+</td>
+<td style="text-align:left;">
+28.55
+</td>
+<td style="text-align:left;">
+27.75
+</td>
+<td style="text-align:left;">
+31.37
+</td>
+<td style="text-align:left;">
+34.02
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">L</td>
-<td align="left">L</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+L
+</td>
+<td style="text-align:left;">
+L
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">High</td>
-<td align="left">21.1</td>
-<td align="left">13</td>
-<td align="left">21.3</td>
-<td align="left">20.44</td>
-<td align="left">22.55</td>
-<td align="left">21.53</td>
-<td align="left">21.21</td>
-<td align="left">21.86</td>
-<td align="left">22.02</td>
-<td align="left">18.22</td>
-<td align="left">23.64</td>
-<td align="left">20.25</td>
-<td align="left">19.91</td>
-<td align="left">22.53</td>
-<td align="left">19.05</td>
-<td align="left">31.96</td>
+<tr>
+<td style="text-align:left;">
+High
+</td>
+<td style="text-align:left;">
+21.1
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+21.3
+</td>
+<td style="text-align:left;">
+20.44
+</td>
+<td style="text-align:left;">
+22.55
+</td>
+<td style="text-align:left;">
+21.53
+</td>
+<td style="text-align:left;">
+21.21
+</td>
+<td style="text-align:left;">
+21.86
+</td>
+<td style="text-align:left;">
+22.02
+</td>
+<td style="text-align:left;">
+18.22
+</td>
+<td style="text-align:left;">
+23.64
+</td>
+<td style="text-align:left;">
+20.25
+</td>
+<td style="text-align:left;">
+19.91
+</td>
+<td style="text-align:left;">
+22.53
+</td>
+<td style="text-align:left;">
+19.05
+</td>
+<td style="text-align:left;">
+31.96
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left">C</td>
-<td align="left">C</td>
-<td align="left">C</td>
-<td align="left">C</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">K</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">M N O P</td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+K
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+M N O P
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Very High</td>
-<td align="left">21.1</td>
-<td align="left">19</td>
-<td align="left">19.55</td>
-<td align="left">21.47</td>
-<td align="left">21.99</td>
-<td align="left">21.05</td>
-<td align="left">21.21</td>
-<td align="left">18.61</td>
-<td align="left">21.03</td>
-<td align="left">22.67</td>
-<td align="left">22.73</td>
-<td align="left">18.1</td>
-<td align="left">22.99</td>
-<td align="left">21.04</td>
-<td align="left">23.53</td>
-<td align="left">9.28</td>
+<tr>
+<td style="text-align:left;">
+Very High
+</td>
+<td style="text-align:left;">
+21.1
+</td>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+19.55
+</td>
+<td style="text-align:left;">
+21.47
+</td>
+<td style="text-align:left;">
+21.99
+</td>
+<td style="text-align:left;">
+21.05
+</td>
+<td style="text-align:left;">
+21.21
+</td>
+<td style="text-align:left;">
+18.61
+</td>
+<td style="text-align:left;">
+21.03
+</td>
+<td style="text-align:left;">
+22.67
+</td>
+<td style="text-align:left;">
+22.73
+</td>
+<td style="text-align:left;">
+18.1
+</td>
+<td style="text-align:left;">
+22.99
+</td>
+<td style="text-align:left;">
+21.04
+</td>
+<td style="text-align:left;">
+23.53
+</td>
+<td style="text-align:left;">
+9.28
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">Q</td>
-<td align="left">M Q</td>
-<td align="left">Q</td>
-<td align="left">M Q</td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+Q
+</td>
+<td style="text-align:left;">
+M Q
+</td>
+<td style="text-align:left;">
+Q
+</td>
+<td style="text-align:left;">
+M Q
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">n</td>
-<td align="left">2000</td>
-<td align="left">100</td>
-<td align="left">399</td>
-<td align="left">587</td>
-<td align="left">705</td>
-<td align="left">209</td>
-<td align="left">198</td>
-<td align="left">462</td>
-<td align="left">604</td>
-<td align="left">516</td>
-<td align="left">220</td>
-<td align="left">326</td>
-<td align="left">683</td>
-<td align="left">537</td>
-<td align="left">357</td>
-<td align="left">97</td>
+<tr>
+<td style="text-align:left;">
+n
+</td>
+<td style="text-align:left;">
+2000
+</td>
+<td style="text-align:left;">
+100
+</td>
+<td style="text-align:left;">
+399
+</td>
+<td style="text-align:left;">
+587
+</td>
+<td style="text-align:left;">
+705
+</td>
+<td style="text-align:left;">
+209
+</td>
+<td style="text-align:left;">
+198
+</td>
+<td style="text-align:left;">
+462
+</td>
+<td style="text-align:left;">
+604
+</td>
+<td style="text-align:left;">
+516
+</td>
+<td style="text-align:left;">
+220
+</td>
+<td style="text-align:left;">
+326
+</td>
+<td style="text-align:left;">
+683
+</td>
+<td style="text-align:left;">
+537
+</td>
+<td style="text-align:left;">
+357
+</td>
+<td style="text-align:left;">
+97
+</td>
 </tr>
-<tr class="even">
-<td align="left">deff</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
+<tr>
+<td style="text-align:left;">
+deff
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
 </tr>
-<tr class="odd">
-<td align="left">moe</td>
-<td align="left">2.19134661794979</td>
-<td align="left">9.8</td>
-<td align="left">4.90613650835324</td>
-<td align="left">4.04489288272368</td>
-<td align="left">3.69089352805808</td>
-<td align="left">6.77880174588753</td>
-<td align="left">6.96455673428328</td>
-<td align="left">4.55937263095251</td>
-<td align="left">3.98756344797868</td>
-<td align="left">4.31420944099556</td>
-<td align="left">6.60715865213977</td>
-<td align="left">5.42771800109277</td>
-<td align="left">3.74986578578757</td>
-<td align="left">4.22901214962061</td>
-<td align="left">5.18671001544464</td>
-<td align="left">9.95039241830947</td>
+<tr>
+<td style="text-align:left;">
+moe
+</td>
+<td style="text-align:left;">
+2.19134661794979
+</td>
+<td style="text-align:left;">
+9.8
+</td>
+<td style="text-align:left;">
+4.90613650835324
+</td>
+<td style="text-align:left;">
+4.04489288272368
+</td>
+<td style="text-align:left;">
+3.69089352805808
+</td>
+<td style="text-align:left;">
+6.77880174588753
+</td>
+<td style="text-align:left;">
+6.96455673428328
+</td>
+<td style="text-align:left;">
+4.55937263095251
+</td>
+<td style="text-align:left;">
+3.98756344797868
+</td>
+<td style="text-align:left;">
+4.31420944099556
+</td>
+<td style="text-align:left;">
+6.60715865213977
+</td>
+<td style="text-align:left;">
+5.42771800109277
+</td>
+<td style="text-align:left;">
+3.74986578578757
+</td>
+<td style="text-align:left;">
+4.22901214962061
+</td>
+<td style="text-align:left;">
+5.18671001544464
+</td>
+<td style="text-align:left;">
+9.95039241830947
+</td>
 </tr>
 </tbody>
 </table>
@@ -1416,368 +2883,874 @@ first level contributing to it.</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `About equally like and dislike` -&gt; `About equally like and dislike...15`</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...16`</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much like` -&gt; `Very much like...17`</span></span></code></pre></div>
-<table class="table">
-<colgroup>
-<col width="2%">
-<col width="4%">
-<col width="5%">
-<col width="5%">
-<col width="9%">
-<col width="4%">
-<col width="5%">
-<col width="5%">
-<col width="5%">
-<col width="9%">
-<col width="5%">
-<col width="5%">
-<col width="6%">
-<col width="5%">
-<col width="9%">
-<col width="5%">
-<col width="5%">
-</colgroup>
-<thead><tr class="header">
-<th align="left">levels</th>
-<th align="left">Total</th>
-<th align="left">Very much dislike…3</th>
-<th align="left">Somewhat dislike…4</th>
-<th align="left">About equally like and dislike…5</th>
-<th align="left">Somewhat like…6</th>
-<th align="left">Very much like…7</th>
-<th align="left">Very much dislike…8</th>
-<th align="left">Somewhat dislike…9</th>
-<th align="left">About equally like and dislike…10</th>
-<th align="left">Somewhat like…11</th>
-<th align="left">Very much like…12</th>
-<th align="left">Very much dislike…13</th>
-<th align="left">Somewhat dislike…14</th>
-<th align="left">About equally like and dislike…15</th>
-<th align="left">Somewhat like…16</th>
-<th align="left">Very much like…17</th>
+<table class="table table" style="font-size: 10px; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead><tr>
+<th style="text-align:left;">
+levels
+</th>
+<th style="text-align:left;">
+Total
+</th>
+<th style="text-align:left;">
+Very much dislike…3
+</th>
+<th style="text-align:left;">
+Somewhat dislike…4
+</th>
+<th style="text-align:left;">
+About equally like and dislike…5
+</th>
+<th style="text-align:left;">
+Somewhat like…6
+</th>
+<th style="text-align:left;">
+Very much like…7
+</th>
+<th style="text-align:left;">
+Very much dislike…8
+</th>
+<th style="text-align:left;">
+Somewhat dislike…9
+</th>
+<th style="text-align:left;">
+About equally like and dislike…10
+</th>
+<th style="text-align:left;">
+Somewhat like…11
+</th>
+<th style="text-align:left;">
+Very much like…12
+</th>
+<th style="text-align:left;">
+Very much dislike…13
+</th>
+<th style="text-align:left;">
+Somewhat dislike…14
+</th>
+<th style="text-align:left;">
+About equally like and dislike…15
+</th>
+<th style="text-align:left;">
+Somewhat like…16
+</th>
+<th style="text-align:left;">
+Very much like…17
+</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
-<td align="left">NET: Low</td>
-<td align="left">28</td>
-<td align="left">39</td>
-<td align="left">29</td>
-<td align="left">27</td>
-<td align="left">28</td>
-<td align="left">24</td>
-<td align="left">27</td>
-<td align="left">30</td>
-<td align="left">26</td>
-<td align="left">28</td>
-<td align="left">29</td>
-<td align="left">29</td>
-<td align="left">29</td>
-<td align="left">29</td>
-<td align="left">26</td>
-<td align="left">25</td>
+<tr>
+<td style="text-align:left;">
+NET: Low
+</td>
+<td style="text-align:left;">
+28
+</td>
+<td style="text-align:left;">
+39
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+27
+</td>
+<td style="text-align:left;">
+28
+</td>
+<td style="text-align:left;">
+24
+</td>
+<td style="text-align:left;">
+27
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:left;">
+26
+</td>
+<td style="text-align:left;">
+28
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+26
+</td>
+<td style="text-align:left;">
+25
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left">D E F G</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+D E F G
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Very Low</td>
-<td align="left">13</td>
-<td align="left">19</td>
-<td align="left">12</td>
-<td align="left">12</td>
-<td align="left">13</td>
-<td align="left">11</td>
-<td align="left">12</td>
-<td align="left">13</td>
-<td align="left">12</td>
-<td align="left">14</td>
-<td align="left">15</td>
-<td align="left">12</td>
-<td align="left">13</td>
-<td align="left">13</td>
-<td align="left">13</td>
-<td align="left">9</td>
+<tr>
+<td style="text-align:left;">
+Very Low
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+9
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left">G</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+G
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Low</td>
-<td align="left">15</td>
-<td align="left">20</td>
-<td align="left">17</td>
-<td align="left">15</td>
-<td align="left">15</td>
-<td align="left">13</td>
-<td align="left">15</td>
-<td align="left">17</td>
-<td align="left">14</td>
-<td align="left">15</td>
-<td align="left">15</td>
-<td align="left">17</td>
-<td align="left">15</td>
-<td align="left">16</td>
-<td align="left">13</td>
-<td align="left">15</td>
+<tr>
+<td style="text-align:left;">
+Low
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+17
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+17
+</td>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+17
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+15
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Moderate</td>
-<td align="left">30</td>
-<td align="left">29</td>
-<td align="left">30</td>
-<td align="left">31</td>
-<td align="left">28</td>
-<td align="left">33</td>
-<td align="left">31</td>
-<td align="left">29</td>
-<td align="left">31</td>
-<td align="left">31</td>
-<td align="left">25</td>
-<td align="left">33</td>
-<td align="left">29</td>
-<td align="left">28</td>
-<td align="left">31</td>
-<td align="left">34</td>
+<tr>
+<td style="text-align:left;">
+Moderate
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:left;">
+31
+</td>
+<td style="text-align:left;">
+28
+</td>
+<td style="text-align:left;">
+33
+</td>
+<td style="text-align:left;">
+31
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+31
+</td>
+<td style="text-align:left;">
+31
+</td>
+<td style="text-align:left;">
+25
+</td>
+<td style="text-align:left;">
+33
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+28
+</td>
+<td style="text-align:left;">
+31
+</td>
+<td style="text-align:left;">
+34
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">L</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+L
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">NET: High</td>
-<td align="left">42</td>
-<td align="left">32</td>
-<td align="left">41</td>
-<td align="left">42</td>
-<td align="left">45</td>
-<td align="left">43</td>
-<td align="left">42</td>
-<td align="left">40</td>
-<td align="left">43</td>
-<td align="left">41</td>
-<td align="left">46</td>
-<td align="left">38</td>
-<td align="left">43</td>
-<td align="left">44</td>
-<td align="left">43</td>
-<td align="left">41</td>
+<tr>
+<td style="text-align:left;">
+NET: High
+</td>
+<td style="text-align:left;">
+42
+</td>
+<td style="text-align:left;">
+32
+</td>
+<td style="text-align:left;">
+41
+</td>
+<td style="text-align:left;">
+42
+</td>
+<td style="text-align:left;">
+45
+</td>
+<td style="text-align:left;">
+43
+</td>
+<td style="text-align:left;">
+42
+</td>
+<td style="text-align:left;">
+40
+</td>
+<td style="text-align:left;">
+43
+</td>
+<td style="text-align:left;">
+41
+</td>
+<td style="text-align:left;">
+46
+</td>
+<td style="text-align:left;">
+38
+</td>
+<td style="text-align:left;">
+43
+</td>
+<td style="text-align:left;">
+44
+</td>
+<td style="text-align:left;">
+43
+</td>
+<td style="text-align:left;">
+41
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">C</td>
-<td align="left">C</td>
-<td align="left">C</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">M</td>
-<td align="left"></td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">High</td>
-<td align="left">21</td>
-<td align="left">13</td>
-<td align="left">21</td>
-<td align="left">20</td>
-<td align="left">23</td>
-<td align="left">22</td>
-<td align="left">21</td>
-<td align="left">22</td>
-<td align="left">22</td>
-<td align="left">18</td>
-<td align="left">24</td>
-<td align="left">20</td>
-<td align="left">20</td>
-<td align="left">23</td>
-<td align="left">19</td>
-<td align="left">32</td>
+<tr>
+<td style="text-align:left;">
+High
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+18
+</td>
+<td style="text-align:left;">
+24
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+32
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left">C</td>
-<td align="left">C</td>
-<td align="left">C</td>
-<td align="left">C</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">K</td>
-<td align="left"></td>
-<td align="left">K</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">M N P</td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+K
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+K
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+M N P
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Very High</td>
-<td align="left">21</td>
-<td align="left">19</td>
-<td align="left">20</td>
-<td align="left">21</td>
-<td align="left">22</td>
-<td align="left">21</td>
-<td align="left">21</td>
-<td align="left">19</td>
-<td align="left">21</td>
-<td align="left">23</td>
-<td align="left">23</td>
-<td align="left">18</td>
-<td align="left">23</td>
-<td align="left">21</td>
-<td align="left">24</td>
-<td align="left">9</td>
+<tr>
+<td style="text-align:left;">
+Very High
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+18
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+24
+</td>
+<td style="text-align:left;">
+9
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">Q</td>
-<td align="left">M Q</td>
-<td align="left">Q</td>
-<td align="left">M Q</td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+Q
+</td>
+<td style="text-align:left;">
+M Q
+</td>
+<td style="text-align:left;">
+Q
+</td>
+<td style="text-align:left;">
+M Q
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">n</td>
-<td align="left">2000</td>
-<td align="left">100</td>
-<td align="left">399</td>
-<td align="left">587</td>
-<td align="left">705</td>
-<td align="left">209</td>
-<td align="left">198</td>
-<td align="left">462</td>
-<td align="left">604</td>
-<td align="left">516</td>
-<td align="left">220</td>
-<td align="left">326</td>
-<td align="left">683</td>
-<td align="left">537</td>
-<td align="left">357</td>
-<td align="left">97</td>
+<tr>
+<td style="text-align:left;">
+n
+</td>
+<td style="text-align:left;">
+2000
+</td>
+<td style="text-align:left;">
+100
+</td>
+<td style="text-align:left;">
+399
+</td>
+<td style="text-align:left;">
+587
+</td>
+<td style="text-align:left;">
+705
+</td>
+<td style="text-align:left;">
+209
+</td>
+<td style="text-align:left;">
+198
+</td>
+<td style="text-align:left;">
+462
+</td>
+<td style="text-align:left;">
+604
+</td>
+<td style="text-align:left;">
+516
+</td>
+<td style="text-align:left;">
+220
+</td>
+<td style="text-align:left;">
+326
+</td>
+<td style="text-align:left;">
+683
+</td>
+<td style="text-align:left;">
+537
+</td>
+<td style="text-align:left;">
+357
+</td>
+<td style="text-align:left;">
+97
+</td>
 </tr>
-<tr class="even">
-<td align="left">deff</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
+<tr>
+<td style="text-align:left;">
+deff
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
 </tr>
-<tr class="odd">
-<td align="left">moe</td>
-<td align="left">2.19134661794979</td>
-<td align="left">9.8</td>
-<td align="left">4.90613650835324</td>
-<td align="left">4.04489288272368</td>
-<td align="left">3.69089352805808</td>
-<td align="left">6.77880174588753</td>
-<td align="left">6.96455673428328</td>
-<td align="left">4.55937263095251</td>
-<td align="left">3.98756344797868</td>
-<td align="left">4.31420944099556</td>
-<td align="left">6.60715865213977</td>
-<td align="left">5.42771800109277</td>
-<td align="left">3.74986578578757</td>
-<td align="left">4.22901214962061</td>
-<td align="left">5.18671001544464</td>
-<td align="left">9.95039241830947</td>
+<tr>
+<td style="text-align:left;">
+moe
+</td>
+<td style="text-align:left;">
+2.19134661794979
+</td>
+<td style="text-align:left;">
+9.8
+</td>
+<td style="text-align:left;">
+4.90613650835324
+</td>
+<td style="text-align:left;">
+4.04489288272368
+</td>
+<td style="text-align:left;">
+3.69089352805808
+</td>
+<td style="text-align:left;">
+6.77880174588753
+</td>
+<td style="text-align:left;">
+6.96455673428328
+</td>
+<td style="text-align:left;">
+4.55937263095251
+</td>
+<td style="text-align:left;">
+3.98756344797868
+</td>
+<td style="text-align:left;">
+4.31420944099556
+</td>
+<td style="text-align:left;">
+6.60715865213977
+</td>
+<td style="text-align:left;">
+5.42771800109277
+</td>
+<td style="text-align:left;">
+3.74986578578757
+</td>
+<td style="text-align:left;">
+4.22901214962061
+</td>
+<td style="text-align:left;">
+5.18671001544464
+</td>
+<td style="text-align:left;">
+9.95039241830947
+</td>
 </tr>
 </tbody>
 </table>
@@ -1808,368 +3781,874 @@ first level contributing to it.</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `About equally like and dislike` -&gt; `About equally like and dislike...15`</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...16`</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much like` -&gt; `Very much like...17`</span></span></code></pre></div>
-<table class="table">
-<colgroup>
-<col width="2%">
-<col width="4%">
-<col width="5%">
-<col width="5%">
-<col width="9%">
-<col width="4%">
-<col width="5%">
-<col width="5%">
-<col width="5%">
-<col width="9%">
-<col width="5%">
-<col width="5%">
-<col width="6%">
-<col width="5%">
-<col width="9%">
-<col width="5%">
-<col width="5%">
-</colgroup>
-<thead><tr class="header">
-<th align="left">levels</th>
-<th align="left">Total</th>
-<th align="left">Very much dislike…3</th>
-<th align="left">Somewhat dislike…4</th>
-<th align="left">About equally like and dislike…5</th>
-<th align="left">Somewhat like…6</th>
-<th align="left">Very much like…7</th>
-<th align="left">Very much dislike…8</th>
-<th align="left">Somewhat dislike…9</th>
-<th align="left">About equally like and dislike…10</th>
-<th align="left">Somewhat like…11</th>
-<th align="left">Very much like…12</th>
-<th align="left">Very much dislike…13</th>
-<th align="left">Somewhat dislike…14</th>
-<th align="left">About equally like and dislike…15</th>
-<th align="left">Somewhat like…16</th>
-<th align="left">Very much like…17</th>
+<table class="table table" style="font-size: 10px; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead><tr>
+<th style="text-align:left;">
+levels
+</th>
+<th style="text-align:left;">
+Total
+</th>
+<th style="text-align:left;">
+Very much dislike…3
+</th>
+<th style="text-align:left;">
+Somewhat dislike…4
+</th>
+<th style="text-align:left;">
+About equally like and dislike…5
+</th>
+<th style="text-align:left;">
+Somewhat like…6
+</th>
+<th style="text-align:left;">
+Very much like…7
+</th>
+<th style="text-align:left;">
+Very much dislike…8
+</th>
+<th style="text-align:left;">
+Somewhat dislike…9
+</th>
+<th style="text-align:left;">
+About equally like and dislike…10
+</th>
+<th style="text-align:left;">
+Somewhat like…11
+</th>
+<th style="text-align:left;">
+Very much like…12
+</th>
+<th style="text-align:left;">
+Very much dislike…13
+</th>
+<th style="text-align:left;">
+Somewhat dislike…14
+</th>
+<th style="text-align:left;">
+About equally like and dislike…15
+</th>
+<th style="text-align:left;">
+Somewhat like…16
+</th>
+<th style="text-align:left;">
+Very much like…17
+</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
-<td align="left">NET: Low</td>
-<td align="left">28</td>
-<td align="left">39</td>
-<td align="left">29</td>
-<td align="left">27</td>
-<td align="left">28</td>
-<td align="left">24</td>
-<td align="left">27</td>
-<td align="left">30</td>
-<td align="left">26</td>
-<td align="left">28</td>
-<td align="left">29</td>
-<td align="left">29</td>
-<td align="left">29</td>
-<td align="left">29</td>
-<td align="left">26</td>
-<td align="left">25</td>
+<tr>
+<td style="text-align:left;">
+NET: Low
+</td>
+<td style="text-align:left;">
+28
+</td>
+<td style="text-align:left;">
+39
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+27
+</td>
+<td style="text-align:left;">
+28
+</td>
+<td style="text-align:left;">
+24
+</td>
+<td style="text-align:left;">
+27
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:left;">
+26
+</td>
+<td style="text-align:left;">
+28
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+26
+</td>
+<td style="text-align:left;">
+25
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left">D E F G</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+D E F G
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Very Low</td>
-<td align="left">13</td>
-<td align="left">19</td>
-<td align="left">12</td>
-<td align="left">12</td>
-<td align="left">13</td>
-<td align="left">11</td>
-<td align="left">12</td>
-<td align="left">13</td>
-<td align="left">12</td>
-<td align="left">14</td>
-<td align="left">15</td>
-<td align="left">12</td>
-<td align="left">13</td>
-<td align="left">13</td>
-<td align="left">13</td>
-<td align="left">9</td>
+<tr>
+<td style="text-align:left;">
+Very Low
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+9
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left">G</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+G
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Low</td>
-<td align="left">15</td>
-<td align="left">20</td>
-<td align="left">17</td>
-<td align="left">15</td>
-<td align="left">15</td>
-<td align="left">13</td>
-<td align="left">15</td>
-<td align="left">17</td>
-<td align="left">14</td>
-<td align="left">15</td>
-<td align="left">15</td>
-<td align="left">17</td>
-<td align="left">15</td>
-<td align="left">16</td>
-<td align="left">13</td>
-<td align="left">15</td>
+<tr>
+<td style="text-align:left;">
+Low
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+17
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+17
+</td>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+17
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+15
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Moderate</td>
-<td align="left">30</td>
-<td align="left">29</td>
-<td align="left">30</td>
-<td align="left">31</td>
-<td align="left">28</td>
-<td align="left">33</td>
-<td align="left">31</td>
-<td align="left">29</td>
-<td align="left">31</td>
-<td align="left">31</td>
-<td align="left">25</td>
-<td align="left">33</td>
-<td align="left">29</td>
-<td align="left">28</td>
-<td align="left">31</td>
-<td align="left">34</td>
+<tr>
+<td style="text-align:left;">
+Moderate
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:left;">
+31
+</td>
+<td style="text-align:left;">
+28
+</td>
+<td style="text-align:left;">
+33
+</td>
+<td style="text-align:left;">
+31
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+31
+</td>
+<td style="text-align:left;">
+31
+</td>
+<td style="text-align:left;">
+25
+</td>
+<td style="text-align:left;">
+33
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+28
+</td>
+<td style="text-align:left;">
+31
+</td>
+<td style="text-align:left;">
+34
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">L</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+L
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">NET: High</td>
-<td align="left">42</td>
-<td align="left">32</td>
-<td align="left">41</td>
-<td align="left">42</td>
-<td align="left">45</td>
-<td align="left">43</td>
-<td align="left">42</td>
-<td align="left">40</td>
-<td align="left">43</td>
-<td align="left">41</td>
-<td align="left">46</td>
-<td align="left">38</td>
-<td align="left">43</td>
-<td align="left">44</td>
-<td align="left">43</td>
-<td align="left">41</td>
+<tr>
+<td style="text-align:left;">
+NET: High
+</td>
+<td style="text-align:left;">
+42
+</td>
+<td style="text-align:left;">
+32
+</td>
+<td style="text-align:left;">
+41
+</td>
+<td style="text-align:left;">
+42
+</td>
+<td style="text-align:left;">
+45
+</td>
+<td style="text-align:left;">
+43
+</td>
+<td style="text-align:left;">
+42
+</td>
+<td style="text-align:left;">
+40
+</td>
+<td style="text-align:left;">
+43
+</td>
+<td style="text-align:left;">
+41
+</td>
+<td style="text-align:left;">
+46
+</td>
+<td style="text-align:left;">
+38
+</td>
+<td style="text-align:left;">
+43
+</td>
+<td style="text-align:left;">
+44
+</td>
+<td style="text-align:left;">
+43
+</td>
+<td style="text-align:left;">
+41
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">C</td>
-<td align="left">C</td>
-<td align="left">C</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">M</td>
-<td align="left"></td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">High</td>
-<td align="left">21</td>
-<td align="left">13</td>
-<td align="left">21</td>
-<td align="left">20</td>
-<td align="left">23</td>
-<td align="left">22</td>
-<td align="left">21</td>
-<td align="left">22</td>
-<td align="left">22</td>
-<td align="left">18</td>
-<td align="left">24</td>
-<td align="left">20</td>
-<td align="left">20</td>
-<td align="left">23</td>
-<td align="left">19</td>
-<td align="left">32</td>
+<tr>
+<td style="text-align:left;">
+High
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+18
+</td>
+<td style="text-align:left;">
+24
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+32
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left">C</td>
-<td align="left">C</td>
-<td align="left">C</td>
-<td align="left">C</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">K</td>
-<td align="left"></td>
-<td align="left">K</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">M N P</td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+K
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+K
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+M N P
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Very High</td>
-<td align="left">21</td>
-<td align="left">19</td>
-<td align="left">20</td>
-<td align="left">21</td>
-<td align="left">22</td>
-<td align="left">21</td>
-<td align="left">21</td>
-<td align="left">19</td>
-<td align="left">21</td>
-<td align="left">23</td>
-<td align="left">23</td>
-<td align="left">18</td>
-<td align="left">23</td>
-<td align="left">21</td>
-<td align="left">24</td>
-<td align="left">9</td>
+<tr>
+<td style="text-align:left;">
+Very High
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+18
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+24
+</td>
+<td style="text-align:left;">
+9
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">Q</td>
-<td align="left">M Q</td>
-<td align="left">Q</td>
-<td align="left">M Q</td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+Q
+</td>
+<td style="text-align:left;">
+M Q
+</td>
+<td style="text-align:left;">
+Q
+</td>
+<td style="text-align:left;">
+M Q
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">n</td>
-<td align="left">2000</td>
-<td align="left">100</td>
-<td align="left">399</td>
-<td align="left">587</td>
-<td align="left">705</td>
-<td align="left">209</td>
-<td align="left">198</td>
-<td align="left">462</td>
-<td align="left">604</td>
-<td align="left">516</td>
-<td align="left">220</td>
-<td align="left">326</td>
-<td align="left">683</td>
-<td align="left">537</td>
-<td align="left">357</td>
-<td align="left">97</td>
+<tr>
+<td style="text-align:left;">
+n
+</td>
+<td style="text-align:left;">
+2000
+</td>
+<td style="text-align:left;">
+100
+</td>
+<td style="text-align:left;">
+399
+</td>
+<td style="text-align:left;">
+587
+</td>
+<td style="text-align:left;">
+705
+</td>
+<td style="text-align:left;">
+209
+</td>
+<td style="text-align:left;">
+198
+</td>
+<td style="text-align:left;">
+462
+</td>
+<td style="text-align:left;">
+604
+</td>
+<td style="text-align:left;">
+516
+</td>
+<td style="text-align:left;">
+220
+</td>
+<td style="text-align:left;">
+326
+</td>
+<td style="text-align:left;">
+683
+</td>
+<td style="text-align:left;">
+537
+</td>
+<td style="text-align:left;">
+357
+</td>
+<td style="text-align:left;">
+97
+</td>
 </tr>
-<tr class="even">
-<td align="left">deff</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
+<tr>
+<td style="text-align:left;">
+deff
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
 </tr>
-<tr class="odd">
-<td align="left">moe</td>
-<td align="left">2.19134661794979</td>
-<td align="left">9.8</td>
-<td align="left">4.90613650835324</td>
-<td align="left">4.04489288272368</td>
-<td align="left">3.69089352805808</td>
-<td align="left">6.77880174588753</td>
-<td align="left">6.96455673428328</td>
-<td align="left">4.55937263095251</td>
-<td align="left">3.98756344797868</td>
-<td align="left">4.31420944099556</td>
-<td align="left">6.60715865213977</td>
-<td align="left">5.42771800109277</td>
-<td align="left">3.74986578578757</td>
-<td align="left">4.22901214962061</td>
-<td align="left">5.18671001544464</td>
-<td align="left">9.95039241830947</td>
+<tr>
+<td style="text-align:left;">
+moe
+</td>
+<td style="text-align:left;">
+2.19134661794979
+</td>
+<td style="text-align:left;">
+9.8
+</td>
+<td style="text-align:left;">
+4.90613650835324
+</td>
+<td style="text-align:left;">
+4.04489288272368
+</td>
+<td style="text-align:left;">
+3.69089352805808
+</td>
+<td style="text-align:left;">
+6.77880174588753
+</td>
+<td style="text-align:left;">
+6.96455673428328
+</td>
+<td style="text-align:left;">
+4.55937263095251
+</td>
+<td style="text-align:left;">
+3.98756344797868
+</td>
+<td style="text-align:left;">
+4.31420944099556
+</td>
+<td style="text-align:left;">
+6.60715865213977
+</td>
+<td style="text-align:left;">
+5.42771800109277
+</td>
+<td style="text-align:left;">
+3.74986578578757
+</td>
+<td style="text-align:left;">
+4.22901214962061
+</td>
+<td style="text-align:left;">
+5.18671001544464
+</td>
+<td style="text-align:left;">
+9.95039241830947
+</td>
 </tr>
 </tbody>
 </table>
@@ -2205,254 +4684,595 @@ are NULL by default (i.e. removing nothing).</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `About equally like and dislike` -&gt; `About equally like and dislike...15`</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...16`</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much like` -&gt; `Very much like...17`</span></span></code></pre></div>
-<table class="table">
-<colgroup>
-<col width="2%">
-<col width="4%">
-<col width="5%">
-<col width="5%">
-<col width="9%">
-<col width="4%">
-<col width="5%">
-<col width="5%">
-<col width="5%">
-<col width="9%">
-<col width="5%">
-<col width="5%">
-<col width="6%">
-<col width="5%">
-<col width="9%">
-<col width="5%">
-<col width="5%">
-</colgroup>
-<thead><tr class="header">
-<th align="left">levels</th>
-<th align="left">Total</th>
-<th align="left">Very much dislike…3</th>
-<th align="left">Somewhat dislike…4</th>
-<th align="left">About equally like and dislike…5</th>
-<th align="left">Somewhat like…6</th>
-<th align="left">Very much like…7</th>
-<th align="left">Very much dislike…8</th>
-<th align="left">Somewhat dislike…9</th>
-<th align="left">About equally like and dislike…10</th>
-<th align="left">Somewhat like…11</th>
-<th align="left">Very much like…12</th>
-<th align="left">Very much dislike…13</th>
-<th align="left">Somewhat dislike…14</th>
-<th align="left">About equally like and dislike…15</th>
-<th align="left">Somewhat like…16</th>
-<th align="left">Very much like…17</th>
+<table class="table table" style="font-size: 10px; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead><tr>
+<th style="text-align:left;">
+levels
+</th>
+<th style="text-align:left;">
+Total
+</th>
+<th style="text-align:left;">
+Very much dislike…3
+</th>
+<th style="text-align:left;">
+Somewhat dislike…4
+</th>
+<th style="text-align:left;">
+About equally like and dislike…5
+</th>
+<th style="text-align:left;">
+Somewhat like…6
+</th>
+<th style="text-align:left;">
+Very much like…7
+</th>
+<th style="text-align:left;">
+Very much dislike…8
+</th>
+<th style="text-align:left;">
+Somewhat dislike…9
+</th>
+<th style="text-align:left;">
+About equally like and dislike…10
+</th>
+<th style="text-align:left;">
+Somewhat like…11
+</th>
+<th style="text-align:left;">
+Very much like…12
+</th>
+<th style="text-align:left;">
+Very much dislike…13
+</th>
+<th style="text-align:left;">
+Somewhat dislike…14
+</th>
+<th style="text-align:left;">
+About equally like and dislike…15
+</th>
+<th style="text-align:left;">
+Somewhat like…16
+</th>
+<th style="text-align:left;">
+Very much like…17
+</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
-<td align="left">Very Low</td>
-<td align="left">13</td>
-<td align="left">19</td>
-<td align="left">12</td>
-<td align="left">12</td>
-<td align="left">13</td>
-<td align="left">11</td>
-<td align="left">12</td>
-<td align="left">13</td>
-<td align="left">12</td>
-<td align="left">14</td>
-<td align="left">15</td>
-<td align="left">12</td>
-<td align="left">13</td>
-<td align="left">13</td>
-<td align="left">13</td>
-<td align="left">9</td>
+<tr>
+<td style="text-align:left;">
+Very Low
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+9
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left">G</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+G
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Low</td>
-<td align="left">15</td>
-<td align="left">20</td>
-<td align="left">17</td>
-<td align="left">15</td>
-<td align="left">15</td>
-<td align="left">13</td>
-<td align="left">15</td>
-<td align="left">17</td>
-<td align="left">14</td>
-<td align="left">15</td>
-<td align="left">15</td>
-<td align="left">17</td>
-<td align="left">15</td>
-<td align="left">16</td>
-<td align="left">13</td>
-<td align="left">15</td>
+<tr>
+<td style="text-align:left;">
+Low
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+17
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+17
+</td>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+17
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+15
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">High</td>
-<td align="left">21</td>
-<td align="left">13</td>
-<td align="left">21</td>
-<td align="left">20</td>
-<td align="left">23</td>
-<td align="left">22</td>
-<td align="left">21</td>
-<td align="left">22</td>
-<td align="left">22</td>
-<td align="left">18</td>
-<td align="left">24</td>
-<td align="left">20</td>
-<td align="left">20</td>
-<td align="left">23</td>
-<td align="left">19</td>
-<td align="left">32</td>
+<tr>
+<td style="text-align:left;">
+High
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+18
+</td>
+<td style="text-align:left;">
+24
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+32
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left">C</td>
-<td align="left">C</td>
-<td align="left">C</td>
-<td align="left">C</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">K</td>
-<td align="left"></td>
-<td align="left">K</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">M N P</td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+K
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+K
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+M N P
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Very High</td>
-<td align="left">21</td>
-<td align="left">19</td>
-<td align="left">20</td>
-<td align="left">21</td>
-<td align="left">22</td>
-<td align="left">21</td>
-<td align="left">21</td>
-<td align="left">19</td>
-<td align="left">21</td>
-<td align="left">23</td>
-<td align="left">23</td>
-<td align="left">18</td>
-<td align="left">23</td>
-<td align="left">21</td>
-<td align="left">24</td>
-<td align="left">9</td>
+<tr>
+<td style="text-align:left;">
+Very High
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+18
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+24
+</td>
+<td style="text-align:left;">
+9
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">Q</td>
-<td align="left">M Q</td>
-<td align="left">Q</td>
-<td align="left">M Q</td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+Q
+</td>
+<td style="text-align:left;">
+M Q
+</td>
+<td style="text-align:left;">
+Q
+</td>
+<td style="text-align:left;">
+M Q
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">n</td>
-<td align="left">2000</td>
-<td align="left">100</td>
-<td align="left">399</td>
-<td align="left">587</td>
-<td align="left">705</td>
-<td align="left">209</td>
-<td align="left">198</td>
-<td align="left">462</td>
-<td align="left">604</td>
-<td align="left">516</td>
-<td align="left">220</td>
-<td align="left">326</td>
-<td align="left">683</td>
-<td align="left">537</td>
-<td align="left">357</td>
-<td align="left">97</td>
+<tr>
+<td style="text-align:left;">
+n
+</td>
+<td style="text-align:left;">
+2000
+</td>
+<td style="text-align:left;">
+100
+</td>
+<td style="text-align:left;">
+399
+</td>
+<td style="text-align:left;">
+587
+</td>
+<td style="text-align:left;">
+705
+</td>
+<td style="text-align:left;">
+209
+</td>
+<td style="text-align:left;">
+198
+</td>
+<td style="text-align:left;">
+462
+</td>
+<td style="text-align:left;">
+604
+</td>
+<td style="text-align:left;">
+516
+</td>
+<td style="text-align:left;">
+220
+</td>
+<td style="text-align:left;">
+326
+</td>
+<td style="text-align:left;">
+683
+</td>
+<td style="text-align:left;">
+537
+</td>
+<td style="text-align:left;">
+357
+</td>
+<td style="text-align:left;">
+97
+</td>
 </tr>
-<tr class="even">
-<td align="left">deff</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
+<tr>
+<td style="text-align:left;">
+deff
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
 </tr>
-<tr class="odd">
-<td align="left">moe</td>
-<td align="left">2.19134661794979</td>
-<td align="left">9.8</td>
-<td align="left">4.90613650835324</td>
-<td align="left">4.04489288272368</td>
-<td align="left">3.69089352805808</td>
-<td align="left">6.77880174588753</td>
-<td align="left">6.96455673428328</td>
-<td align="left">4.55937263095251</td>
-<td align="left">3.98756344797868</td>
-<td align="left">4.31420944099556</td>
-<td align="left">6.60715865213977</td>
-<td align="left">5.42771800109277</td>
-<td align="left">3.74986578578757</td>
-<td align="left">4.22901214962061</td>
-<td align="left">5.18671001544464</td>
-<td align="left">9.95039241830947</td>
+<tr>
+<td style="text-align:left;">
+moe
+</td>
+<td style="text-align:left;">
+2.19134661794979
+</td>
+<td style="text-align:left;">
+9.8
+</td>
+<td style="text-align:left;">
+4.90613650835324
+</td>
+<td style="text-align:left;">
+4.04489288272368
+</td>
+<td style="text-align:left;">
+3.69089352805808
+</td>
+<td style="text-align:left;">
+6.77880174588753
+</td>
+<td style="text-align:left;">
+6.96455673428328
+</td>
+<td style="text-align:left;">
+4.55937263095251
+</td>
+<td style="text-align:left;">
+3.98756344797868
+</td>
+<td style="text-align:left;">
+4.31420944099556
+</td>
+<td style="text-align:left;">
+6.60715865213977
+</td>
+<td style="text-align:left;">
+5.42771800109277
+</td>
+<td style="text-align:left;">
+3.74986578578757
+</td>
+<td style="text-align:left;">
+4.22901214962061
+</td>
+<td style="text-align:left;">
+5.18671001544464
+</td>
+<td style="text-align:left;">
+9.95039241830947
+</td>
 </tr>
 </tbody>
 </table>
@@ -2476,247 +5296,572 @@ are NULL by default (i.e. removing nothing).</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat dislike` -&gt; `Somewhat dislike...12`</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...13`</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much like` -&gt; `Very much like...14`</span></span></code></pre></div>
-<table class="table">
-<colgroup>
-<col width="3%">
-<col width="6%">
-<col width="8%">
-<col width="7%">
-<col width="6%">
-<col width="6%">
-<col width="8%">
-<col width="7%">
-<col width="6%">
-<col width="7%">
-<col width="8%">
-<col width="8%">
-<col width="6%">
-<col width="7%">
-</colgroup>
-<thead><tr class="header">
-<th align="left">levels</th>
-<th align="left">Total</th>
-<th align="left">Very much dislike…3</th>
-<th align="left">Somewhat dislike…4</th>
-<th align="left">Somewhat like…5</th>
-<th align="left">Very much like…6</th>
-<th align="left">Very much dislike…7</th>
-<th align="left">Somewhat dislike…8</th>
-<th align="left">Somewhat like…9</th>
-<th align="left">Very much like…10</th>
-<th align="left">Very much dislike…11</th>
-<th align="left">Somewhat dislike…12</th>
-<th align="left">Somewhat like…13</th>
-<th align="left">Very much like…14</th>
+<table class="table table" style="font-size: 10px; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead><tr>
+<th style="text-align:left;">
+levels
+</th>
+<th style="text-align:left;">
+Total
+</th>
+<th style="text-align:left;">
+Very much dislike…3
+</th>
+<th style="text-align:left;">
+Somewhat dislike…4
+</th>
+<th style="text-align:left;">
+Somewhat like…5
+</th>
+<th style="text-align:left;">
+Very much like…6
+</th>
+<th style="text-align:left;">
+Very much dislike…7
+</th>
+<th style="text-align:left;">
+Somewhat dislike…8
+</th>
+<th style="text-align:left;">
+Somewhat like…9
+</th>
+<th style="text-align:left;">
+Very much like…10
+</th>
+<th style="text-align:left;">
+Very much dislike…11
+</th>
+<th style="text-align:left;">
+Somewhat dislike…12
+</th>
+<th style="text-align:left;">
+Somewhat like…13
+</th>
+<th style="text-align:left;">
+Very much like…14
+</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
-<td align="left">Very Low</td>
-<td align="left">13</td>
-<td align="left">19</td>
-<td align="left">12</td>
-<td align="left">13</td>
-<td align="left">11</td>
-<td align="left">12</td>
-<td align="left">13</td>
-<td align="left">14</td>
-<td align="left">15</td>
-<td align="left">12</td>
-<td align="left">13</td>
-<td align="left">13</td>
-<td align="left">9</td>
+<tr>
+<td style="text-align:left;">
+Very Low
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+9
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left">F</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Low</td>
-<td align="left">15</td>
-<td align="left">20</td>
-<td align="left">17</td>
-<td align="left">15</td>
-<td align="left">13</td>
-<td align="left">15</td>
-<td align="left">17</td>
-<td align="left">15</td>
-<td align="left">15</td>
-<td align="left">17</td>
-<td align="left">15</td>
-<td align="left">13</td>
-<td align="left">15</td>
+<tr>
+<td style="text-align:left;">
+Low
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+17
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+17
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+17
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+15
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Moderate</td>
-<td align="left">30</td>
-<td align="left">29</td>
-<td align="left">30</td>
-<td align="left">28</td>
-<td align="left">33</td>
-<td align="left">31</td>
-<td align="left">29</td>
-<td align="left">31</td>
-<td align="left">25</td>
-<td align="left">33</td>
-<td align="left">29</td>
-<td align="left">31</td>
-<td align="left">34</td>
+<tr>
+<td style="text-align:left;">
+Moderate
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:left;">
+28
+</td>
+<td style="text-align:left;">
+33
+</td>
+<td style="text-align:left;">
+31
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+31
+</td>
+<td style="text-align:left;">
+25
+</td>
+<td style="text-align:left;">
+33
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+31
+</td>
+<td style="text-align:left;">
+34
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">High</td>
-<td align="left">21</td>
-<td align="left">13</td>
-<td align="left">21</td>
-<td align="left">23</td>
-<td align="left">22</td>
-<td align="left">21</td>
-<td align="left">22</td>
-<td align="left">18</td>
-<td align="left">24</td>
-<td align="left">20</td>
-<td align="left">20</td>
-<td align="left">19</td>
-<td align="left">32</td>
+<tr>
+<td style="text-align:left;">
+High
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+18
+</td>
+<td style="text-align:left;">
+24
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+32
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left">C</td>
-<td align="left">C</td>
-<td align="left">C</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">I</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">K L M</td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+K L M
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Very High</td>
-<td align="left">21</td>
-<td align="left">19</td>
-<td align="left">20</td>
-<td align="left">22</td>
-<td align="left">21</td>
-<td align="left">21</td>
-<td align="left">19</td>
-<td align="left">23</td>
-<td align="left">23</td>
-<td align="left">18</td>
-<td align="left">23</td>
-<td align="left">24</td>
-<td align="left">9</td>
+<tr>
+<td style="text-align:left;">
+Very High
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+18
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+24
+</td>
+<td style="text-align:left;">
+9
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">N</td>
-<td align="left">K N</td>
-<td align="left">K N</td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:left;">
+K N
+</td>
+<td style="text-align:left;">
+K N
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">n</td>
-<td align="left">2000</td>
-<td align="left">100</td>
-<td align="left">399</td>
-<td align="left">705</td>
-<td align="left">209</td>
-<td align="left">198</td>
-<td align="left">462</td>
-<td align="left">516</td>
-<td align="left">220</td>
-<td align="left">326</td>
-<td align="left">683</td>
-<td align="left">357</td>
-<td align="left">97</td>
+<tr>
+<td style="text-align:left;">
+n
+</td>
+<td style="text-align:left;">
+2000
+</td>
+<td style="text-align:left;">
+100
+</td>
+<td style="text-align:left;">
+399
+</td>
+<td style="text-align:left;">
+705
+</td>
+<td style="text-align:left;">
+209
+</td>
+<td style="text-align:left;">
+198
+</td>
+<td style="text-align:left;">
+462
+</td>
+<td style="text-align:left;">
+516
+</td>
+<td style="text-align:left;">
+220
+</td>
+<td style="text-align:left;">
+326
+</td>
+<td style="text-align:left;">
+683
+</td>
+<td style="text-align:left;">
+357
+</td>
+<td style="text-align:left;">
+97
+</td>
 </tr>
-<tr class="even">
-<td align="left">deff</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
+<tr>
+<td style="text-align:left;">
+deff
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
 </tr>
-<tr class="odd">
-<td align="left">moe</td>
-<td align="left">2.19134661794979</td>
-<td align="left">9.8</td>
-<td align="left">4.90613650835324</td>
-<td align="left">3.69089352805808</td>
-<td align="left">6.77880174588753</td>
-<td align="left">6.96455673428328</td>
-<td align="left">4.55937263095251</td>
-<td align="left">4.31420944099556</td>
-<td align="left">6.60715865213977</td>
-<td align="left">5.42771800109277</td>
-<td align="left">3.74986578578757</td>
-<td align="left">5.18671001544464</td>
-<td align="left">9.95039241830947</td>
+<tr>
+<td style="text-align:left;">
+moe
+</td>
+<td style="text-align:left;">
+2.19134661794979
+</td>
+<td style="text-align:left;">
+9.8
+</td>
+<td style="text-align:left;">
+4.90613650835324
+</td>
+<td style="text-align:left;">
+3.69089352805808
+</td>
+<td style="text-align:left;">
+6.77880174588753
+</td>
+<td style="text-align:left;">
+6.96455673428328
+</td>
+<td style="text-align:left;">
+4.55937263095251
+</td>
+<td style="text-align:left;">
+4.31420944099556
+</td>
+<td style="text-align:left;">
+6.60715865213977
+</td>
+<td style="text-align:left;">
+5.42771800109277
+</td>
+<td style="text-align:left;">
+3.74986578578757
+</td>
+<td style="text-align:left;">
+5.18671001544464
+</td>
+<td style="text-align:left;">
+9.95039241830947
+</td>
 </tr>
 </tbody>
 </table>
@@ -2740,247 +5885,566 @@ are NULL by default (i.e. removing nothing).</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat dislike` -&gt; `Somewhat dislike...12`</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `About equally like and dislike` -&gt; `About equally like and dislike...13`</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...14`</span></span></code></pre></div>
-<table class="table">
-<colgroup>
-<col width="3%">
-<col width="5%">
-<col width="6%">
-<col width="11%">
-<col width="5%">
-<col width="6%">
-<col width="7%">
-<col width="6%">
-<col width="5%">
-<col width="6%">
-<col width="7%">
-<col width="7%">
-<col width="11%">
-<col width="6%">
-</colgroup>
-<thead><tr class="header">
-<th align="left">levels</th>
-<th align="left">Total</th>
-<th align="left">Somewhat dislike…3</th>
-<th align="left">About equally like and dislike…4</th>
-<th align="left">Somewhat like…5</th>
-<th align="left">Very much like…6</th>
-<th align="left">Very much dislike…7</th>
-<th align="left">Somewhat dislike…8</th>
-<th align="left">Somewhat like…9</th>
-<th align="left">Very much like…10</th>
-<th align="left">Very much dislike…11</th>
-<th align="left">Somewhat dislike…12</th>
-<th align="left">About equally like and dislike…13</th>
-<th align="left">Somewhat like…14</th>
+<table class="table table" style="font-size: 10px; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead><tr>
+<th style="text-align:left;">
+levels
+</th>
+<th style="text-align:left;">
+Total
+</th>
+<th style="text-align:left;">
+Somewhat dislike…3
+</th>
+<th style="text-align:left;">
+About equally like and dislike…4
+</th>
+<th style="text-align:left;">
+Somewhat like…5
+</th>
+<th style="text-align:left;">
+Very much like…6
+</th>
+<th style="text-align:left;">
+Very much dislike…7
+</th>
+<th style="text-align:left;">
+Somewhat dislike…8
+</th>
+<th style="text-align:left;">
+Somewhat like…9
+</th>
+<th style="text-align:left;">
+Very much like…10
+</th>
+<th style="text-align:left;">
+Very much dislike…11
+</th>
+<th style="text-align:left;">
+Somewhat dislike…12
+</th>
+<th style="text-align:left;">
+About equally like and dislike…13
+</th>
+<th style="text-align:left;">
+Somewhat like…14
+</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
-<td align="left">Very Low</td>
-<td align="left">13</td>
-<td align="left">12</td>
-<td align="left">12</td>
-<td align="left">13</td>
-<td align="left">11</td>
-<td align="left">12</td>
-<td align="left">13</td>
-<td align="left">14</td>
-<td align="left">15</td>
-<td align="left">12</td>
-<td align="left">13</td>
-<td align="left">13</td>
-<td align="left">13</td>
+<tr>
+<td style="text-align:left;">
+Very Low
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+13
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Low</td>
-<td align="left">15</td>
-<td align="left">17</td>
-<td align="left">15</td>
-<td align="left">15</td>
-<td align="left">13</td>
-<td align="left">15</td>
-<td align="left">17</td>
-<td align="left">15</td>
-<td align="left">15</td>
-<td align="left">17</td>
-<td align="left">15</td>
-<td align="left">16</td>
-<td align="left">13</td>
+<tr>
+<td style="text-align:left;">
+Low
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+17
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+17
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+17
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+13
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Moderate</td>
-<td align="left">30</td>
-<td align="left">30</td>
-<td align="left">31</td>
-<td align="left">28</td>
-<td align="left">33</td>
-<td align="left">31</td>
-<td align="left">29</td>
-<td align="left">31</td>
-<td align="left">25</td>
-<td align="left">33</td>
-<td align="left">29</td>
-<td align="left">28</td>
-<td align="left">31</td>
+<tr>
+<td style="text-align:left;">
+Moderate
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:left;">
+31
+</td>
+<td style="text-align:left;">
+28
+</td>
+<td style="text-align:left;">
+33
+</td>
+<td style="text-align:left;">
+31
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+31
+</td>
+<td style="text-align:left;">
+25
+</td>
+<td style="text-align:left;">
+33
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+28
+</td>
+<td style="text-align:left;">
+31
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">High</td>
-<td align="left">21</td>
-<td align="left">21</td>
-<td align="left">20</td>
-<td align="left">23</td>
-<td align="left">22</td>
-<td align="left">21</td>
-<td align="left">22</td>
-<td align="left">18</td>
-<td align="left">24</td>
-<td align="left">20</td>
-<td align="left">20</td>
-<td align="left">23</td>
-<td align="left">19</td>
+<tr>
+<td style="text-align:left;">
+High
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+18
+</td>
+<td style="text-align:left;">
+24
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+19
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">I</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Very High</td>
-<td align="left">21</td>
-<td align="left">20</td>
-<td align="left">21</td>
-<td align="left">22</td>
-<td align="left">21</td>
-<td align="left">21</td>
-<td align="left">19</td>
-<td align="left">23</td>
-<td align="left">23</td>
-<td align="left">18</td>
-<td align="left">23</td>
-<td align="left">21</td>
-<td align="left">24</td>
+<tr>
+<td style="text-align:left;">
+Very High
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+18
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+24
+</td>
 </tr>
-<tr class="even">
-<td align="left">..</td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">K</td>
-<td align="left"></td>
-<td align="left">K</td>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+K
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+K
+</td>
 </tr>
-<tr class="odd">
-<td align="left">n</td>
-<td align="left">2000</td>
-<td align="left">399</td>
-<td align="left">587</td>
-<td align="left">705</td>
-<td align="left">209</td>
-<td align="left">198</td>
-<td align="left">462</td>
-<td align="left">516</td>
-<td align="left">220</td>
-<td align="left">326</td>
-<td align="left">683</td>
-<td align="left">537</td>
-<td align="left">357</td>
+<tr>
+<td style="text-align:left;">
+n
+</td>
+<td style="text-align:left;">
+2000
+</td>
+<td style="text-align:left;">
+399
+</td>
+<td style="text-align:left;">
+587
+</td>
+<td style="text-align:left;">
+705
+</td>
+<td style="text-align:left;">
+209
+</td>
+<td style="text-align:left;">
+198
+</td>
+<td style="text-align:left;">
+462
+</td>
+<td style="text-align:left;">
+516
+</td>
+<td style="text-align:left;">
+220
+</td>
+<td style="text-align:left;">
+326
+</td>
+<td style="text-align:left;">
+683
+</td>
+<td style="text-align:left;">
+537
+</td>
+<td style="text-align:left;">
+357
+</td>
 </tr>
-<tr class="even">
-<td align="left">deff</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
+<tr>
+<td style="text-align:left;">
+deff
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
 </tr>
-<tr class="odd">
-<td align="left">moe</td>
-<td align="left">2.19134661794979</td>
-<td align="left">4.90613650835324</td>
-<td align="left">4.04489288272368</td>
-<td align="left">3.69089352805808</td>
-<td align="left">6.77880174588753</td>
-<td align="left">6.96455673428328</td>
-<td align="left">4.55937263095251</td>
-<td align="left">4.31420944099556</td>
-<td align="left">6.60715865213977</td>
-<td align="left">5.42771800109277</td>
-<td align="left">3.74986578578757</td>
-<td align="left">4.22901214962061</td>
-<td align="left">5.18671001544464</td>
+<tr>
+<td style="text-align:left;">
+moe
+</td>
+<td style="text-align:left;">
+2.19134661794979
+</td>
+<td style="text-align:left;">
+4.90613650835324
+</td>
+<td style="text-align:left;">
+4.04489288272368
+</td>
+<td style="text-align:left;">
+3.69089352805808
+</td>
+<td style="text-align:left;">
+6.77880174588753
+</td>
+<td style="text-align:left;">
+6.96455673428328
+</td>
+<td style="text-align:left;">
+4.55937263095251
+</td>
+<td style="text-align:left;">
+4.31420944099556
+</td>
+<td style="text-align:left;">
+6.60715865213977
+</td>
+<td style="text-align:left;">
+5.42771800109277
+</td>
+<td style="text-align:left;">
+3.74986578578757
+</td>
+<td style="text-align:left;">
+4.22901214962061
+</td>
+<td style="text-align:left;">
+5.18671001544464
+</td>
 </tr>
 </tbody>
 </table>
