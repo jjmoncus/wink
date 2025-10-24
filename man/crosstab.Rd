@@ -12,9 +12,18 @@ crosstab(
   var_nets = NULL,
   digits = 0,
   min_group_n = 100,
-  st_col_start = 3
+  st_col_start = 3,
+  exclude_var = NULL,
+  exclude_by = NULL
 )
 }
 \description{
 Rewriting the crosstab function
+}
+\details{
+When specifying \code{var_nets} using numbers instead of characters, remember to specify integers with reference to the \emph{original factor levels of the variable},
+as opposed to the number-row of the table you think each level corresponds to. Interactions with \code{exclude_var} and \code{exclude_by}, might result
+in number-rows no longer matching the original levels
+
+Silently drops levels of \code{by} for which there are no observations.
 }

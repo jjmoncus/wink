@@ -97,13 +97,16 @@ write_banners <- function(banners_list, file, overwrite = TRUE) {
   # ------------------------------------------- #
 
   # Get labels (`var_label` or fallback to `var`)
-  question_wordings <- map_chr(banners_list, ~ {
+  question_wordings <- banners_list %>%
+    set_names(map_chr(banners_list, ~attr(.x, "var"))) %>%
+    map_chr(~ {
     lbl <- attr(.x, "var_label")
     if (is.null(lbl) || is.na(lbl) || lbl == "") {
-      attr(.x, "var")  # fallback to sheet name if `var_label` from banner is empty
+      out <- attr(.x, "var")  # fallback to sheet name if `var_label` from banner is empty
     } else {
-      lbl
+      out <- lbl
     }
+    return(out %>% set_names(attr(.x, "var")))
   })
 
   # ----------------------------------------- #
@@ -161,8 +164,10 @@ write_banners <- function(banners_list, file, overwrite = TRUE) {
                style = createStyle(halign = "center"))
     }
 
+    # declare how many rows of "buffer" there are, and work from there
+    buffer_rows <- 4
     # Write data to the sheet (starting in row 5)
-    writeData(wb, sheet = var_name, x = data, startRow = 5, startCol = 1)
+    writeData(wb, sheet = var_name, x = data, startRow = buffer_rows + 1, startCol = 1)
 
     # Apply right border style to the divider columns
     addStyle(
@@ -217,8 +222,37 @@ write_banners <- function(banners_list, file, overwrite = TRUE) {
 
     # widen height of rows, just to make it easier to read
     setRowHeights(wb, var_name,
-                  rows = 4:(nrow(data) + 5), # have to add extra rows for however many rows are taken up above the data
+                  rows = 4:(nrow(data) + buffer_rows + 1), # have to add extra rows for however many rows are taken up above the data
                   heights = 28)
+
+    # --- color `too_low_n` cells red
+
+    # a) identify which excel row is now the one with "n" values in it
+    row_where_n <- which(data$levels == "n") + buffer_rows + 1 # have to add all the buffer rows
+    too_low_n_cols <- attr(data, "too_low_n")
+    addStyle(
+      wb,
+      sheet = var_name,
+      style = createStyle(fontColour = "#800000",
+                          fgFill = "#fadadd"),
+      rows = row_where_n,
+      cols = too_low_n_cols,
+      gridExpand = FALSE,
+      stack = TRUE
+    )
+
+    # --- add extra messaging rows beneath the table, for whatever
+    # start with min_n statement
+
+    total_rows_used <- buffer_rows + nrow(data) + 1
+    first_avail <- total_rows_used + 1
+    writeData(wb,
+              sheet = var_name,
+              glue("Flagging groups with n-sizes less than {attr(data, 'min_group_n')}"),
+              startRow = first_avail,
+              startCol = 1)
+
+
   })
 
   # --------------------------------------------- #
