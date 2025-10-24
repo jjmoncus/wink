@@ -115,6 +115,8 @@ crosstab_builder <- function(baby_crosstab,
 #' as opposed to the number-row of the table you think each level corresponds to. Interactions with `exclude_var` and `exclude_by`, might result
 #' in number-rows no longer matching the original levels
 #'
+#' Silently drops levels of `by` for which there are no observations.
+#'
 #'
 #' @importFrom tibble tibble add_column
 #' @importFrom tidyselect any_of
@@ -203,7 +205,12 @@ crosstab <- function(data,
   # Filter `by` groups based on whatever final rules we decide
   # (at the moment, we're leaning towards filtering using string matching)
 
-  by_levels_to_use <- by_params %>% filter(!str_detect(by_level, exclude_by)) %>% pull(by_level)
+  by_levels_to_use <- by_params %>%
+    filter(!str_detect(by_level, exclude_by)) %>%
+    # silently also cut any by_levels with n.= 0
+    # `get_totals` already does this, we just replicate here so significance testing can run later
+    filter(n > 0) %>%
+    pull(by_level)
   # by_levels_to_use <- by_params %>% filter(n >= min_group_n) %>% pull(by_level)
   n_unweighteds <- by_params %>% filter(by_level %in% by_levels_to_use) %>% pull(n) %>% set_names(by_levels_to_use)
   deffs <- by_params %>% filter(by_level %in% by_levels_to_use) %>% pull(deff) %>% set_names(by_levels_to_use)
