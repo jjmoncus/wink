@@ -50,15 +50,15 @@ The `wink` package provides functions for generating publication-ready survey ta
 
 The goal is to make Excel outputs that `r download_link`.
 
-The three main functions demonstrated here are:
+The two main functions demonstrated here are:
 
-- `crosstab()`: Generates a single, statistically-tested crosstab table.
-
-- `banner()`: Generates multiple `crosstab()` tables against a common target variable and combines them into one wide "banner" table.
+- `banner()`: Generates multiple, statistically tested crosstab tables against a common target variable and combines them into one wide "banner" table.
 
 - `write_banners()`: Exports banner tables to a formatted Excel workbook.
 
-The typical user will not need to use `crosstab()`. It is meant to be the guts for how the rest of the package works and is exposed just for convenience. A typical workflow will be to generate lists of tables using `banner()` and then export them with `write_banners()`.
+A typical workflow will be to generate lists of tables using `banner()` and then export them with `write_banners()`.
+
+The workhorse underneath `banner()` is `crosstab()`, which generates the percentages for a single crosstab, and which most user will not need to use. It is meant to be the guts for how the rest of the package works and is exposed just for convenience. See `crosstab()`'s documentation for the specifics.
 
 # Setup and Data
 
@@ -66,69 +66,127 @@ You can install the most up-to-date version of the package via the github repo.
 
 ``` {r}
 #| eval: false
-
 pak::pak("jjmoncus/wink")
-library(wink)
 ```
+
+Or if you want to make sure you build vignettes:
+
+``` {r}
+#| eval: false
+devtools::install_github("jjmoncus/wink",
+                         build_vignettes = TRUE,
+                         force = TRUE)
+```
+
 
 
 For this example, we'll use the synthetic `food` dataset that comes with the package.
 
 ``` {r}
-
 # In a real session, the data loads automatically when your package is attached.
 head(food, n = 5)
 ```
 
 The `food` dataset contains `r nrow(food)` fictional survey responses, including demographics and food attitude ratings.
 
-# 1. `crosstab()`: Generating a single crosstab
+# 1. `banner()`: Generating crosstabs
 
-## Percentages of `var`, split by `by`
+## Percentages of `var`, split by `bys`
 
-The `crosstab()` function generates a percentage table for one variable (`var`) broken down by another (`by`) and performs column-to-column statistical testing (represented by letter rows).
+The `banner()` function generates a percentage table for one variable (`var`) broken down others (`bys`) and performs column-to-column statistical testing (represented by letter rows).
 
-unweighted N's, Design Effects (DEFF), and Margins of Sampling Error (MOSE), are included at the bottom.
+unweighted N's, Design Effects (DEFF), and Margins of Sampling Error (MOSE) for each group are included at the bottom..
 
-This is a crosstab for the likelihood of being pescetarian (`pescetarian`) by taste for meat (`rating_meat`).
+Here's a banner for the likelihood of being pescetarian (`pescetarian`), by taste for meat (`rating_meat`).
 
 ``` {r}
 #| warning: false
-crosstab(
+banner(
   data = food,
   var = "pescetarian",
-  by = "rating_meat"
+  bys = "rating_meat"
 )
 ```
 
 
+By default, `banner()`, includes a Total column in the front, with percentages across `var` for the full sample (i.e. split by nothing.)
+
+As you add more `bys`, each new crosstab is concatenated to the next.
+
+If two or more `bys` share factor levels, then we would naturally end up with columns with the same name, so these are renamed according to `tibble()` rules (might come back to this later).
+
+
+``` {r}
+#| warning: false
+banner(
+  data = food,
+  var = "pescetarian",
+  bys = c("rating_meat", "rating_sushi", "rating_veg")
+)
+```
+
+
+Metadata about each crosstab of the banner is stored underneath as attributes. Some attributes let you know what was called in order to generate the table (`var`, `by`, `min_group_n`), while others are useful for writing banners to Excel outputs (`col_dividers`, `too_low_n`).
+
+
+``` {r}
+#| warning: false
+x <- banner(
+  data = food,
+  var = "pescetarian",
+  bys = c("rating_meat", "rating_sushi", "rating_veg")
+)
+
+attributes(x)
+```
+
+
+
 ## Weighting
 
-Example coming soon
+Specifying `weight` generates weighted estimates.
+
+Unweighted estimates will naturally have design effects equal to 1, whereas weighted estimates will have unique `deff` values for each group.
+
+``` {r}
+# for example, here's add an arbitrary weight variable
+food <- food %>%
+  dplyr::mutate(weight_1 = runif(nrow(food), 0, 3)) # randomly give everyone a weight between 0 and 3
+
+
+banner(
+  data = food,
+  var = "pescetarian",
+  bys = c("rating_meat", "rating_sushi", "rating_veg"),
+  weight = "weight_1"
+)
+
+```
+
+
 
 ## Rounding
 
-`crosstab()` automatically rounds to whole percentages, but you can specify using `digits`.
+`banner()` automatically rounds to whole percentages, but you can specify using `digits`.
 
 ``` {r}
-crosstab(
+banner(
   data = food,
   var = "pescetarian",
-  by = "rating_meat",
+  bys = c("rating_meat", "rating_sushi", "rating_veg"),
   digits = 2
 )
 ```
 
 ## Adding Net Categories
 
-You can define NET (summary) categories using the `var_nets` argument, which takes a named list of character vectors. 
+You can define NET (summary) categories using the `var_nets` argument, which takes a named list of character vectors. Each NET category is inserted into the table right above the first level contributing to it.
 
 ``` {r}
-
-crosstab(
+banner(
   data = food,
-  var = "veggie",
-  by = "rating_pizza",
+  var = "pescetarian",
+  bys = c("rating_meat", "rating_sushi", "rating_veg"),
   var_nets = list(
     "Low"  = c("Very Low", "Low"),
     "High" = c("High", "Very High")
@@ -138,67 +196,70 @@ crosstab(
 ```
 
 
-`var_nets` can also be specified by referring to levels by number.
+You can also specify `var_nets` with levels numbers.
 
 ``` {r}
-crosstab(
+banner(
   data = food,
-  var = "veggie",
-  by = "rating_pizza",
+  var = "pescetarian",
+  bys = c("rating_meat", "rating_sushi", "rating_veg"),
   var_nets = list(
     "Low"  = c(1:2),
     "High" = c(4:5)
     )
-)
+  )
 
 ```
 
-Notice that the NET rows are inserted into the table, and the metadata rows (N, DEFF, MOSE) are appended at the bottom.
+## Excluding columns or rows
 
-## Other details
+You may want to selectively leave out columns of `bys` or rows of `var` that aren't of interest. Supply a regex to `exclude_var` or `exclude_bys` to remove any columns/rows that match, without disrupting significance testing. Both are NULL by default (i.e. removing nothing).
 
-The column letters reflect the columns that the table would eventually fit into when exported to excel. By default, the first column is presumed to fall into column `C`, dictated by the default parameter `st_col_start = 3`. You can in theory set a new default by specifying `st_col_start`, if you just wanted to export a single crosstab.
+```{r}
+banner(
+  data = food,
+  var = "pescetarian",
+  bys = c("rating_meat", "rating_sushi", "rating_veg"),
+  exclude_var = "Moderate"
+  )
+```
 
-# 2. `banner()`: Combining crosstabs
+```{r}
+banner(
+  data = food,
+  var = "pescetarian",
+  bys = c("rating_meat", "rating_sushi", "rating_veg"),
+  exclude_bys = "equal" # providing one pattern recycles across all bys
+  )
+```
 
-`banner()` generates multiple `crosstab()` tables against a common target variable (`var`) and combines them into one wide table.
+```{r}
+banner(
+  data = food,
+  var = "pescetarian",
+  bys = c("rating_meat", "rating_sushi", "rating_veg"),
+  exclude_bys = c("Very much dislike", "equally", "Very much like") # Otherwise, add as many patterns as there are `bys`
+  )
+```
 
-``` {r}
-#| warning: false
-#| message: false
+
+```{r}
+#| eval: false
 
 banner(
   data = food,
-  var = "vegan",
-  bys = c("rating_meat", "rating_pizza", "rating_sushi", "rating_veg")
-)
-
+  var = "pescetarian",
+  bys = c("rating_meat", "rating_sushi", "rating_veg"),
+  exclude_bys = c("Very much dislike", "Very much like") # adding fewer than `length(bys)` gives you an error
+  )
 ```
-
-Columns are grouped by the `by` variable. 
-
-`weight`, `digits`, and `var_nets` work the same as in `crosstab()`
-
-``` {r}
-#| warning: false
-#| message: false
-
-banner(
-  data = food,
-  var = "vegan",
-  bys = c("rating_meat", "rating_pizza", "rating_sushi", "rating_veg"),
-  weight = NULL, # example coming soon
-  digits = 2,
-  var_nets = list(Low = 1:2, High = 4:5)
-)
-
-```
-
 
 
 # 3. `write_banners()`: Exporting to Excel
 
-The `write_banners()` function takes a list of from banners from `banner()` and exports them to a single, formatted Excel file. It separates banner groups with borders and creates a hyperlinked Table of Contents.
+`write_banners()` takes a list of banners from `banner()` and exports them to a single, formatted Excel file. It separates banner groups with borders, adds merged-cell subheads over each group of by-columns, and creates a hyperlinked Table of Contents.
+
+Any by-groups with n less than `min_group_n` will be highlighted in red, and there will be a message just below the table specifying what `min_group_n` value was used for comparisons.
 
 The typical workflow would be to write a list of banners using `purrr::map()`
 
@@ -207,7 +268,7 @@ The typical workflow would be to write a list of banners using `purrr::map()`
 #| message: false
 
 banners <- c("pescetarian", "veggie", "vegan") %>%
-  purrr::set_names() %>% # name the vector after itself, not required but convenient
+  purrr::set_names() %>% # name the vector after itself, not required for `write_banners` but maybe convenient for you later
   purrr::map(function(x) {
     
     banner(
@@ -215,12 +276,21 @@ banners <- c("pescetarian", "veggie", "vegan") %>%
       var = x,
       bys = paste0("rating_", c("meat", "pizza", "sushi", "veg")))
   })
-    
 
-write_banners(
-  banners_list = banners,
-  file = "my_survey_results.xlsx",
-  overwrite = TRUE
-)
+write_banners(banners = banners, file = "my_survey_results.xlsx", overwrite = TRUE)
 
 ```
+
+
+You can also write a single banner, if you so choose (i.e. it doesn't need to be preemptively wrapped in a list).
+
+``` {r}
+#| warning: false
+#| message: false
+
+banner(food, "pescetarian", bys = paste0("rating_", c("meat", "pizza", "sushi", "veg"))) %>%
+  write_banners(file = "single_banner.xlsx", overwrite = TRUE)
+
+```
+
+
