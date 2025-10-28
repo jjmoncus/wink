@@ -182,18 +182,21 @@ write_banners <- function(banners, file, overwrite = TRUE) {
                 startRow = 5,
                 startCol = attr(data, "col_dividers")[i] + 1) # place the name of the `by` right after the previous group's col divider
 
+      # center and wrap the text BEFORE MERGING
+      addStyle(wb,
+               sheet = var_name,
+               rows = 5,
+               cols = attr(data, "col_dividers")[i] + 1,
+               style = createStyle(halign = "center", wrap = TRUE))
+
       # merge with corresponding cells
       mergeCells(wb,
                  sheet = var_name,
                  rows = 5,
                  cols = (attr(data, "col_dividers")[i] + 1):attr(data, "col_dividers")[i+1])
 
-      # center and wrap the text
-      addStyle(wb,
-               sheet = var_name,
-               rows = 5,
-               cols = attr(data, "col_dividers")[i] + 1,
-               style = createStyle(halign = "center", wrap = TRUE))
+      # the idea for wrapping before merging was that it would fix the row height not auto-fitting to all text
+      # this doesnt accomplish that, need to turn back to this
     }
     # declare how many rows of "buffer" there are, and work from there
     buffer_rows <- 5
