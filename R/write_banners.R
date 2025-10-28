@@ -187,7 +187,7 @@ write_banners <- function(banners, file, overwrite = TRUE) {
                sheet = var_name,
                rows = 5,
                cols = attr(data, "col_dividers")[i] + 1,
-               style = createStyle(halign = "center", wrap = TRUE))
+               style = createStyle(halign = "center", wrapText = TRUE))
 
       # merge with corresponding cells
       mergeCells(wb,
@@ -203,7 +203,7 @@ write_banners <- function(banners, file, overwrite = TRUE) {
     # Write data to the sheet (starting in row 6)
     writeData(wb, sheet = var_name, x = data, startRow = buffer_rows + 1, startCol = 1)
     # wrap the column headers in row 6, in case they're very long
-    addStyle(wb, sheet = var_name, style = createStyle(wrap = TRUE), rows = 6, cols = 1:ncol(data), stack = TRUE)
+    addStyle(wb, sheet = var_name, style = createStyle(wrapText = TRUE), rows = 6, cols = 1:ncol(data), stack = TRUE)
 
     # Apply right border style to the divider columns
     addStyle(
