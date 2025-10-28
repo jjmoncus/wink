@@ -246,10 +246,14 @@ write_banners <- function(banners, file, overwrite = TRUE) {
 
     # allow automatic column widths for most cols
     setColWidths(wb, var_name, cols = 1, widths = 30)
-    setColWidths(wb, var_name, cols = 2:ncol(data), widths = "auto")
-    # we start "auto" colWidths at column 2, since column 1 might eventually contain
-    # very long strings (like the full question wording, other metadata below the table, etc)
-    # and we're not interested in wrapping that text yet
+    setColWidths(wb, var_name, cols = 2:ncol(data), widths = 25)
+    # we would ideally like to set colwidths to "auto" so they will snap to the width of the longest text
+    # but the inclusion of the long `by_labels` above messes it up,
+    # so we force it for now.
+    #
+    # column 1 might eventually contain very long strings (like the full question wording,
+    # other metadata below the table, etc), and we're not interested in wrapping that text yet,
+    # so we would want to force its width, anyway
 
     # widen height of rows, just to make it easier to read
     setRowHeights(wb, var_name,
