@@ -188,12 +188,12 @@ write_banners <- function(banners, file, overwrite = TRUE) {
                  rows = 5,
                  cols = (attr(data, "col_dividers")[i] + 1):attr(data, "col_dividers")[i+1])
 
-      # center the text
+      # center and wrap the text
       addStyle(wb,
                sheet = var_name,
                rows = 5,
                cols = attr(data, "col_dividers")[i] + 1,
-               style = createStyle(halign = "center"))
+               style = createStyle(halign = "center", wrap = TRUE))
     }
     # declare how many rows of "buffer" there are, and work from there
     buffer_rows <- 5
