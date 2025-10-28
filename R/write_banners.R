@@ -248,7 +248,7 @@ write_banners <- function(banners, file, overwrite = TRUE) {
 
     # allow automatic column widths for most cols
     setColWidths(wb, var_name, cols = 1, widths = 30)
-    setColWidths(wb, var_name, cols = 2:ncol(data), widths = 25)
+    setColWidths(wb, var_name, cols = 2:ncol(data), widths = 18)
     # we would ideally like to set colwidths to "auto" so they will snap to the width of the longest text
     # but the inclusion of the long `by_labels` above messes it up,
     # so we force it for now.
