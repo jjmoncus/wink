@@ -172,17 +172,45 @@ write_banners <- function(banners, file, overwrite = TRUE) {
                style = createStyle(halign = "center"))
     }
 
+    # in row 5, do the same thing, but with by_labels instead
+    for (i in seq_along(attr(data, "by_labels"))) { # currently doing this by position, likely need to change to names in the future
+
+      # writing the `by` name
+      writeData(wb,
+                sheet = var_name,
+                x = attr(data, "by_labels")[i],
+                startRow = 5,
+                startCol = attr(data, "col_dividers")[i] + 1) # place the name of the `by` right after the previous group's col divider
+
+      # center and wrap the text BEFORE MERGING
+      addStyle(wb,
+               sheet = var_name,
+               rows = 5,
+               cols = attr(data, "col_dividers")[i] + 1,
+               style = createStyle(halign = "center", wrapText = TRUE))
+
+      # merge with corresponding cells
+      mergeCells(wb,
+                 sheet = var_name,
+                 rows = 5,
+                 cols = (attr(data, "col_dividers")[i] + 1):attr(data, "col_dividers")[i+1])
+
+      # the idea for wrapping before merging was that it would fix the row height not auto-fitting to all text
+      # this doesnt accomplish that, need to turn back to this
+    }
     # declare how many rows of "buffer" there are, and work from there
-    buffer_rows <- 4
-    # Write data to the sheet (starting in row 5)
+    buffer_rows <- 5
+    # Write data to the sheet (starting in row 6)
     writeData(wb, sheet = var_name, x = data, startRow = buffer_rows + 1, startCol = 1)
+    # wrap the column headers in row 6, in case they're very long
+    addStyle(wb, sheet = var_name, style = createStyle(wrapText = TRUE), rows = 6, cols = 1:ncol(data), stack = TRUE)
 
     # Apply right border style to the divider columns
     addStyle(
       wb,
       sheet = var_name,
       style = createStyle(border = "right", borderStyle = "medium"),
-      rows = 4:(nrow(data) + 5),
+      rows = 4:(nrow(data) + 6),
       cols = c(1, attr(data, "col_dividers")),
       gridExpand = TRUE,
       stack = TRUE
@@ -215,7 +243,7 @@ write_banners <- function(banners, file, overwrite = TRUE) {
       wb,
       sheet = var_name,
       style = createStyle(border = "bottom", borderStyle = "medium"),
-      rows = nrow(data) + 5,
+      rows = nrow(data) + 6,
       cols = 1:ncol(data),
       gridExpand = TRUE,
       stack = TRUE
@@ -223,10 +251,14 @@ write_banners <- function(banners, file, overwrite = TRUE) {
 
     # allow automatic column widths for most cols
     setColWidths(wb, var_name, cols = 1, widths = 30)
-    setColWidths(wb, var_name, cols = 2:ncol(data), widths = "auto")
-    # we start "auto" colWidths at column 2, since column 1 might eventually contain
-    # very long strings (like the full question wording, other metadata below the table, etc)
-    # and we're not interested in wrapping that text yet
+    setColWidths(wb, var_name, cols = 2:ncol(data), widths = 18)
+    # we would ideally like to set colwidths to "auto" so they will snap to the width of the longest text
+    # but the inclusion of the long `by_labels` above messes it up,
+    # so we force it for now.
+    #
+    # column 1 might eventually contain very long strings (like the full question wording,
+    # other metadata below the table, etc), and we're not interested in wrapping that text yet,
+    # so we would want to force its width, anyway
 
     # widen height of rows, just to make it easier to read
     setRowHeights(wb, var_name,
