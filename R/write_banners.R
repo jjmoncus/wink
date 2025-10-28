@@ -197,8 +197,10 @@ write_banners <- function(banners, file, overwrite = TRUE) {
     }
     # declare how many rows of "buffer" there are, and work from there
     buffer_rows <- 5
-    # Write data to the sheet (starting in row 5)
+    # Write data to the sheet (starting in row 6)
     writeData(wb, sheet = var_name, x = data, startRow = buffer_rows + 1, startCol = 1)
+    # wrap the column headers in row 6, in case they're very long
+    addStyle(wb, sheet = var_name, style = createStyle(wrap = TRUE), rows = 6, cols = 1:ncol(data), stack = TRUE)
 
     # Apply right border style to the divider columns
     addStyle(
