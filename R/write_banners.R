@@ -172,8 +172,31 @@ write_banners <- function(banners, file, overwrite = TRUE) {
                style = createStyle(halign = "center"))
     }
 
+    # in row 5, do the same thing, but with by_labels instead
+    for (i in seq_along(attr(data, "by_labels"))) { # currently doing this by position, likely need to change to names in the future
+
+      # writing the `by` name
+      writeData(wb,
+                sheet = var_name,
+                x = attr(data, "by_labels")[i],
+                startRow = 5,
+                startCol = attr(data, "col_dividers")[i] + 1) # place the name of the `by` right after the previous group's col divider
+
+      # merge with corresponding cells
+      mergeCells(wb,
+                 sheet = var_name,
+                 rows = 5,
+                 cols = (attr(data, "col_dividers")[i] + 1):attr(data, "col_dividers")[i+1])
+
+      # center the text
+      addStyle(wb,
+               sheet = var_name,
+               rows = 5,
+               cols = attr(data, "col_dividers")[i] + 1,
+               style = createStyle(halign = "center"))
+    }
     # declare how many rows of "buffer" there are, and work from there
-    buffer_rows <- 4
+    buffer_rows <- 5
     # Write data to the sheet (starting in row 5)
     writeData(wb, sheet = var_name, x = data, startRow = buffer_rows + 1, startCol = 1)
 
@@ -182,7 +205,7 @@ write_banners <- function(banners, file, overwrite = TRUE) {
       wb,
       sheet = var_name,
       style = createStyle(border = "right", borderStyle = "medium"),
-      rows = 4:(nrow(data) + 5),
+      rows = 4:(nrow(data) + 6),
       cols = c(1, attr(data, "col_dividers")),
       gridExpand = TRUE,
       stack = TRUE
@@ -215,7 +238,7 @@ write_banners <- function(banners, file, overwrite = TRUE) {
       wb,
       sheet = var_name,
       style = createStyle(border = "bottom", borderStyle = "medium"),
-      rows = nrow(data) + 5,
+      rows = nrow(data) + 6,
       cols = 1:ncol(data),
       gridExpand = TRUE,
       stack = TRUE
