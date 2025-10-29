@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Quick and easy crosstabs and banners, displaying weighted (and unweighted) survey estimates and exported to Excel.
+Crosstabs and banners of weighted (and unweighted) survey estimates, exported to Excel.
 }
 \seealso{
 Useful links:

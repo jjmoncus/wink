@@ -1,7 +1,7 @@
 # wink 0.0.3
 
-* write_banners() exports numbers as numbers and characters as text
-* default formats percentages as integers, deff + mose with 2 decimal places
+* `write_banners()` exports numbers as numbers and characters as text, and default formats percentages as integers, deff + mose with 2 decimal places
+* `na.rm` added to `banner()` and `crosstab()`, `TRUE` by default, removes missing values from `var` and messages in `write_banners()` how many were removed.
 
 
 # wink 0.0.2
