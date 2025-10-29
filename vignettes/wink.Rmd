@@ -275,7 +275,7 @@ banner(
 
 ## Removing respondents
 
-For variables with missing values, `na.rm = TRUE` by default, meaning NA's are excluded from the denominator of survey estimates. na.rm = FALSE includes them, and would report a "(Missing)" row.
+For variables with missing values, `na.rm = TRUE` by default, meaning NA's are excluded from the denominator of survey estimates. `na.rm = FALSE` includes them and would report a "(Missing)" row.
 
 (example to come)
 
