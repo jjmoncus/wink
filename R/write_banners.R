@@ -1,5 +1,6 @@
 #' Get the guts of a banner
 #'
+#' @importFrom purrr list_flatten
 fix_guts <- function(data) {
 
   data %>%
