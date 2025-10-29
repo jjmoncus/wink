@@ -4,7 +4,7 @@
 \alias{write_banners}
 \title{Export Banner Crosstabs to Formatted Excel Workbook}
 \usage{
-write_banners(banners, file, overwrite = TRUE)
+write_banners(banners, file, overwrite = TRUE, format_numbers = TRUE)
 }
 \arguments{
 \item{banners}{A list of data frames, typically the output from banner analysis

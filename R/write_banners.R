@@ -118,7 +118,7 @@ fix_guts <- function(data) {
 #' \code{\link[openxlsx]{saveWorkbook}} for saving Excel files
 #'
 #' @export
-write_banners <- function(banners, file, overwrite = TRUE) {
+write_banners <- function(banners, file, overwrite = TRUE, format_numbers = TRUE) {
 
   # ------------------------------------------- #
   # ----- gathering function params ----------- #
@@ -246,6 +246,18 @@ write_banners <- function(banners, file, overwrite = TRUE) {
       writeData(wb, sheet = var_name, x = banner_guts[[i]], startRow = buffer_rows + 1 + i, startCol = 2, colNames = FALSE)
     }
 
+    if (format_numbers) {
+
+      # if the user wants us to do standard formatting, then we will
+      # otherwise, we leave the table exactly is
+      for (i in 1:nrow(data)) {
+        # start by just formatting the whole table as integers
+        addStyle(wb, sheet = var_name, style = createStyle(numFmt = "0"), rows = buffer_rows + 1 + i, cols = 2:ncol(data), stack = TRUE)
+      }
+      # now overwrite the previous one with two decimals for deff and moe rows
+      row_where_deff <- which(data$levels == "deff") + buffer_rows + 1 # have to add all the buffer rows, same as below
+      addStyle(wb, sheet = var_name, style = createStyle(numFmt = "0.00"), rows = row_where_deff:(row_where_deff+1), cols = 2:ncol(data), stack = TRUE, gridExpand = TRUE)
+    }
 
     # wrap the column headers in row 6, in case they're very long
     addStyle(wb, sheet = var_name, style = createStyle(wrapText = TRUE), rows = 6, cols = 1:ncol(data), stack = TRUE)
