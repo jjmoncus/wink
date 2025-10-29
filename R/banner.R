@@ -221,7 +221,8 @@ banner <- function(data,
       var_label = attr(data[[var]], "label"),
       by_labels = set_names(bys) %>% map( ~data[[.x]] %>% attr("label")),
       min_group_n = min_group_n,
-      too_low_n = out %>% filter(levels == "n") %>% unlist() %>% {which(as.numeric(.) < min_group_n)} %>% suppressWarnings() # we know we're introducing NAs by coercion on the first column, dont message this
+      too_low_n = out %>% filter(levels == "n") %>% unlist() %>% {which(as.numeric(.) < min_group_n)} %>% suppressWarnings(), # we know we're introducing NAs by coercion on the first column, dont message this
+      na.rm = na.rm
     )
 }
 
