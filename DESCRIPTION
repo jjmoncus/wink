@@ -1,7 +1,7 @@
 Package: wink
 Type: Package
 Title: Crosstab and Signifiance Testing for Weighted Survey Estimates (Title Case)
-Version: 0.0.2
+Version: 0.0.3
 Authors@R: c(
     person(
       "J.J.", "Moncus",
