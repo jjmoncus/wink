@@ -145,11 +145,12 @@ banner <- function(data,
       # have to convert to character to match the columns in the forthcoming crosstabs
       mutate(!!sym(var) := as.character(!!sym(var)))
 
-    # each row of nets_percent needs to go right above the first row of its correspnding parent levels
-    for (i in 1:nrow(nets_percents)) {
+    for (x in names(var_nets)) {
 
-      total_cols <- total_cols %>% add_row(!!!slice(nets_percents, i),
-                                           .before = which(total_cols[[var]] == var_nets[[i]][1]))
+      net_row <- nets_percents %>% filter(!!sym(var) == glue("NET: {x}"))
+      first_child_row <- total_cols %>% pull(!!sym(var)) %>% {which(. %in% var_nets[[x]])} %>% .[[1]]
+      total_cols <- total_cols %>% add_row(net_row,
+                                           .before = first_child_row)
     }
   }
 
