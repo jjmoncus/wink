@@ -1,5 +1,31 @@
 
 
+#' fix var_nets arguments
+#'
+#' @importFrom rlang is_empty
+fix_var_nets <- function(var_nets, data) {
+
+  # if numeric, change to column
+  var_nets <- var_nets %>%
+    map(function(x) {
+      if (is.numeric(x)) {
+        levels(data[[var]])[x]
+      } else if (is.character(x)) {
+        x
+      }
+    })
+
+  # if not named, provide basic names
+  if (is_empty(names(var_nets))) {
+
+    names(var_nets) <- map_chr(var_nets, function(x) str_c(x, collapse = "/"))
+  }
+
+  var_nets
+}
+
+
+
 #' Do significance testing on a crosstab
 #'
 #' Isolating the functionality related to significance testing, for easier maintenance
@@ -172,17 +198,8 @@ crosstab <- function(data,
 
   if (!is.null(var_nets)) {
 
-    var_nets <- var_nets %>%
-      map(function(x) {
-        if (is.numeric(x)) {
-          levels(data[[var]])[x]
-        } else if (is.character(x)) {
-          x
-        }
-      })
-
-    data <- data %>%
-      mutate(var_recode = fct_collapse(!!sym_var, !!!var_nets))
+    var_nets <- fix_var_nets(var_nets, data)
+    data <- data %>% mutate(var_recode = fct_collapse(!!sym_var, !!!var_nets))
   }
 
 

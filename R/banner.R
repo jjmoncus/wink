@@ -118,21 +118,14 @@ banner <- function(data,
                            wt = weight,
                            digits = digits) %>%
     mutate(!!sym(var) := as.character(!!sym(var)))
-  # if var_nets are provided, ensure they're of the right form
+
+  # if var_nets are provided,
+  # ensure they're of the right form
   # and add `var_recode` to the data
   if (!is.null(var_nets)) {
 
-    var_nets <- var_nets %>%
-      map(function(x) {
-        if (is.numeric(x)) {
-          levels(data[[var]])[x]
-        } else if (is.character(x)) {
-          x
-        }
-      })
-
-    data <- data %>%
-      mutate(var_recode = fct_collapse(!!sym(var), !!!var_nets))
+    var_nets <- fix_var_nets(var_nets, data)
+    data <- data %>% mutate(var_recode = fct_collapse(!!sym(var), !!!var_nets))
 
     # calculate `var_recode` values and insert them into the `baby_crosstab` in the right spot
     nets_percents <- get_totals(var = "var_recode",
