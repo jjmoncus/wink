@@ -273,11 +273,21 @@ banner(
 ```
 
 
+## Removing respondents
+
+For variables with missing values, `na.rm = TRUE` by default, meaning NA's are excluded from the denominator of survey estimates. na.rm = FALSE includes them, and would report a "(Missing)" row.
+
+(example to come)
+
+
+
 # 3. `write_banners()`: Exporting to Excel
 
 `write_banners()` takes a list of banners from `banner()` and exports them to a single, formatted Excel file. It separates banner groups with borders, adds merged-cell subheads over each group of by-columns, and creates a hyperlinked Table of Contents.
 
 Any by-groups with n less than `min_group_n` will be highlighted in red, and there will be a message just below the table specifying what `min_group_n` value was used for comparisons.
+
+We also message whether `na.rm` was TRUE or FALSE, and how many were removed from `var` if so.
 
 The typical workflow would be to write a list of banners using `purrr::map()`
 
