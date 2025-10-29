@@ -1,23 +1,23 @@
 #' Get the guts of a banner
 #'
-guts <- function(data) {
+fix_guts <- function(data) {
 
   data %>%
     mutate(rownum = 1:nrow(data)) %>%
     split(~rownum) %>%
-    map(function(data) {
+    map(function(x) {
 
-      data <- data %>% select(-rownum)
-      name <- data[[1]]
-      rest <- data[2:length(data)] %>% unlist()
+      x <- x %>% select(-rownum)
+      rest <- x[2:length(x)]
       # if coercing to numeric causes problems, do nothing, otherwise coerse
-      if (suppressWarnings(as.numeric(rest) %>% is.na() %>% all())) {
-        rest <- unname(rest)
+      condition <- suppressWarnings(as.numeric(rest[[1]]) %>% is.na())
+      if (condition) {
+        #
       } else {
-        rest <- as.numeric(rest)
+        rest <- rest %>% mutate(across(everything(), as.numeric))
       }
 
-      list(rest)
+      rest %>% structure(mode = ifelse(condition, "else", "numeric"))
     }) %>%
     list_flatten()
 }
@@ -228,8 +228,25 @@ write_banners <- function(banners, file, overwrite = TRUE) {
     }
     # declare how many rows of "buffer" there are, and work from there
     buffer_rows <- 5
+
     # Write data to the sheet (starting in row 6)
-    writeData(wb, sheet = var_name, x = data, startRow = buffer_rows + 1, startCol = 1)
+    # --- instead of just writing the data as is
+    # --- we first write the column headers, the first column, and then iteratively the "guts" of the table
+    # --- this is what allows us to export numbers as numbers and text as text
+
+    # --- col names - this will by default write horizontally because we're passing a tibble (sneaky) but have to specify colNames = FALSE
+    writeData(wb, sheet = var_name, x = tibble(!!!names(data)), startRow = buffer_rows + 1, startCol = 1, colNames = FALSE)
+    # --- first col data - this will by default be written column wise because we are passing a vector
+    writeData(wb, sheet = var_name, x = data[[1]], startRow = buffer_rows + 1 + 1, # the extra 1 here makes sure we line up with the "+ i" below
+              startCol = 1)
+    # --- write each row iteratively
+    banner_guts <- fix_guts(data)
+    for (i in 1:nrow(data)) {
+      # will write horizontally, since each item is a tbl - colNames = FALSE is very important here
+      writeData(wb, sheet = var_name, x = banner_guts[[i]], startRow = buffer_rows + 1 + i, startCol = 2, colNames = FALSE)
+    }
+
+
     # wrap the column headers in row 6, in case they're very long
     addStyle(wb, sheet = var_name, style = createStyle(wrapText = TRUE), rows = 6, cols = 1:ncol(data), stack = TRUE)
 
