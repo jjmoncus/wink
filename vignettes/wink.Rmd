@@ -209,12 +209,25 @@ banner(
   var = "pescetarian",
   bys = c("rating_meat", "rating_sushi", "rating_veg"),
   var_nets = list(
-    "Low"  = c(1:2),
-    "High" = c(4:5)
+    "Low"  = 1:2,
+    "High" = 4:5
     )
   )
 
 ```
+
+`var_nets` doesn't have to be named. If you just provide the groups, `banner()` creates suitable names for you.
+
+``` {r}
+banner(
+  data = food,
+  var = "pescetarian",
+  bys = c("rating_meat", "rating_sushi", "rating_veg"),
+  var_nets = list(1:2, 4:5)
+  )
+
+```
+
 
 ## Excluding columns or rows
 

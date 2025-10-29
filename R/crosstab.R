@@ -3,7 +3,8 @@
 #' fix var_nets arguments
 #'
 #' @importFrom rlang is_empty
-fix_var_nets <- function(var_nets, data) {
+#' @importFrom stringr str_c
+fix_var_nets <- function(var_nets, data, var) {
 
   # if numeric, change to column
   var_nets <- var_nets %>%
@@ -198,7 +199,7 @@ crosstab <- function(data,
 
   if (!is.null(var_nets)) {
 
-    var_nets <- fix_var_nets(var_nets, data)
+    var_nets <- fix_var_nets(var_nets, data, var)
     data <- data %>% mutate(var_recode = fct_collapse(!!sym_var, !!!var_nets))
   }
 

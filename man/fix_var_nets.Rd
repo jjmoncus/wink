@@ -4,7 +4,7 @@
 \alias{fix_var_nets}
 \title{fix var_nets arguments}
 \usage{
-fix_var_nets(var_nets, data)
+fix_var_nets(var_nets, data, var)
 }
 \description{
 fix var_nets arguments

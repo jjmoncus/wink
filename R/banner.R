@@ -124,7 +124,7 @@ banner <- function(data,
   # and add `var_recode` to the data
   if (!is.null(var_nets)) {
 
-    var_nets <- fix_var_nets(var_nets, data)
+    var_nets <- fix_var_nets(var_nets, data, var)
     data <- data %>% mutate(var_recode = fct_collapse(!!sym(var), !!!var_nets))
 
     # calculate `var_recode` values and insert them into the `baby_crosstab` in the right spot
