@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">wink</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,6 +31,7 @@
       <ul class="navbar-nav me-auto">
 <li class="active nav-item"><a class="nav-link" href="../articles/wink.html">Get started</a></li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -1430,7 +1431,13 @@ to Excel outputs (<code>col_dividers</code>,
 <span><span class="co">#&gt; [1] 100</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $too_low_n</span></span>
-<span><span class="co">#&gt; [1] 17</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 17</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $na.rm</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $n_removed</span></span>
+<span><span class="co">#&gt; [1] 0</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="weighting">Weighting<a class="anchor" aria-label="anchor" href="#weighting"></a>
@@ -7363,6 +7370,15 @@ moe
 <span>  exclude_bys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Very much dislike"</span>, <span class="st">"Very much like"</span><span class="op">)</span> <span class="co"># adding fewer than `length(bys)` gives you an error</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 </div>
+<div class="section level3">
+<h3 id="removing-respondents">Removing respondents<a class="anchor" aria-label="anchor" href="#removing-respondents"></a>
+</h3>
+<p>For variables with missing values, <code>na.rm = TRUE</code> by
+default, meaning NA’s are excluded from the denominator of survey
+estimates. <code>na.rm = FALSE</code> includes them and would report a
+“(Missing)” row.</p>
+<p>(example to come)</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="write_banners-exporting-to-excel">3. <code>write_banners()</code>: Exporting to Excel<a class="anchor" aria-label="anchor" href="#write_banners-exporting-to-excel"></a>
@@ -7376,6 +7392,8 @@ Contents.</p>
 highlighted in red, and there will be a message just below the table
 specifying what <code>min_group_n</code> value was used for
 comparisons.</p>
+<p>We also message whether <code>na.rm</code> was TRUE or FALSE, and how
+many were removed from <code>var</code> if so.</p>
 <p>The typical workflow would be to write a list of banners using
 <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::map()</a></code></p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
@@ -7389,12 +7407,28 @@ comparisons.</p>
 <span>      bys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"rating_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"meat"</span>, <span class="st">"pizza"</span>, <span class="st">"sushi"</span>, <span class="st">"veg"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="op">}</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/write_banners.html">write_banners</a></span><span class="op">(</span>banners <span class="op">=</span> <span class="va">banners</span>, file <span class="op">=</span> <span class="st">"my_survey_results.xlsx"</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/write_banners.html">write_banners</a></span><span class="op">(</span><span class="va">banners</span>, file <span class="op">=</span> <span class="st">"my_survey_results.xlsx"</span><span class="op">)</span></span></code></pre></div>
 <p>You can also write a single banner, if you so choose (i.e. it doesn’t
 need to be preemptively wrapped in a list).</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/banner.html">banner</a></span><span class="op">(</span><span class="va">food</span>, <span class="st">"pescetarian"</span>, bys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"rating_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"meat"</span>, <span class="st">"pizza"</span>, <span class="st">"sushi"</span>, <span class="st">"veg"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/write_banners.html">write_banners</a></span><span class="op">(</span>file <span class="op">=</span> <span class="st">"single_banner.xlsx"</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/banner.html">banner</a></span><span class="op">(</span><span class="va">food</span>, <span class="st">"pescetarian"</span>, bys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"rating_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"meat"</span>, <span class="st">"pizza"</span>, <span class="st">"sushi"</span>, <span class="st">"veg"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">x</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/write_banners.html">write_banners</a></span><span class="op">(</span>file <span class="op">=</span> <span class="st">"single_banner.xlsx"</span><span class="op">)</span></span></code></pre></div>
+<p>By default, you will overwrite any files with the same name
+(i.e. <code>overwrite = TRUE</code>). If you flip
+<code>overwrite = FALSE</code>, you will throw an error if the file
+already exists.</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># rerunning the export from above would throw an error if `overwrite = FALSE`</span></span>
+<span><span class="va">x</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/write_banners.html">write_banners</a></span><span class="op">(</span>file <span class="op">=</span> <span class="st">"single_banner.xlsx"</span>, overwrite <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p>Number rows are saved as number values, and character values are
+saved as text. This allows us to format the numbers to our liking.
+<code><a href="../reference/write_banners.html">write_banners()</a></code> by default formats the percentage rows as
+integers, and the “deff + mose” rows with two decimal places. If you’d
+prefer them presented as raw, full-decimal-place values, use
+<code>format_numbers = FALSE</code>.</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/write_banners.html">write_banners</a></span><span class="op">(</span>file <span class="op">=</span> <span class="st">"no_formatting.xlsx"</span>, format_numbers <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
