@@ -118,7 +118,7 @@ banner <- function(data,
                            data,
                            wt = weight,
                            digits = digits,
-                           na.rm = na.rm) %>%
+                           na.rm = FALSE) %>%
     mutate(!!sym(var) := as.character(!!sym(var)))
 
   # if var_nets are provided,
@@ -134,7 +134,7 @@ banner <- function(data,
                                 df = data,
                                 wt = weight,
                                 digits = digits,
-                                na.rm = na.rm) %>%
+                                na.rm = FALSE) %>%
       filter(var_recode %in% names(var_nets)) %>%
       mutate(var_recode = glue("NET: {var_recode}")) %>%
       rename(!!sym(var) := var_recode) %>%
