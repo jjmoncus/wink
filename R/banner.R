@@ -71,7 +71,8 @@ banner <- function(data,
                    digits = 0,
                    min_group_n = 100,
                    exclude_var = NULL,
-                   exclude_bys = NULL) {
+                   exclude_bys = NULL,
+                   na.rm = TRUE) {
 
   # ------------------------------------------------------------------- #
   # ----- gathering function params (same as for crosstab) ----------- #
@@ -116,7 +117,8 @@ banner <- function(data,
   total_cols <- get_totals(var,
                            data,
                            wt = weight,
-                           digits = digits) %>%
+                           digits = digits,
+                           na.rm = na.rm) %>%
     mutate(!!sym(var) := as.character(!!sym(var)))
 
   # if var_nets are provided,
@@ -131,7 +133,8 @@ banner <- function(data,
     nets_percents <- get_totals(var = "var_recode",
                                 df = data,
                                 wt = weight,
-                                digits = digits) %>%
+                                digits = digits,
+                                na.rm = na.rm) %>%
       filter(var_recode %in% names(var_nets)) %>%
       mutate(var_recode = glue("NET: {var_recode}")) %>%
       rename(!!sym(var) := var_recode) %>%
@@ -184,7 +187,8 @@ banner <- function(data,
                             min_group_n = min_group_n,
                             st_col_start = ticker,
                             exclude_var = exclude_var,
-                            exclude_by = exclude_bys[[i]])
+                            exclude_by = exclude_bys[[i]],
+                            na.rm = na.rm)
     if (ncol(tables[[i]]) != 1) {
       # at this time, might have more columns than "cols_used" below, so cant interchange them
       # so long as the crosstab didnt error, it will have ncol > 1

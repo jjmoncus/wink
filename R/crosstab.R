@@ -167,7 +167,8 @@ crosstab <- function(data,
                      min_group_n = 100,
                      st_col_start = 3,
                      exclude_var = NULL,
-                     exclude_by = NULL) {
+                     exclude_by = NULL,
+                     na.rm = TRUE) {
 
   # ------------------------------------------- #
   # ----- gathering function params ----------- #
@@ -252,7 +253,8 @@ crosstab <- function(data,
                                 wt = weight,
                                 by = by,
                                 by_total = FALSE,
-                                digits = digits) %>%
+                                digits = digits,
+                                na.rm = na.rm) %>%
       mutate(!!sym_var := as.character(!!sym_var))
 
     if (!is.null(var_nets)) { # calculate `var_recode` values and insert them into the `baby_crosstab` in the right spot
@@ -262,7 +264,8 @@ crosstab <- function(data,
                                   wt = weight,
                                   by = by,
                                   by_total = FALSE,
-                                  digits = digits) %>%
+                                  digits = digits,
+                                  na.rm = na.rm) %>%
         filter(var_recode %in% names(var_nets)) %>%
         mutate(var_recode = glue("NET: {var_recode}")) %>%
         rename(!!sym_var := var_recode) # this renaming is just so the rows can be added by column name below

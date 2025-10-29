@@ -13,7 +13,8 @@ banner(
   digits = 0,
   min_group_n = 100,
   exclude_var = NULL,
-  exclude_bys = NULL
+  exclude_bys = NULL,
+  na.rm = TRUE
 )
 }
 \arguments{
