@@ -106,7 +106,10 @@ banner <- function(data,
     abort(glue("'exclude_bys' must have length 1 or {length(bys)}, not {length(exclude_bys)}"))
   }
 
-  if (na.rm) data <- data %>% filter(!is.na(!!sym(var)))
+  if (na.rm) {
+    removals <- data %>% filter(is.na(!!sym(var)))
+    data <- data %>% filter(!is.na(!!sym(var)))
+    }
 
   # --------------------------------------------------------------- #
   # ----------------- numbers for Total col ----------------------- #
@@ -222,7 +225,8 @@ banner <- function(data,
       by_labels = set_names(bys) %>% map( ~data[[.x]] %>% attr("label")),
       min_group_n = min_group_n,
       too_low_n = out %>% filter(levels == "n") %>% unlist() %>% {which(as.numeric(.) < min_group_n)} %>% suppressWarnings(), # we know we're introducing NAs by coercion on the first column, dont message this
-      na.rm = na.rm
+      na.rm = na.rm,
+      n_removed = nrow(removals)
     )
 }
 

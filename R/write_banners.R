@@ -340,16 +340,24 @@ write_banners <- function(banners, file, overwrite = TRUE, format_numbers = TRUE
     )
 
     # --- add extra messaging rows beneath the table, for whatever
-    # start with min_n statement
-
     total_rows_used <- buffer_rows + nrow(data) + 1
     first_avail <- total_rows_used + 1
+
+    # start with min_n statement
     writeData(wb,
               sheet = var_name,
-              glue("Flagging groups with n-sizes less than {attr(data, 'min_group_n')}"),
-              startRow = first_avail,
+              paste0("Flagging groups with n-sizes less than ", attr(data, 'min_group_n')),
+              startRow = first_avail + 1,
               startCol = 1)
-
+    # na.rm statement
+    na.rm_statement <- ifelse(attr(data, "na.rm"),
+                              paste0("na.rm = TRUE. ", attr(data, 'n_removed')," respondents with missing values were removed from ", attr(data, 'var')),
+                              paste0("na.rm = FALSE"))
+    writeData(wb,
+              sheet = var_name,
+              x = na.rm_statement,
+              startRow = first_avail + 2,
+              startCol = 1)
 
   })
 
