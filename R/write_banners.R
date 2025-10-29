@@ -248,7 +248,7 @@ write_banners <- function(banners, file, overwrite = TRUE, format_numbers = TRUE
 
     if (format_numbers) {
 
-      # if the user wants us to do standard formatting, then we will
+      # if the user wants us to do standard formatting, then we add some styles
       # otherwise, we leave the table exactly is
       for (i in 1:nrow(data)) {
         # start by just formatting the whole table as integers
