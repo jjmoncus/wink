@@ -1,3 +1,31 @@
+#' Get the guts of a banner
+#'
+guts <- function(data) {
+
+  data %>%
+    mutate(rownum = 1:nrow(data)) %>%
+    split(~rownum) %>%
+    map(function(data) {
+
+      data <- data %>% select(-rownum)
+      name <- data[[1]]
+      rest <- data[2:length(data)] %>% unlist()
+      # if coercing to numeric causes problems, do nothing, otherwise coerse
+      if (suppressWarnings(as.numeric(rest) %>% is.na() %>% all())) {
+        rest <- unname(rest)
+      } else {
+        rest <- as.numeric(rest)
+      }
+
+      list(rest)
+    }) %>%
+    list_flatten()
+}
+
+
+
+
+
 
 #' Export Banner Crosstabs to Formatted Excel Workbook
 #'
@@ -350,3 +378,12 @@ write_banners <- function(banners, file, overwrite = TRUE) {
   # Save workbook
   saveWorkbook(wb, file, overwrite = overwrite)
 }
+
+
+
+
+
+
+
+
+
