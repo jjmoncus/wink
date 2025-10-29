@@ -81,6 +81,8 @@ sig_test_table <- function(baby_crosstab,
 #'
 #' @importFrom tibble as_tibble
 #' @importFrom tidyselect everything
+#' @importFrom dplyr across
+#'
 crosstab_builder <- function(baby_crosstab,
                              sig_test_table,
                              n_unweighted_row,
