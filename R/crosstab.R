@@ -210,10 +210,7 @@ crosstab <- function(data,
   if (is.null(exclude_var)) exclude_var <- "jh93f96gt006gbk075gj5k9g7ejkhg"
   if (is.null(exclude_by)) exclude_by <- "jh93f96gt006gbk075gj5k9g7ejkhg" # if NULL, change the pattern to something extremely unlikely to be matched, so all levels pass through
 
-  if (na.rm) {
-
-    data <- data %>% filter(!is.na(!!sym(var)))
-  }
+  if (na.rm) data <- data %>% filter(!is.na(!!sym(var)))
 
   # ------------------------------------------- #
   # ------ calculating table params ----------- #

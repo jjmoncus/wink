@@ -106,6 +106,8 @@ banner <- function(data,
     abort(glue("'exclude_bys' must have length 1 or {length(bys)}, not {length(exclude_bys)}"))
   }
 
+  if (na.rm) data <- data %>% filter(!is.na(!!sym(var)))
+
   # --------------------------------------------------------------- #
   # ----------------- numbers for Total col ----------------------- #
   # --------------------------------------------------------------- #
@@ -188,7 +190,7 @@ banner <- function(data,
                             st_col_start = ticker,
                             exclude_var = exclude_var,
                             exclude_by = exclude_bys[[i]],
-                            na.rm = na.rm)
+                            na.rm = na.rm) # we will be duplicating the step of removing missings from `var`, fine for now
     if (ncol(tables[[i]]) != 1) {
       # at this time, might have more columns than "cols_used" below, so cant interchange them
       # so long as the crosstab didnt error, it will have ncol > 1
