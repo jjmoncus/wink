@@ -1,7 +1,7 @@
 Package: wink
 Type: Package
 Title: Crosstab and Signifiance Testing for Weighted Survey Estimates (Title Case)
-Version: 0.0.2
+Version: 0.0.3
 Authors@R: c(
     person(
       "J.J.", "Moncus",
@@ -9,7 +9,7 @@ Authors@R: c(
       role = c("aut", "cre")
     )
   )
-Description: Quick and easy crosstabs and banners, displaying weighted (and unweighted) survey estimates and exported to Excel.
+Description: Crosstabs and banners of weighted (and unweighted) survey estimates, exported to Excel.
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true

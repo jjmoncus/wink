@@ -14,7 +14,8 @@ crosstab(
   min_group_n = 100,
   st_col_start = 3,
   exclude_var = NULL,
-  exclude_by = NULL
+  exclude_by = NULL,
+  na.rm = TRUE
 )
 }
 \description{

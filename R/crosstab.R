@@ -167,7 +167,8 @@ crosstab <- function(data,
                      min_group_n = 100,
                      st_col_start = 3,
                      exclude_var = NULL,
-                     exclude_by = NULL) {
+                     exclude_by = NULL,
+                     na.rm = TRUE) {
 
   # ------------------------------------------- #
   # ----- gathering function params ----------- #
@@ -209,11 +210,13 @@ crosstab <- function(data,
   if (is.null(exclude_var)) exclude_var <- "jh93f96gt006gbk075gj5k9g7ejkhg"
   if (is.null(exclude_by)) exclude_by <- "jh93f96gt006gbk075gj5k9g7ejkhg" # if NULL, change the pattern to something extremely unlikely to be matched, so all levels pass through
 
+  if (na.rm) data <- data %>% filter(!is.na(!!sym(var)))
 
   # ------------------------------------------- #
   # ------ calculating table params ----------- #
   # ------------------------------------------- #
 
+  # this already excludes people who are NA
   by_params <- by_levels %>%
     set_names() %>%
     map(function(x) {
@@ -231,7 +234,7 @@ crosstab <- function(data,
     # `get_totals` already does this, we just replicate here so significance testing can run later
     filter(n > 0) %>%
     pull(by_level)
-  # by_levels_to_use <- by_params %>% filter(n >= min_group_n) %>% pull(by_level)
+  # this also already exclues any `by` people who are NA
   n_unweighteds <- by_params %>% filter(by_level %in% by_levels_to_use) %>% pull(n) %>% set_names(by_levels_to_use)
   deffs <- by_params %>% filter(by_level %in% by_levels_to_use) %>% pull(deff) %>% set_names(by_levels_to_use)
   moses <- by_params %>% filter(by_level %in% by_levels_to_use) %>% pull(moe) %>% set_names(by_levels_to_use)
@@ -252,7 +255,8 @@ crosstab <- function(data,
                                 wt = weight,
                                 by = by,
                                 by_total = FALSE,
-                                digits = digits) %>%
+                                digits = digits,
+                                na.rm = FALSE) %>%
       mutate(!!sym_var := as.character(!!sym_var))
 
     if (!is.null(var_nets)) { # calculate `var_recode` values and insert them into the `baby_crosstab` in the right spot
@@ -262,7 +266,8 @@ crosstab <- function(data,
                                   wt = weight,
                                   by = by,
                                   by_total = FALSE,
-                                  digits = digits) %>%
+                                  digits = digits,
+                                  na.rm = FALSE) %>%
         filter(var_recode %in% names(var_nets)) %>%
         mutate(var_recode = glue("NET: {var_recode}")) %>%
         rename(!!sym_var := var_recode) # this renaming is just so the rows can be added by column name below

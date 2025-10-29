@@ -273,11 +273,21 @@ banner(
 ```
 
 
+## Removing respondents
+
+For variables with missing values, `na.rm = TRUE` by default, meaning NA's are excluded from the denominator of survey estimates. `na.rm = FALSE` includes them and would report a "(Missing)" row.
+
+(example to come)
+
+
+
 # 3. `write_banners()`: Exporting to Excel
 
 `write_banners()` takes a list of banners from `banner()` and exports them to a single, formatted Excel file. It separates banner groups with borders, adds merged-cell subheads over each group of by-columns, and creates a hyperlinked Table of Contents.
 
 Any by-groups with n less than `min_group_n` will be highlighted in red, and there will be a message just below the table specifying what `min_group_n` value was used for comparisons.
+
+We also message whether `na.rm` was TRUE or FALSE, and how many were removed from `var` if so.
 
 The typical workflow would be to write a list of banners using `purrr::map()`
 
@@ -295,7 +305,7 @@ banners <- c("pescetarian", "veggie", "vegan") %>%
       bys = paste0("rating_", c("meat", "pizza", "sushi", "veg")))
   })
 
-write_banners(banners = banners, file = "my_survey_results.xlsx", overwrite = TRUE)
+write_banners(banners, file = "my_survey_results.xlsx")
 
 ```
 
@@ -306,9 +316,32 @@ You can also write a single banner, if you so choose (i.e. it doesn't need to be
 #| warning: false
 #| message: false
 
-banner(food, "pescetarian", bys = paste0("rating_", c("meat", "pizza", "sushi", "veg"))) %>%
-  write_banners(file = "single_banner.xlsx", overwrite = TRUE)
+x <- banner(food, "pescetarian", bys = paste0("rating_", c("meat", "pizza", "sushi", "veg")))
+
+x %>% write_banners(file = "single_banner.xlsx")
 
 ```
 
+By default, you will overwrite any files with the same name (i.e. `overwrite = TRUE`). If you flip `overwrite = FALSE`, you will throw an error if the file already exists.
+
+``` {r}
+#| warning: false
+#| message: false
+#| eval: false
+
+# rerunning the export from above would throw an error if `overwrite = FALSE`
+x %>% write_banners(file = "single_banner.xlsx", overwrite = FALSE)
+
+```
+
+
+Number rows are saved as number values, and character values are saved as text. This allows us to format the numbers to our liking. `write_banners()` by default formats the percentage rows as integers, and the "deff + mose" rows with two decimal places. If you'd prefer them presented as raw, full-decimal-place values, use `format_numbers = FALSE`.
+
+``` {r}
+#| warning: false
+#| message: false
+
+x %>% write_banners(file = "no_formatting.xlsx", format_numbers = FALSE)
+
+```
 

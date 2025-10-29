@@ -71,7 +71,8 @@ banner <- function(data,
                    digits = 0,
                    min_group_n = 100,
                    exclude_var = NULL,
-                   exclude_bys = NULL) {
+                   exclude_bys = NULL,
+                   na.rm = TRUE) {
 
   # ------------------------------------------------------------------- #
   # ----- gathering function params (same as for crosstab) ----------- #
@@ -105,6 +106,11 @@ banner <- function(data,
     abort(glue("'exclude_bys' must have length 1 or {length(bys)}, not {length(exclude_bys)}"))
   }
 
+  if (na.rm) {
+    removals <- data %>% filter(is.na(!!sym(var)))
+    data <- data %>% filter(!is.na(!!sym(var)))
+    }
+
   # --------------------------------------------------------------- #
   # ----------------- numbers for Total col ----------------------- #
   # --------------------------------------------------------------- #
@@ -116,7 +122,8 @@ banner <- function(data,
   total_cols <- get_totals(var,
                            data,
                            wt = weight,
-                           digits = digits) %>%
+                           digits = digits,
+                           na.rm = FALSE) %>%
     mutate(!!sym(var) := as.character(!!sym(var)))
 
   # if var_nets are provided,
@@ -131,7 +138,8 @@ banner <- function(data,
     nets_percents <- get_totals(var = "var_recode",
                                 df = data,
                                 wt = weight,
-                                digits = digits) %>%
+                                digits = digits,
+                                na.rm = FALSE) %>%
       filter(var_recode %in% names(var_nets)) %>%
       mutate(var_recode = glue("NET: {var_recode}")) %>%
       rename(!!sym(var) := var_recode) %>%
@@ -184,7 +192,8 @@ banner <- function(data,
                             min_group_n = min_group_n,
                             st_col_start = ticker,
                             exclude_var = exclude_var,
-                            exclude_by = exclude_bys[[i]])
+                            exclude_by = exclude_bys[[i]],
+                            na.rm = na.rm) # we will be duplicating the step of removing missings from `var`, fine for now
     if (ncol(tables[[i]]) != 1) {
       # at this time, might have more columns than "cols_used" below, so cant interchange them
       # so long as the crosstab didnt error, it will have ncol > 1
@@ -215,7 +224,9 @@ banner <- function(data,
       var_label = attr(data[[var]], "label"),
       by_labels = set_names(bys) %>% map( ~data[[.x]] %>% attr("label")),
       min_group_n = min_group_n,
-      too_low_n = out %>% filter(levels == "n") %>% unlist() %>% {which(as.numeric(.) < min_group_n)} %>% suppressWarnings() # we know we're introducing NAs by coercion on the first column, dont message this
+      too_low_n = out %>% filter(levels == "n") %>% unlist() %>% {which(as.numeric(.) < min_group_n)} %>% suppressWarnings(), # we know we're introducing NAs by coercion on the first column, dont message this
+      na.rm = na.rm,
+      n_removed = nrow(removals)
     )
 }
 
