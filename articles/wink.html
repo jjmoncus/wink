@@ -3772,8 +3772,8 @@ moe
 <span>  var <span class="op">=</span> <span class="st">"pescetarian"</span>,</span>
 <span>  bys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rating_meat"</span>, <span class="st">"rating_sushi"</span>, <span class="st">"rating_veg"</span><span class="op">)</span>,</span>
 <span>  var_nets <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>    <span class="st">"Low"</span>  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span>,</span>
-<span>    <span class="st">"High"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span></span>
+<span>    <span class="st">"Low"</span>  <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,</span>
+<span>    <span class="st">"High"</span> <span class="op">=</span> <span class="fl">4</span><span class="op">:</span><span class="fl">5</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="co">#&gt; New names:</span></span>
@@ -4663,6 +4663,902 @@ moe
 </tr>
 </tbody>
 </table>
+<p><code>var_nets</code> doesn’t have to be named. If you just provide
+the groups, <code><a href="../reference/banner.html">banner()</a></code> creates suitable names for you.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/banner.html">banner</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">food</span>,</span>
+<span>  var <span class="op">=</span> <span class="st">"pescetarian"</span>,</span>
+<span>  bys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rating_meat"</span>, <span class="st">"rating_sushi"</span>, <span class="st">"rating_veg"</span><span class="op">)</span>,</span>
+<span>  var_nets <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, <span class="fl">4</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; New names:</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much dislike` -&gt; `Very much dislike...3`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat dislike` -&gt; `Somewhat dislike...4`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `About equally like and dislike` -&gt; `About equally like and dislike...5`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...6`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much like` -&gt; `Very much like...7`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much dislike` -&gt; `Very much dislike...8`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat dislike` -&gt; `Somewhat dislike...9`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `About equally like and dislike` -&gt; `About equally like and dislike...10`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...11`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much like` -&gt; `Very much like...12`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much dislike` -&gt; `Very much dislike...13`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat dislike` -&gt; `Somewhat dislike...14`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `About equally like and dislike` -&gt; `About equally like and dislike...15`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Somewhat like` -&gt; `Somewhat like...16`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Very much like` -&gt; `Very much like...17`</span></span></code></pre></div>
+<table class="table table" style="font-size: 10px; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead><tr>
+<th style="text-align:left;">
+levels
+</th>
+<th style="text-align:left;">
+Total
+</th>
+<th style="text-align:left;">
+Very much dislike…3
+</th>
+<th style="text-align:left;">
+Somewhat dislike…4
+</th>
+<th style="text-align:left;">
+About equally like and dislike…5
+</th>
+<th style="text-align:left;">
+Somewhat like…6
+</th>
+<th style="text-align:left;">
+Very much like…7
+</th>
+<th style="text-align:left;">
+Very much dislike…8
+</th>
+<th style="text-align:left;">
+Somewhat dislike…9
+</th>
+<th style="text-align:left;">
+About equally like and dislike…10
+</th>
+<th style="text-align:left;">
+Somewhat like…11
+</th>
+<th style="text-align:left;">
+Very much like…12
+</th>
+<th style="text-align:left;">
+Very much dislike…13
+</th>
+<th style="text-align:left;">
+Somewhat dislike…14
+</th>
+<th style="text-align:left;">
+About equally like and dislike…15
+</th>
+<th style="text-align:left;">
+Somewhat like…16
+</th>
+<th style="text-align:left;">
+Very much like…17
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+NET: Very Low/Low
+</td>
+<td style="text-align:left;">
+28
+</td>
+<td style="text-align:left;">
+39
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+27
+</td>
+<td style="text-align:left;">
+28
+</td>
+<td style="text-align:left;">
+24
+</td>
+<td style="text-align:left;">
+27
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:left;">
+26
+</td>
+<td style="text-align:left;">
+28
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+26
+</td>
+<td style="text-align:left;">
+25
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+D E F G
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Very Low
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+9
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+G
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Low
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+17
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+17
+</td>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+17
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+15
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Moderate
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:left;">
+31
+</td>
+<td style="text-align:left;">
+28
+</td>
+<td style="text-align:left;">
+33
+</td>
+<td style="text-align:left;">
+31
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+31
+</td>
+<td style="text-align:left;">
+31
+</td>
+<td style="text-align:left;">
+25
+</td>
+<td style="text-align:left;">
+33
+</td>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:left;">
+28
+</td>
+<td style="text-align:left;">
+31
+</td>
+<td style="text-align:left;">
+34
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+L
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NET: High/Very High
+</td>
+<td style="text-align:left;">
+42
+</td>
+<td style="text-align:left;">
+32
+</td>
+<td style="text-align:left;">
+41
+</td>
+<td style="text-align:left;">
+42
+</td>
+<td style="text-align:left;">
+45
+</td>
+<td style="text-align:left;">
+43
+</td>
+<td style="text-align:left;">
+42
+</td>
+<td style="text-align:left;">
+40
+</td>
+<td style="text-align:left;">
+43
+</td>
+<td style="text-align:left;">
+41
+</td>
+<td style="text-align:left;">
+46
+</td>
+<td style="text-align:left;">
+38
+</td>
+<td style="text-align:left;">
+43
+</td>
+<td style="text-align:left;">
+44
+</td>
+<td style="text-align:left;">
+43
+</td>
+<td style="text-align:left;">
+41
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+High
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+18
+</td>
+<td style="text-align:left;">
+24
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+32
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+K
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+K
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+M N P
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Very High
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+18
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:left;">
+24
+</td>
+<td style="text-align:left;">
+9
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+..
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+Q
+</td>
+<td style="text-align:left;">
+M Q
+</td>
+<td style="text-align:left;">
+Q
+</td>
+<td style="text-align:left;">
+M Q
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+n
+</td>
+<td style="text-align:left;">
+2000
+</td>
+<td style="text-align:left;">
+100
+</td>
+<td style="text-align:left;">
+399
+</td>
+<td style="text-align:left;">
+587
+</td>
+<td style="text-align:left;">
+705
+</td>
+<td style="text-align:left;">
+209
+</td>
+<td style="text-align:left;">
+198
+</td>
+<td style="text-align:left;">
+462
+</td>
+<td style="text-align:left;">
+604
+</td>
+<td style="text-align:left;">
+516
+</td>
+<td style="text-align:left;">
+220
+</td>
+<td style="text-align:left;">
+326
+</td>
+<td style="text-align:left;">
+683
+</td>
+<td style="text-align:left;">
+537
+</td>
+<td style="text-align:left;">
+357
+</td>
+<td style="text-align:left;">
+97
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+deff
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+moe
+</td>
+<td style="text-align:left;">
+2.19134661794979
+</td>
+<td style="text-align:left;">
+9.8
+</td>
+<td style="text-align:left;">
+4.90613650835324
+</td>
+<td style="text-align:left;">
+4.04489288272368
+</td>
+<td style="text-align:left;">
+3.69089352805808
+</td>
+<td style="text-align:left;">
+6.77880174588753
+</td>
+<td style="text-align:left;">
+6.96455673428328
+</td>
+<td style="text-align:left;">
+4.55937263095251
+</td>
+<td style="text-align:left;">
+3.98756344797868
+</td>
+<td style="text-align:left;">
+4.31420944099556
+</td>
+<td style="text-align:left;">
+6.60715865213977
+</td>
+<td style="text-align:left;">
+5.42771800109277
+</td>
+<td style="text-align:left;">
+3.74986578578757
+</td>
+<td style="text-align:left;">
+4.22901214962061
+</td>
+<td style="text-align:left;">
+5.18671001544464
+</td>
+<td style="text-align:left;">
+9.95039241830947
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section level3">
 <h3 id="excluding-columns-or-rows">Excluding columns or rows<a class="anchor" aria-label="anchor" href="#excluding-columns-or-rows"></a>
@@ -4672,7 +5568,7 @@ rows of <code>var</code> that aren’t of interest. Supply a regex to
 <code>exclude_var</code> or <code>exclude_bys</code> to remove any
 columns/rows that match, without disrupting significance testing. Both
 are NULL by default (i.e. removing nothing).</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/banner.html">banner</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">food</span>,</span>
 <span>  var <span class="op">=</span> <span class="st">"pescetarian"</span>,</span>
@@ -5287,7 +6183,7 @@ moe
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/banner.html">banner</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">food</span>,</span>
 <span>  var <span class="op">=</span> <span class="st">"pescetarian"</span>,</span>
@@ -5876,7 +6772,7 @@ moe
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/banner.html">banner</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">food</span>,</span>
 <span>  var <span class="op">=</span> <span class="st">"pescetarian"</span>,</span>
@@ -6459,7 +7355,7 @@ moe
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/banner.html">banner</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">food</span>,</span>
 <span>  var <span class="op">=</span> <span class="st">"pescetarian"</span>,</span>
@@ -6482,7 +7378,7 @@ specifying what <code>min_group_n</code> value was used for
 comparisons.</p>
 <p>The typical workflow would be to write a list of banners using
 <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::map()</a></code></p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">banners</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pescetarian"</span>, <span class="st">"veggie"</span>, <span class="st">"vegan"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="co"># name the vector after itself, not required for `write_banners` but maybe convenient for you later</span></span>
 <span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
@@ -6496,7 +7392,7 @@ comparisons.</p>
 <span><span class="fu"><a href="../reference/write_banners.html">write_banners</a></span><span class="op">(</span>banners <span class="op">=</span> <span class="va">banners</span>, file <span class="op">=</span> <span class="st">"my_survey_results.xlsx"</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>You can also write a single banner, if you so choose (i.e. it doesn’t
 need to be preemptively wrapped in a list).</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/banner.html">banner</a></span><span class="op">(</span><span class="va">food</span>, <span class="st">"pescetarian"</span>, bys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"rating_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"meat"</span>, <span class="st">"pizza"</span>, <span class="st">"sushi"</span>, <span class="st">"veg"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/write_banners.html">write_banners</a></span><span class="op">(</span>file <span class="op">=</span> <span class="st">"single_banner.xlsx"</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
