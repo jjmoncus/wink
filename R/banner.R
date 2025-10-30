@@ -34,6 +34,10 @@
 #' pattern in `exclude_bys` is applied to each by of `bys` in turn. If length == 1, then
 #' the same pattern is applied to all `bys`.
 #'
+#' In the case that `var` and `by` are the same, the result might include extra padder rows corresponding to any
+#' levels of `var/by` that were empty, or if `na.rm = FALSE` is set and `var/by` contains missing values. In both cases, padder rows
+#' are added to ensure the Total columns and subsequent crosstabs align properly.
+#'
 #' @examples
 #' \dontrun{
 #' # Create a survey design object
@@ -115,6 +119,7 @@ banner <- function(data,
   # ----------------- numbers for Total col ----------------------- #
   # --------------------------------------------------------------- #
 
+
   total_params <- calculate_deff(data[[weight]]) %>%
     select(n, deff, moe) %>%
     pivot_longer(cols = everything(), names_to = "levels",
@@ -178,7 +183,7 @@ banner <- function(data,
   # ----------------------- other crosstabs ----------------------- #
   # --------------------------------------------------------------- #
 
-  ticker <- 3 # force to start at letter C, given total_cols above
+  ticker <- 3 # force to start at letter C, given `total_cols` above
 
   tables <- list()
   for (i in seq_along(bys)) {
@@ -194,6 +199,35 @@ banner <- function(data,
                             exclude_var = exclude_var,
                             exclude_by = exclude_bys[[i]],
                             na.rm = na.rm) # we will be duplicating the step of removing missings from `var`, fine for now
+
+    # an edge case where var and by are the same
+    if (identical(var, bys[[i]])) {
+
+      # if there are empty levels in var/by, or if na.rm = FALSE resuled in an extra "Missing" row in total_cols
+      # we have to fill in new rows for them
+      empty_levels <- setdiff(total_cols[[1]], tables[[i]][[1]])
+      empty_level_slots <- which(total_cols[[1]] %in% empty_levels)
+
+
+      for (empty_level in empty_levels) {
+
+        new_rows <- list(
+          c(empty_level, rep(NA, times = length(names(tables[[i]])) - 1)),
+          c("..", rep(NA, times = length(names(tables[[i]])) - 1))
+        ) %>%
+          map(~set_names(.x, names(tables[[i]])) %>%
+                {tibble(!!!.)}) %>%
+          bind_rows()
+
+        # the insertion needs to happen in correspondence with total_cols above
+        where_to_insert <-  which(total_cols$levels == empty_level)
+
+        tables[[i]] <- tables[[i]] %>%
+          add_row(new_rows, .after = where_to_insert - 1)
+
+      }
+    }
+
     if (ncol(tables[[i]]) != 1) {
       # at this time, might have more columns than "cols_used" below, so cant interchange them
       # so long as the crosstab didnt error, it will have ncol > 1
@@ -226,7 +260,7 @@ banner <- function(data,
       min_group_n = min_group_n,
       too_low_n = out %>% filter(levels == "n") %>% unlist() %>% {which(as.numeric(.) < min_group_n)} %>% suppressWarnings(), # we know we're introducing NAs by coercion on the first column, dont message this
       na.rm = na.rm,
-      n_removed = nrow(removals)
+      n_removed = ifelse(na.rm, nrow(removals), NA) # if na.rm = FALSE, removals wont exist, so initialize to NA instead
     )
 }
 

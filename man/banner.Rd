@@ -56,6 +56,10 @@ and presentation of the combined results.
 \code{exclude_bys} must have length 1 or \code{length(bys)}. If length == \code{length(bys)}, then each
 pattern in \code{exclude_bys} is applied to each by of \code{bys} in turn. If length == 1, then
 the same pattern is applied to all \code{bys}.
+
+In the case that \code{var} and \code{by} are the same, the result might include extra padder rows corresponding to any
+levels of \code{var/by} that were empty, or if \code{na.rm = FALSE} is set and \code{var/by} contains missing values. In both cases, padder rows
+are added to ensure the Total columns and subsequent crosstabs align properly.
 }
 \examples{
 \dontrun{

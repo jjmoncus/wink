@@ -16,6 +16,16 @@ fix_var_nets <- function(var_nets, data, var) {
       }
     })
 
+  # once they're fixed, check that they don't overlap
+  for (i in 1:(length(var_nets)-1)) {
+
+    first <- var_nets[[i]]
+    comparisons <- var_nets[(i+1):length(var_nets)]
+    walk(comparisons, function(x) {
+      if (any(x %in% first)) abort("`var_nets` items cannot overlap - please respecify.")
+      })
+  }
+
   # if not named, provide basic names
   if (is_empty(names(var_nets))) {
 
@@ -309,21 +319,21 @@ crosstab <- function(data,
     deff_row <- by_params[c("by_level", "deff")] %>%
       filter(by_level %in% by_levels_to_use) %>%
       pivot_wider(names_from = by_level, values_from = deff) %>%
-      add_column(!!sym_var := "DEFF", .before = 1)
+      add_column(!!sym_var := "deff", .before = 1)
 
 
     # Prepare MOSE row
     mose_row <- by_params[c("by_level", "moe")] %>%
       filter(by_level %in% by_levels_to_use) %>%
       pivot_wider(names_from = by_level, values_from = moe) %>%
-      add_column(!!sym_var := "MOSE", .before = 1)
+      add_column(!!sym_var := "moe", .before = 1)
 
 
     # Prepare unweighted N row
     n_unweighted_row <- by_params[c("by_level", "n")] %>%
       filter(by_level %in% by_levels_to_use) %>%
       pivot_wider(names_from = by_level, values_from = n) %>%
-      add_column(!!sym_var := "N", .before = 1)
+      add_column(!!sym_var := "n", .before = 1)
 
 
     # --------------------------------------------- #
