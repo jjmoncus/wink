@@ -145,9 +145,23 @@ crosstab_builder <- function(baby_crosstab,
 
 
 
-#' Rewriting the crosstab function
+#' Make a single crosstab
 #'
+#' @param data (data.frame) A data frame of survey respondents
+#' @param var (chr) the target variable (i.e. dependent variable)
+#' @param by (chr) The variable to be cross-tabulated with `var` (i.e. independent variable)
+#' @param weight (chr) A weight variable. If NULL, produces unweighted estimates
+#' @param var_nets (list) Each element is either a character vector of factor levels of `var`, or a vector of integers, which are the converted to factor levels of `var`
+#' @param digits (int) How many decimal places to round all numeric values to. NULL results in the default behavior of `pewmethods::get_totals` (i.e. many decimal places).
+#' @param min_group_n (int) n-size threshold to be flagged within `by` groups.
+#' @param st_col_start (int) the letter of the alphabet used as the first label for significance testing comparisons
+#' @param exclude_var (chr) a regex - matching levels are excluded from `var` rows. If NULL, removes nothing
+#' @param exclude_by (chr) a regex - matching levels are excluded from `by` columns. If NULL, removes nothing
+#' @param na.rm (lgl) Whether to remove missing values from `var` before calculating values
 #'
+#' @return
+#' A data frame, where rows represent levels of `var` and columns represent levels of `by`. Each column contains the distribution of respones
+#' to `var`, conditional on each `by` level.
 #'
 #' @details
 #' When specifying `var_nets` using numbers instead of characters, remember to specify integers with reference to the _original factor levels of the variable_,

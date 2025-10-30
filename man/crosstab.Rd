@@ -2,7 +2,7 @@
 % Please edit documentation in R/crosstab.R
 \name{crosstab}
 \alias{crosstab}
-\title{Rewriting the crosstab function}
+\title{Make a single crosstab}
 \usage{
 crosstab(
   data,
@@ -18,8 +18,35 @@ crosstab(
   na.rm = TRUE
 )
 }
+\arguments{
+\item{data}{(data.frame) A data frame of survey respondents}
+
+\item{var}{(chr) the target variable (i.e. dependent variable)}
+
+\item{by}{(chr) The variable to be cross-tabulated with \code{var} (i.e. independent variable)}
+
+\item{weight}{(chr) A weight variable. If NULL, produces unweighted estimates}
+
+\item{var_nets}{(list) Each element is either a character vector of factor levels of \code{var}, or a vector of integers, which are the converted to factor levels of \code{var}}
+
+\item{digits}{(int) How many decimal places to round all numeric values to. NULL results in the default behavior of \code{pewmethods::get_totals} (i.e. many decimal places).}
+
+\item{min_group_n}{(int) n-size threshold to be flagged within \code{by} groups.}
+
+\item{st_col_start}{(int) the letter of the alphabet used as the first label for significance testing comparisons}
+
+\item{exclude_var}{(chr) a regex - matching levels are excluded from \code{var} rows. If NULL, removes nothing}
+
+\item{exclude_by}{(chr) a regex - matching levels are excluded from \code{by} columns. If NULL, removes nothing}
+
+\item{na.rm}{(lgl) Whether to remove missing values from \code{var} before calculating values}
+}
+\value{
+A data frame, where rows represent levels of \code{var} and columns represent levels of \code{by}. Each column contains the distribution of respones
+to \code{var}, conditional on each \code{by} level.
+}
 \description{
-Rewriting the crosstab function
+Make a single crosstab
 }
 \details{
 When specifying \code{var_nets} using numbers instead of characters, remember to specify integers with reference to the \emph{original factor levels of the variable},
