@@ -2,90 +2,56 @@
 % Please edit documentation in R/write_banners.R
 \name{write_banners}
 \alias{write_banners}
-\title{Export Banner Crosstabs to Formatted Excel Workbook}
+\title{Export banners to a n excel workbook}
 \usage{
 write_banners(banners, file, overwrite = TRUE, format_numbers = TRUE)
 }
 \arguments{
-\item{banners}{A list of data frames, typically the output from banner analysis
-functions. Each element should have the following attributes:
-\itemize{
-\item \code{target}: Character string used as the worksheet name
-\item \code{col_dividers}: Numeric vector indicating column positions for right borders
-\item \code{label}: Optional character string for display labels (falls back to target name)
-}}
+\item{banners}{A banner or list of banners, generated with  \code{\link{banner}}}
 
-\item{file}{A character string specifying the output file path for the Excel workbook.
-Should include the .xlsx extension.}
+\item{file}{(chr) The file path to save the output to. Should include the ".xlsx" extension}
 
-\item{overwrite}{A logical value indicating whether to overwrite an existing file.
-Default is TRUE.}
+\item{overwrite}{(lgl) Whether to overwrite an existing file. Default is TRUE. If FALSE, will
+throw an error a file with the same name already exists.}
+
+\item{format_numbers}{(lgl) Whether to format numeric values (percentages, n-sizes, etc). per default
+styling. If TRUE, percentages and n-sizes are formatted to integer values, and design effects and margins of error
+are formatted to two decimal places.}
 }
 \value{
 Invisibly returns NULL. The function is called for its side effect of creating and writing
 an Excel file.
+
+The Excel file has several properties:
+\itemize{
+\item \strong{Table of Contents}: A dedicated first sheet with hyperlinks to all banners. Each banner also includes a button back to the table of contents.
+\item \strong{worksheets}: Each banner is written to a separate sheet, named after the \code{var} variable used to generate it.
+\item \strong{formatting}: Borders are added to separate sections of the table. Numbers are saved and formatted per rules, and text is saved as text.
+}
 }
 \description{
-This function takes a list of banner crosstab tables and exports them to a
-formatted Excel workbook. Each table becomes a separate worksheet with appropriate
+Takes banners (generated with \code{banner()}) and prints them to a
+formatted excel workbook. Each banner is printed to a separate worksheet with appropriate
 styling, including borders and column dividers. A Table of Contents sheet with
-hyperlinks is automatically generated.
-}
-\details{
-The function creates a formatted Excel workbook with the following features:
-\itemize{
-\item \strong{worksheets}: Each element in the input list becomes a separate sheet
-\item \strong{formatting}: Applies medium borders to column dividers and headers
-\item \strong{Table of Contents}: A dedicated first sheet with hyperlinks to all other sheets
-\item \strong{Styled borders}: Right borders at column divider positions and bottom borders on headers
-\item \strong{Automatic naming}: Uses the \code{target} attribute for sheet names
-}
-
-The Table of Contents sheet is automatically positioned as the first sheet and includes:
-\itemize{
-\item A formatted header with larger, bold text
-\item Hyperlinked entries for each worksheet (note: hyperlink functionality may have limitations)
-\item Wider column width for better readability
-\item Blue tab color for visual distinction
-}
-
-Column dividers are applied based on the \code{col_dividers} attribute, which should
-contain the column numbers where right borders should be applied to visually separate
-different banner sections.
-}
-\note{
-The hyperlink functionality in the Table of Contents may have limitations depending on
-Excel version and settings (as noted in the function comments).
-
-Each data frame in the input list must have the required attributes (\code{target} and
-\code{col_dividers}) for proper formatting. Missing attributes may result in errors
-or suboptimal formatting.
+hyperlinks is added to the front.
 }
 \examples{
 \dontrun{
-# Assuming you have banner analysis results
-banner_results <- banners(
-  design = my_design,
-  target = "satisfaction",
-  banners = list("age_group", "gender", "region")
+
+# Make some banners
+# `food` is a dataset provided in the package
+results <- banners(
+  data = food,
+  target = "vegan",
+  banners = c("rating_meat", "rating_sushi")
 )
 
 # Export to Excel with default settings
 write_banners(
-  banners = list(satisfaction = banner_results),
-  file = "survey_banners.xlsx"
-)
-
-# Export multiple banner analyses
-multiple_results <- list(
-  satisfaction = banner_results,
-  awareness = other_banner_results
-)
-
-write_banners(
-  banners = multiple_results,
-  file = "all_survey_results.xlsx",
-  overwrite = FALSE
+  banners = results,
+  file = "results.xlsx",
+  overwrite = TRUE,
+  format_numbers = TRUE
 )
 }
 

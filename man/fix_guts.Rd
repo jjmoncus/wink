@@ -7,5 +7,6 @@
 fix_guts(data)
 }
 \description{
-Get the guts of a banner
+An internal function (used in \code{write_banners()}) that facilitates printing banners to excel such that
+numbers are saved as numbers and numbers are saved as text.
 }
