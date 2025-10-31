@@ -1,60 +1,48 @@
 
-#' Create Banner Crosstabs with Statistical Testing
+#' Create banner crosstabs and apply signficance testing across groups
 #'
-#' This function generates multiple crosstabs using banner variables against a target variable,
-#' applying statistical testing across columns. It combines the results into a single table
-#' with appropriate column dividers for presentation.
+#' Generates multiple crosstabs of variables `bys` against a target variable `var`,
+#' applying significance testing across columns of each `by` and combining the results into a single table
 #'
-#' @param data The survey data to us
-#' @param var A character string specifying the target variable name to be analyzed
-#'   against the banner variables
-#' @param bys A vector of character strings, where each element represents a banner
-#'   variable name to be cross-tabulated with the target variable
-#' @param min_group_n An integer specifying the minimum sample size threshold for statistical
-#'   testing. Cells with fewer observations may not be included in testing. Default is 100.
-#' @param design A survey design object (typically from the survey package) containing
-#'   the survey data and design specifications, if you would like weighted percentages. Defaults to NULL
+#' @param data (data.frame) A data frame of survey respondents
+#' @param var (chr) the target variable (i.e. dependent variable)
+#' @param by (chr) The variable to be cross-tabulated with `var` (i.e. independent variable)
+#' @param weight (chr) A weight variable. If NULL, produces unweighted estimates
+#' @param var_nets (list) Each element is either a character vector of factor levels of `var`, or a vector of integers, which are the converted to factor levels of `var`
+#' @param digits (int) How many decimal places to round all numeric values to. NULL results in the default behavior of `pewmethods::get_totals` (i.e. many decimal places).
+#' @param min_group_n (int) n-size threshold to be flagged within `by` groups.
+#' @param st_col_start (int) the letter of the alphabet used as the first label for significance testing comparisons
+#' @param exclude_var (chr) a regex - matching levels are excluded from `var` rows. If NULL, removes nothing
+#' @param exclude_by (chr) a regex - matching levels are excluded from `by` columns. If NULL, removes nothing
+#' @param na.rm (lgl) Whether to remove missing values from `var` before calculating values
 #'
-#' @return A data frame containing the combined crosstab results with the following attributes:
-#'   \itemize{
-#'     \item \code{col_dividers}: A numeric vector indicating where column divisions occur
-#'     \item \code{var}: The target variable name used in the analysis
-#'     \item \code{bys}: The list of banner variables used in the analysis
-#'   }
 #'
+#' @return
+#' A data frame, where rows represent levels of `var` and columns represent levels of `bys`, as well as
+#' the total distribution across the entire sample in the front. Each column contains the distribution of respones
+#' to `var`, conditional on each `by` level.
+#'
+
 #' @details
-#' The function processes each banner variable sequentially, creating crosstabs via
-#' \code{crosstab()} with statistical testing. Statistical testing starts at column B
-#' and progresses through subsequent columns based on the number of columns in each table.
-#'
-#' Column dividers are tracked and stored as attributes to facilitate proper formatting
-#' and presentation of the combined results.
-#'
 #' `exclude_bys` must have length 1 or `length(bys)`. If length == `length(bys)`, then each
 #' pattern in `exclude_bys` is applied to each by of `bys` in turn. If length == 1, then
-#' the same pattern is applied to all `bys`.
+#' the same pattern is applied to all `bys`. All other settings throw an error.
+#'
+#' In the case that `var` and `by` are the same, the result might include extra padding rows corresponding to any
+#' levels of `var/by` that were empty, or if `na.rm = FALSE` is set and `var/by`'s missing values resulted in an
+#' extra row for "(Missing)". In both cases, padding rows are added to ensure the Total columns and subsequent
+#' crosstabs align properly.
 #'
 #' @examples
 #' \dontrun{
-#' # Create a survey design object
-#' library(survey)
-#' design <- svydesign(ids = ~1, data = my_data, weights = ~weight)
 #'
-#' # Define banner variables
-#' my_bys <- list("age_group", "gender", "region")
-#'
-#' # Generate banner crosstabs
-#' result <- banners(
-#'   design = design,
-#'   var = "satisfaction",
-#'   bys = my_bys,
-#'   min_group_n = 50
+#' # `food` is a dataset provided in the package.
+#' banners(
+#'   data = food,
+#'   var = "vegan",
+#'   bys = c("rating_meat", "rating_sushi", "rating_veg")
 #' )
-#'
-#' # Access column dividers
-#' attr(result, "col_dividers")
-#' }
-#'
+#'}
 #' @importFrom dplyr select bind_cols rename
 #' @importFrom purrr map_dbl
 #' @importFrom tidyr pivot_longer
@@ -63,6 +51,7 @@
 #' @seealso \code{\link{crosstab}} for the underlying crosstab function
 #'
 #' @export
+#'
 banner <- function(data,
                    var,
                    bys,
@@ -114,6 +103,7 @@ banner <- function(data,
   # --------------------------------------------------------------- #
   # ----------------- numbers for Total col ----------------------- #
   # --------------------------------------------------------------- #
+
 
   total_params <- calculate_deff(data[[weight]]) %>%
     select(n, deff, moe) %>%
@@ -178,7 +168,7 @@ banner <- function(data,
   # ----------------------- other crosstabs ----------------------- #
   # --------------------------------------------------------------- #
 
-  ticker <- 3 # force to start at letter C, given total_cols above
+  ticker <- 3 # force to start at letter C, given `total_cols` above
 
   tables <- list()
   for (i in seq_along(bys)) {
@@ -194,6 +184,35 @@ banner <- function(data,
                             exclude_var = exclude_var,
                             exclude_by = exclude_bys[[i]],
                             na.rm = na.rm) # we will be duplicating the step of removing missings from `var`, fine for now
+
+    # an edge case where var and by are the same
+    if (identical(var, bys[[i]])) {
+
+      # if there are empty levels in var/by, or if na.rm = FALSE resuled in an extra "Missing" row in total_cols
+      # we have to fill in new rows for them
+      empty_levels <- setdiff(total_cols[[1]], tables[[i]][[1]])
+      empty_level_slots <- which(total_cols[[1]] %in% empty_levels)
+
+
+      for (empty_level in empty_levels) {
+
+        new_rows <- list(
+          c(empty_level, rep(NA, times = length(names(tables[[i]])) - 1)),
+          c("..", rep(NA, times = length(names(tables[[i]])) - 1))
+        ) %>%
+          map(~set_names(.x, names(tables[[i]])) %>%
+                {tibble(!!!.)}) %>%
+          bind_rows()
+
+        # the insertion needs to happen in correspondence with total_cols above
+        where_to_insert <-  which(total_cols$levels == empty_level)
+
+        tables[[i]] <- tables[[i]] %>%
+          add_row(new_rows, .after = where_to_insert - 1)
+
+      }
+    }
+
     if (ncol(tables[[i]]) != 1) {
       # at this time, might have more columns than "cols_used" below, so cant interchange them
       # so long as the crosstab didnt error, it will have ncol > 1
@@ -226,7 +245,7 @@ banner <- function(data,
       min_group_n = min_group_n,
       too_low_n = out %>% filter(levels == "n") %>% unlist() %>% {which(as.numeric(.) < min_group_n)} %>% suppressWarnings(), # we know we're introducing NAs by coercion on the first column, dont message this
       na.rm = na.rm,
-      n_removed = nrow(removals)
+      n_removed = ifelse(na.rm, nrow(removals), NA) # if na.rm = FALSE, removals wont exist, so initialize to NA instead
     )
 }
 

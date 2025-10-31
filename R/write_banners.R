@@ -1,6 +1,10 @@
 #' Get the guts of a banner
 #'
+#' An internal function (used in `write_banners()`) that facilitates printing banners to excel such that
+#' numbers are saved as numbers and numbers are saved as text.
+#'
 #' @importFrom purrr list_flatten
+#'
 fix_guts <- function(data) {
 
   data %>%
@@ -28,86 +32,52 @@ fix_guts <- function(data) {
 
 
 
-#' Export Banner Crosstabs to Formatted Excel Workbook
+#' Export banners to a n excel workbook
 #'
-#' This function takes a list of banner crosstab tables and exports them to a
-#' formatted Excel workbook. Each table becomes a separate worksheet with appropriate
+#' Takes banners (generated with `banner()`) and prints them to a
+#' formatted excel workbook. Each banner is printed to a separate worksheet with appropriate
 #' styling, including borders and column dividers. A Table of Contents sheet with
-#' hyperlinks is automatically generated.
+#' hyperlinks is added to the front.
 #'
-#' @param banners A list of data frames, typically the output from banner analysis
-#'   functions. Each element should have the following attributes:
-#'   \itemize{
-#'     \item \code{target}: Character string used as the worksheet name
-#'     \item \code{col_dividers}: Numeric vector indicating column positions for right borders
-#'     \item \code{label}: Optional character string for display labels (falls back to target name)
-#'   }
-#' @param file A character string specifying the output file path for the Excel workbook.
-#'   Should include the .xlsx extension.
-#' @param overwrite A logical value indicating whether to overwrite an existing file.
-#'   Default is TRUE.
+#' @param banners A banner or list of banners, generated with  \code{\link{banner}}
+#' @param file (chr) The file path to save the output to. Should include the ".xlsx" extension
+#' @param overwrite (lgl) Whether to overwrite an existing file. Default is TRUE. If FALSE, will
+#' throw an error a file with the same name already exists.
+#' @param format_numbers (lgl) Whether to format numeric values (percentages, n-sizes, etc). per default
+#' styling. If TRUE, percentages and n-sizes are formatted to integer values, and design effects and margins of error
+#' are formatted to two decimal places.
 #'
 #' @return Invisibly returns NULL. The function is called for its side effect of creating and writing
 #'   an Excel file.
 #'
-#' @details
-#' The function creates a formatted Excel workbook with the following features:
+#' The Excel file has several properties:
 #' \itemize{
-#'   \item \strong{worksheets}: Each element in the input list becomes a separate sheet
-#'   \item \strong{formatting}: Applies medium borders to column dividers and headers
-#'   \item \strong{Table of Contents}: A dedicated first sheet with hyperlinks to all other sheets
-#'   \item \strong{Styled borders}: Right borders at column divider positions and bottom borders on headers
-#'   \item \strong{Automatic naming}: Uses the \code{target} attribute for sheet names
+#'   \item \strong{Table of Contents}: A dedicated first sheet with hyperlinks to all banners. Each banner also includes a button back to the table of contents.
+#'   \item \strong{worksheets}: Each banner is written to a separate sheet, named after the `var` variable used to generate it.
+#'   \item \strong{formatting}: Borders are added to separate sections of the table. Numbers are saved and formatted per rules, and text is saved as text.
 #' }
 #'
-#' The Table of Contents sheet is automatically positioned as the first sheet and includes:
-#' \itemize{
-#'   \item A formatted header with larger, bold text
-#'   \item Hyperlinked entries for each worksheet (note: hyperlink functionality may have limitations)
-#'   \item Wider column width for better readability
-#'   \item Blue tab color for visual distinction
-#' }
 #'
-#' Column dividers are applied based on the \code{col_dividers} attribute, which should
-#' contain the column numbers where right borders should be applied to visually separate
-#' different banner sections.
 #'
 #' @examples
 #' \dontrun{
-#' # Assuming you have banner analysis results
-#' banner_results <- banners(
-#'   design = my_design,
-#'   target = "satisfaction",
-#'   banners = list("age_group", "gender", "region")
+#'
+#' # Make some banners
+#' # `food` is a dataset provided in the package
+#' results <- banners(
+#'   data = food,
+#'   target = "vegan",
+#'   banners = c("rating_meat", "rating_sushi")
 #' )
 #'
 #' # Export to Excel with default settings
 #' write_banners(
-#'   banners = list(satisfaction = banner_results),
-#'   file = "survey_banners.xlsx"
-#' )
-#'
-#' # Export multiple banner analyses
-#' multiple_results <- list(
-#'   satisfaction = banner_results,
-#'   awareness = other_banner_results
-#' )
-#'
-#' write_banners(
-#'   banners = multiple_results,
-#'   file = "all_survey_results.xlsx",
-#'   overwrite = FALSE
+#'   banners = results,
+#'   file = "results.xlsx",
+#'   overwrite = TRUE,
+#'   format_numbers = TRUE
 #' )
 #' }
-#'
-#' @note
-#'
-#' The hyperlink functionality in the Table of Contents may have limitations depending on
-#' Excel version and settings (as noted in the function comments).
-#'
-#' Each data frame in the input list must have the required attributes (\code{target} and
-#' \code{col_dividers}) for proper formatting. Missing attributes may result in errors
-#' or suboptimal formatting.
 #'
 #' @importFrom openxlsx createWorkbook addWorksheet writeData createStyle addStyle setColWidths writeFormula worksheetOrder worksheetOrder<- saveWorkbook mergeCells setRowHeights
 #' @importFrom purrr walk map_chr

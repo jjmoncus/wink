@@ -1,3 +1,8 @@
+# wink 0.0.4
+
+* throw an error when `var_nets` items overlap.
+* In the edge case when `var` and `by`, we don't want to pause execution, so we instead fill the gaps with "padding rows" so all crosstabs in the banner line up correctly. This holds for both `na.rm = TRUE/FALSE`
+
 # wink 0.0.3
 
 * `write_banners()` exports numbers as numbers and characters as text, and default formats percentages as integers, deff + mose with 2 decimal places

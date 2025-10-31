@@ -6,15 +6,36 @@
 #' @importFrom stringr str_c
 fix_var_nets <- function(var_nets, data, var) {
 
-  # if numeric, change to column
+  # first, make sure var_nets is a list
+  # potentially the case when just passing a single vector of numbers to collapse
+  if (!is.list(var_nets)) var_nets <- list(var_nets)
+
+  # if numeric, change to character, and if anything else, abort
   var_nets <- var_nets %>%
     map(function(x) {
       if (is.numeric(x)) {
         levels(data[[var]])[x]
       } else if (is.character(x)) {
         x
+      } else {
+        abort("elements of `var_nets` can only be numeric or character - please respecify.")
       }
     })
+
+  # if more than one net is included, check their contents dont overlap
+  if (length(var_nets) > 1) {
+
+    for (i in 1:(length(var_nets)-1)) {
+
+      first <- var_nets[[i]]
+      comparisons <- var_nets[(i+1):length(var_nets)]
+      walk(comparisons, function(x) {
+        if (any(x %in% first)) abort("`var_nets` items cannot overlap - please respecify.")
+      })
+    }
+
+  }
+
 
   # if not named, provide basic names
   if (is_empty(names(var_nets))) {
@@ -135,9 +156,23 @@ crosstab_builder <- function(baby_crosstab,
 
 
 
-#' Rewriting the crosstab function
+#' Make a single crosstab
 #'
+#' @param data (data.frame) A data frame of survey respondents
+#' @param var (chr) the target variable (i.e. dependent variable)
+#' @param by (chr) The variable to be cross-tabulated with `var` (i.e. independent variable)
+#' @param weight (chr) A weight variable. If NULL, produces unweighted estimates
+#' @param var_nets (list) Each element is either a character vector of factor levels of `var`, or a vector of integers, which are the converted to factor levels of `var`
+#' @param digits (int) How many decimal places to round all numeric values to. NULL results in the default behavior of `pewmethods::get_totals` (i.e. many decimal places).
+#' @param min_group_n (int) n-size threshold to be flagged within `by` groups.
+#' @param st_col_start (int) the letter of the alphabet used as the first label for significance testing comparisons
+#' @param exclude_var (chr) a regex - matching levels are excluded from `var` rows. If NULL, removes nothing
+#' @param exclude_by (chr) a regex - matching levels are excluded from `by` columns. If NULL, removes nothing
+#' @param na.rm (lgl) Whether to remove missing values from `var` before calculating values
 #'
+#' @return
+#' A data frame, where rows represent levels of `var` and columns represent levels of `by`. Each column contains the distribution of respones
+#' to `var`, conditional on each `by` level.
 #'
 #' @details
 #' When specifying `var_nets` using numbers instead of characters, remember to specify integers with reference to the _original factor levels of the variable_,
@@ -309,21 +344,21 @@ crosstab <- function(data,
     deff_row <- by_params[c("by_level", "deff")] %>%
       filter(by_level %in% by_levels_to_use) %>%
       pivot_wider(names_from = by_level, values_from = deff) %>%
-      add_column(!!sym_var := "DEFF", .before = 1)
+      add_column(!!sym_var := "deff", .before = 1)
 
 
     # Prepare MOSE row
     mose_row <- by_params[c("by_level", "moe")] %>%
       filter(by_level %in% by_levels_to_use) %>%
       pivot_wider(names_from = by_level, values_from = moe) %>%
-      add_column(!!sym_var := "MOSE", .before = 1)
+      add_column(!!sym_var := "moe", .before = 1)
 
 
     # Prepare unweighted N row
     n_unweighted_row <- by_params[c("by_level", "n")] %>%
       filter(by_level %in% by_levels_to_use) %>%
       pivot_wider(names_from = by_level, values_from = n) %>%
-      add_column(!!sym_var := "N", .before = 1)
+      add_column(!!sym_var := "n", .before = 1)
 
 
     # --------------------------------------------- #

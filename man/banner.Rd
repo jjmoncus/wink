@@ -2,7 +2,7 @@
 % Please edit documentation in R/banner.R
 \name{banner}
 \alias{banner}
-\title{Create Banner Crosstabs with Statistical Testing}
+\title{Create banner crosstabs and apply signficance testing across groups}
 \usage{
 banner(
   data,
@@ -18,66 +18,57 @@ banner(
 )
 }
 \arguments{
-\item{data}{The survey data to us}
+\item{data}{(data.frame) A data frame of survey respondents}
 
-\item{var}{A character string specifying the target variable name to be analyzed
-against the banner variables}
+\item{var}{(chr) the target variable (i.e. dependent variable)}
 
-\item{bys}{A vector of character strings, where each element represents a banner
-variable name to be cross-tabulated with the target variable}
+\item{weight}{(chr) A weight variable. If NULL, produces unweighted estimates}
 
-\item{min_group_n}{An integer specifying the minimum sample size threshold for statistical
-testing. Cells with fewer observations may not be included in testing. Default is 100.}
+\item{var_nets}{(list) Each element is either a character vector of factor levels of \code{var}, or a vector of integers, which are the converted to factor levels of \code{var}}
 
-\item{design}{A survey design object (typically from the survey package) containing
-the survey data and design specifications, if you would like weighted percentages. Defaults to NULL}
+\item{digits}{(int) How many decimal places to round all numeric values to. NULL results in the default behavior of \code{pewmethods::get_totals} (i.e. many decimal places).}
+
+\item{min_group_n}{(int) n-size threshold to be flagged within \code{by} groups.}
+
+\item{exclude_var}{(chr) a regex - matching levels are excluded from \code{var} rows. If NULL, removes nothing}
+
+\item{na.rm}{(lgl) Whether to remove missing values from \code{var} before calculating values}
+
+\item{by}{(chr) The variable to be cross-tabulated with \code{var} (i.e. independent variable)}
+
+\item{st_col_start}{(int) the letter of the alphabet used as the first label for significance testing comparisons}
+
+\item{exclude_by}{(chr) a regex - matching levels are excluded from \code{by} columns. If NULL, removes nothing}
 }
 \value{
-A data frame containing the combined crosstab results with the following attributes:
-\itemize{
-\item \code{col_dividers}: A numeric vector indicating where column divisions occur
-\item \code{var}: The target variable name used in the analysis
-\item \code{bys}: The list of banner variables used in the analysis
-}
+A data frame, where rows represent levels of \code{var} and columns represent levels of \code{bys}, as well as
+the total distribution across the entire sample in the front. Each column contains the distribution of respones
+to \code{var}, conditional on each \code{by} level.
 }
 \description{
-This function generates multiple crosstabs using banner variables against a target variable,
-applying statistical testing across columns. It combines the results into a single table
-with appropriate column dividers for presentation.
+Generates multiple crosstabs of variables \code{bys} against a target variable \code{var},
+applying significance testing across columns of each \code{by} and combining the results into a single table
 }
 \details{
-The function processes each banner variable sequentially, creating crosstabs via
-\code{crosstab()} with statistical testing. Statistical testing starts at column B
-and progresses through subsequent columns based on the number of columns in each table.
-
-Column dividers are tracked and stored as attributes to facilitate proper formatting
-and presentation of the combined results.
-
 \code{exclude_bys} must have length 1 or \code{length(bys)}. If length == \code{length(bys)}, then each
 pattern in \code{exclude_bys} is applied to each by of \code{bys} in turn. If length == 1, then
-the same pattern is applied to all \code{bys}.
+the same pattern is applied to all \code{bys}. All other settings throw an error.
+
+In the case that \code{var} and \code{by} are the same, the result might include extra padding rows corresponding to any
+levels of \code{var/by} that were empty, or if \code{na.rm = FALSE} is set and \code{var/by}'s missing values resulted in an
+extra row for "(Missing)". In both cases, padding rows are added to ensure the Total columns and subsequent
+crosstabs align properly.
 }
 \examples{
 \dontrun{
-# Create a survey design object
-library(survey)
-design <- svydesign(ids = ~1, data = my_data, weights = ~weight)
 
-# Define banner variables
-my_bys <- list("age_group", "gender", "region")
-
-# Generate banner crosstabs
-result <- banners(
-  design = design,
-  var = "satisfaction",
-  bys = my_bys,
-  min_group_n = 50
+# `food` is a dataset provided in the package.
+banners(
+  data = food,
+  var = "vegan",
+  bys = c("rating_meat", "rating_sushi", "rating_veg")
 )
-
-# Access column dividers
-attr(result, "col_dividers")
 }
-
 }
 \seealso{
 \code{\link{crosstab}} for the underlying crosstab function
