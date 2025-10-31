@@ -6,25 +6,36 @@
 #' @importFrom stringr str_c
 fix_var_nets <- function(var_nets, data, var) {
 
-  # if numeric, change to column
+  # first, make sure var_nets is a list
+  # potentially the case when just passing a single vector of numbers to collapse
+  if (!is.list(var_nets)) var_nets <- list(var_nets)
+
+  # if numeric, change to character, and if anything else, abort
   var_nets <- var_nets %>%
     map(function(x) {
       if (is.numeric(x)) {
         levels(data[[var]])[x]
       } else if (is.character(x)) {
         x
+      } else {
+        abort("elements of `var_nets` can only be numeric or character - please respecify.")
       }
     })
 
-  # once they're fixed, check that they don't overlap
-  for (i in 1:(length(var_nets)-1)) {
+  # if more than one net is included, check their contents dont overlap
+  if (length(var_nets) > 1) {
 
-    first <- var_nets[[i]]
-    comparisons <- var_nets[(i+1):length(var_nets)]
-    walk(comparisons, function(x) {
-      if (any(x %in% first)) abort("`var_nets` items cannot overlap - please respecify.")
+    for (i in 1:(length(var_nets)-1)) {
+
+      first <- var_nets[[i]]
+      comparisons <- var_nets[(i+1):length(var_nets)]
+      walk(comparisons, function(x) {
+        if (any(x %in% first)) abort("`var_nets` items cannot overlap - please respecify.")
       })
+    }
+
   }
+
 
   # if not named, provide basic names
   if (is_empty(names(var_nets))) {
