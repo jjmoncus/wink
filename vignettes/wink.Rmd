@@ -33,20 +33,21 @@ registerS3method("knit_print", "data.frame", knit_print.data.frame)
 library(wink)
 
 # 1. Get the path to the original file in the source package structure
-original_path <- system.file("extdata", "my_survey_results.xlsx", package = "wink")
+# original_path <- system.file("extdata", "my_survey_results.xlsx", package = "wink")
 
 # 2. Define the *relative name* that the link should use
-results_file_name <- "my_survey_results.xlsx"
+# results_file_name <- "my_survey_results.xlsx"
 
 # 3. Copy the file to the current working directory (the build directory)
 # This ensures the file is copied alongside the final HTML output.
-if (file.exists(original_path)) {
-  file.copy(original_path, results_file_name, overwrite = TRUE)
-}
+# if (file.exists(original_path)) {
+#   file.copy(original_path, results_file_name, overwrite = TRUE)
+# }
 
 # 4. Define the **markdown link** in a variable for easier use later.
 # We use the relative file name as the URL.
-download_link <- paste0("[look like this](", results_file_name, ")")
+# download_link <- paste0("[look like this](", results_file_name, ")")
+download_link <- paste0("[look like this](my_survey_results.xlsx)")
 
 ```
 
