@@ -52,7 +52,7 @@ download_link <- paste0("[look like this](my_survey_results.xlsx)")
 ```
 
 
-The `wink` package provides functions for generating publication-ready survey tables, complete with significance testing and report-ready export features.
+The `wink` package provides functions for generating client-ready survey tables, complete with significance testing and report-ready export features.
 
 The goal is to make Excel outputs that `r download_link`.
 
