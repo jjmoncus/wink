@@ -6,6 +6,8 @@ vignette: >
   %\VignetteIndexEntry{wink}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+resource_files:
+  - doc/my_survey_results.xlsx
 ---
 
 ```{r, include = FALSE}
