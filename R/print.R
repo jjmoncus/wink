@@ -26,7 +26,7 @@ constructor_banner <- function(data) {
 #'
 #' @method print wink_banner
 #'
-#' @importFrom gt gt tab_spanner tab_style cell_borders cells_body cell_text cells_column_labels opt_table_font tab_source_note cell_fill tab_header opt_align_table_header px
+#' @importFrom gt gt tab_spanner tab_style cell_borders cells_body cell_text cells_column_labels opt_table_font tab_source_note cell_fill tab_header opt_align_table_header px sub_missing
 print.wink_banner <- function(data, ...) {
 
 
@@ -138,6 +138,7 @@ print.wink_banner <- function(data, ...) {
     # header with var_label
     tab_header(title = attr(data, "var_label")) %>%
     opt_align_table_header(align = "left") %>%
+    sub_missing(columns = everything(), missing_text = "") %>%
     # trying to format numbers next
     print()
 
