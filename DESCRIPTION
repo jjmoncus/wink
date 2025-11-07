@@ -26,7 +26,8 @@ Imports:
     stringr,
     pewmethods (>= 1.0),
     tidyselect,
-    forcats
+    forcats,
+    gt
 RoxygenNote: 7.3.3
 Roxygen: list(markdown = TRUE)
 Remotes: 

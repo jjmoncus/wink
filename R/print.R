@@ -25,6 +25,8 @@ constructor_banner <- function(data) {
 #' @export
 #'
 #' @method print wink_banner
+#'
+#' @importFrom gt gt tab_spanner tab_style cell_borders cells_body cell_text cells_column_labels opt_table_font tab_source_note cell_fill tab_header opt_align_table_header px
 print.wink_banner <- function(data, ...) {
 
 
