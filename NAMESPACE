@@ -2,6 +2,7 @@
 
 S3method(print,wink_banner)
 export("%>%")
+export(as_gt.wink_banner)
 export(banner)
 export(crosstab)
 export(write_banners)
