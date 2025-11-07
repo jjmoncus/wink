@@ -58,6 +58,8 @@ The `wink` package provides functions for generating client-ready survey tables,
 
 The goal is to make Excel outputs that `r download_link`.
 
+(^That link may only work when viewing this vignette from inside RStudio - apologies, hopefully I can resolve this soon!)
+
 The two main functions demonstrated here are:
 
 - `banner()`: Generates multiple, statistically tested crosstab tables against a common target variable and combines them into one wide "banner" table.
@@ -305,7 +307,8 @@ banners <- c("pescetarian", "veggie", "vegan") %>%
     banner(
       data = food, 
       var = x,
-      bys = paste0("rating_", c("meat", "pizza", "sushi", "veg")))
+      bys = c("age", "gender", "income", "region", "party_lean", paste0("rating_", c("meat", "pizza", "sushi", "veg")))
+      )
   })
 
 write_banners(banners, file = "my_survey_results.xlsx")
@@ -319,7 +322,7 @@ You can also write a single banner, if you so choose (i.e. it doesn't need to be
 #| warning: false
 #| message: false
 
-x <- banner(food, "pescetarian", bys = paste0("rating_", c("meat", "pizza", "sushi", "veg")))
+x <- banner(food, "pescetarian", bys = c("age", "gender", "income", "region", "party_lean", paste0("rating_", c("meat", "pizza", "sushi", "veg"))))
 
 x %>% write_banners(file = "single_banner.xlsx")
 
@@ -338,7 +341,7 @@ x %>% write_banners(file = "single_banner.xlsx", overwrite = FALSE)
 ```
 
 
-Number rows are saved as number values, and character values are saved as text. This allows us to format the numbers to our liking. `write_banners()` by default formats the percentage rows as integers, and the "deff + mose" rows with two decimal places. If you'd prefer them presented as raw, full-decimal-place values, use `format_numbers = FALSE`.
+Number rows are saved as number values, and character values are saved as text. `write_banners()` by default formats the percentage rows as integers, and the "deff + mose" rows with two decimal places. If you'd prefer them presented as raw, full-decimal-place values, use `format_numbers = FALSE`.
 
 ``` {r}
 #| warning: false
