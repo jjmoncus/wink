@@ -24,6 +24,7 @@ constructor_banner <- function(data) {
 #' @return A gt_tbl object, fully styled with spanners, formatting, and notes.
 #'
 #' @export
+#' @method as_gt wink_banner
 as_gt.wink_banner <- function(data, ...) {
 
   # ----- copied everything from print method ----- #
