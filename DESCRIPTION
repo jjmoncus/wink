@@ -1,7 +1,7 @@
 Package: wink
 Type: Package
 Title: Crosstab and Signifiance Testing for Weighted Survey Estimates (Title Case)
-Version: 0.0.4
+Version: 0.0.5
 Authors@R: c(
     person(
       "J.J.", "Moncus",
@@ -26,7 +26,8 @@ Imports:
     stringr,
     pewmethods (>= 1.0),
     tidyselect,
-    forcats
+    forcats,
+    gt
 RoxygenNote: 7.3.3
 Roxygen: list(markdown = TRUE)
 Remotes: 

@@ -1,3 +1,7 @@
+# wink 0.0.5
+
+* `print` method now produces `gt` table with stylings similar to how the table would look when exported to Excel, for easier interactive work
+
 # wink 0.0.4
 
 * throw an error when `var_nets` items overlap.

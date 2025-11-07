@@ -1,31 +1,34 @@
-var_label <- attr(data[[var]], "label")
-
-varname_row <- tibble(
-  !!sym_var := var_label,
-  !!!setNames(as.list(rep(by, length(by_levels_to_use)
-  )), by_levels_to_use))
-
-rows_list[[1]] <- varname_row
 
 
+#' Constructor for `wink_banner` class
+#'
+#'
+constructor_banner <- function(data) {
 
 
+  data %>%
+    structure(
+      class = c("wink_banner", class(data))
+    )
+}
 
 
-#' Coerce wink_banner to gt_tbl
-#' Defines how a 'wink_banner' object is converted into a fully
-#' styled gt table for display in R Markdown, Shiny, or documents
+#' Print method for 'wink_banner' class
+#'
+#' Implements the custom print behavior for 'wink_banner' tables
 #'
 #' @param data An object of class 'wink_banner'.
-#' @param ... Not used.
+#' @param ... Additional arguments (can ignore for now)
 #'
-#' @return A gt_tbl object, fully styled with spanners, formatting, and notes.
+#' @return The input object 'data' (invisibly)
 #'
 #' @export
-#' @method as_gt wink_banner
-as_gt.wink_banner <- function(data, ...) {
+#'
+#' @method print wink_banner
+#'
+#' @importFrom gt gt tab_spanner tab_style cell_borders cells_body cell_text cells_column_labels opt_table_font tab_source_note cell_fill tab_header opt_align_table_header px sub_missing
+print.wink_banner <- function(data, ...) {
 
-  # ----- copied everything from print method ----- #
 
   # need spanner ids to be monotonically increasing
   # extra total spanners just to get excel letters to overlap
@@ -44,24 +47,24 @@ as_gt.wink_banner <- function(data, ...) {
 
   # tab_spanners for by columns
   by_spanner_params <- map(1:length(attr(data, "bys")),
-                           function(i) {
+                  function(i) {
 
-                             cols_to_use <- (attr(data, "col_dividers")[i]+1):attr(data, "col_dividers")[i+1] # col_dividers has length one more than length(bys)
+                    cols_to_use <- (attr(data, "col_dividers")[i]+1):attr(data, "col_dividers")[i+1] # col_dividers has length one more than length(bys)
 
-                             by_pulled <- attr(data, "bys")[i]
-                             label_pulled <- attr(data, "by_labels")[i]
+                    by_pulled <- attr(data, "bys")[i]
+                    label_pulled <- attr(data, "by_labels")[i]
 
-                             list(
-                               list(label = label_pulled,
-                                    columns = cols_to_use,
-                                    id = 80*i
-                               ),
-                               # trying another one above it
-                               list(label = by_pulled,
-                                    columns = cols_to_use,
-                                    id = 80*i+1)
-                             )
-                           }) %>%
+                    list(
+                      list(label = label_pulled,
+                           columns = cols_to_use,
+                           id = 80*i
+                           ),
+                      # trying another one above it
+                      list(label = by_pulled,
+                           columns = cols_to_use,
+                           id = 80*i+1)
+                      )
+                    }) %>%
     list_flatten() # puts all calls to tab_spanner on the same level
 
   excel_spanner_params <- map(
@@ -70,7 +73,7 @@ as_gt.wink_banner <- function(data, ...) {
       list(label = num_to_excel_col(i),
            columns = i,
            id = 10000+i)
-    })
+      })
 
   apply_spanner <- function(g, args) {
 
@@ -120,13 +123,13 @@ as_gt.wink_banner <- function(data, ...) {
     tab_source_note(na.rm_statement) %>%
     # color low n-size cells in red
     tab_style(
-      style = list(
-        cell_fill(color = "#fadadd"),
-        cell_text(color = "#800000")
-      ),
-      locations = cells_body(rows = row_where_n,
-                             columns = attr(data, "too_low_n"))
-    ) %>%
+     style = list(
+       cell_fill(color = "#fadadd"),
+       cell_text(color = "#800000")
+       ),
+     locations = cells_body(rows = row_where_n,
+                            columns = attr(data, "too_low_n"))
+     ) %>%
     # add by spanner column headers
     {reduce(by_spanner_params, apply_spanner, .init = .)} %>%
     # adding column letters to mimic Excel sheets
@@ -134,6 +137,11 @@ as_gt.wink_banner <- function(data, ...) {
     {reduce(excel_spanner_params, apply_spanner, .init = .)} %>%
     # header with var_label
     tab_header(title = attr(data, "var_label")) %>%
-    opt_align_table_header(align = "left")
-  # trying to format numbers next
+    opt_align_table_header(align = "left") %>%
+    sub_missing(columns = everything(), missing_text = "") %>%
+    # trying to format numbers next
+    print()
+
+  # The print method must return the object invisibly (a standard R convention)
+  invisible(data)
 }

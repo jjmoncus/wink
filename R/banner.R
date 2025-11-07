@@ -246,7 +246,9 @@ banner <- function(data,
       too_low_n = out %>% filter(levels == "n") %>% unlist() %>% {which(as.numeric(.) < min_group_n)} %>% suppressWarnings(), # we know we're introducing NAs by coercion on the first column, dont message this
       na.rm = na.rm,
       n_removed = ifelse(na.rm, nrow(removals), NA) # if na.rm = FALSE, removals wont exist, so initialize to NA instead
-    )
+    ) %>%
+    # add `wink_banner` class
+    constructor_banner()
 }
 
 
