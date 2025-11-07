@@ -16,22 +16,23 @@ library(kableExtra)
 
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  results = "asis"
 )
 
-# write tables for data frames
-knit_print.data.frame = function(x, ...) {
-    res = paste(c("", "", kable(x, output = FALSE) %>%
-                    kable_styling(
-                      font_size = 10,
-                      full_width = FALSE
-                    )), collapse = "\n")
-    asis_output(res)
-}
-# register the method
-registerS3method("knit_print", "data.frame", knit_print.data.frame)
-# after you define and register the above method, data frames will be printed
-# as tables in knitr, which is different with the default print() behavior
+# # write tables for data frames
+# knit_print.data.frame = function(x, ...) {
+#     res = paste(c("", "", kable(x, output = FALSE) %>%
+#                     kable_styling(
+#                       font_size = 10,
+#                       full_width = FALSE
+#                     )), collapse = "\n")
+#     asis_output(res)
+# }
+# # register the method
+# registerS3method("knit_print", "data.frame", knit_print.data.frame)
+# # after you define and register the above method, data frames will be printed
+# # as tables in knitr, which is different with the default print() behavior
 library(wink)
 
 # 1. Get the path to the original file in the source package structure
@@ -93,6 +94,7 @@ devtools::install_github("jjmoncus/wink",
 For this example, we'll use the synthetic `food` dataset that comes with the package.
 
 ``` {r}
+#| results: "markup"
 # In a real session, the data loads automatically when your package is attached.
 head(food, n = 5)
 ```
@@ -107,14 +109,14 @@ The `banner()` function generates a percentage table for one variable (`var`) br
 
 unweighted N's, Design Effects (DEFF), and Margins of Sampling Error (MOSE) for each group are included at the bottom..
 
-Here's a banner for the likelihood of being pescetarian (`pescetarian`), by taste for meat (`rating_meat`).
+Here's a banner for the likelihood of being pescetarian (`pescetarian`), by taste for meat (`rating_meat`). The default `print()` method tries to mimic how the table would appear in the final Excel output.
 
 ``` {r}
 #| warning: false
 banner(
   data = food,
   var = "pescetarian",
-  bys = "rating_meat"
+  bys = "age"
 )
 ```
 
@@ -131,7 +133,7 @@ If two or more `bys` share factor levels, then we would naturally end up with co
 banner(
   data = food,
   var = "pescetarian",
-  bys = c("rating_meat", "rating_sushi", "rating_veg")
+  bys = c("age", "income", "gender", "region", "party_lean")
 )
 ```
 
@@ -141,10 +143,11 @@ Metadata about each crosstab of the banner is stored underneath as attributes. S
 
 ``` {r}
 #| warning: false
+#| results: "markup"
 x <- banner(
   data = food,
   var = "pescetarian",
-  bys = c("rating_meat", "rating_sushi", "rating_veg")
+  bys = c("age", "income", "gender", "region", "party_lean")
 )
 
 attributes(x)
@@ -163,11 +166,10 @@ Unweighted estimates will naturally have design effects equal to 1, whereas weig
 food <- food %>%
   dplyr::mutate(weight_1 = runif(nrow(food), 0, 3)) # randomly give everyone a weight between 0 and 3
 
-
 banner(
   data = food,
   var = "pescetarian",
-  bys = c("rating_meat", "rating_sushi", "rating_veg"),
+  bys = c("age", "income", "gender", "region", "party_lean"),
   weight = "weight_1"
 )
 
@@ -183,7 +185,7 @@ banner(
 banner(
   data = food,
   var = "pescetarian",
-  bys = c("rating_meat", "rating_sushi", "rating_veg"),
+  bys = c("age", "income", "gender", "region", "party_lean"),
   digits = 2
 )
 ```
@@ -196,13 +198,12 @@ You can define NET (summary) categories using the `var_nets` argument, which tak
 banner(
   data = food,
   var = "pescetarian",
-  bys = c("rating_meat", "rating_sushi", "rating_veg"),
+  bys = c("age", "income", "gender", "region", "party_lean"),
   var_nets = list(
     "Low"  = c("Very Low", "Low"),
     "High" = c("High", "Very High")
     )
   )
-
 ```
 
 
@@ -212,13 +213,12 @@ You can also specify `var_nets` with levels numbers.
 banner(
   data = food,
   var = "pescetarian",
-  bys = c("rating_meat", "rating_sushi", "rating_veg"),
+  bys = c("age", "income", "gender", "region", "party_lean"),
   var_nets = list(
     "Low"  = 1:2,
     "High" = 4:5
     )
   )
-
 ```
 
 `var_nets` doesn't have to be named. If you just provide the groups, `banner()` creates suitable names for you.
@@ -227,10 +227,9 @@ banner(
 banner(
   data = food,
   var = "pescetarian",
-  bys = c("rating_meat", "rating_sushi", "rating_veg"),
+  bys = c("age", "income", "gender", "region", "party_lean"),
   var_nets = list(1:2, 4:5)
   )
-
 ```
 
 
@@ -280,9 +279,18 @@ banner(
 
 ## Removing respondents
 
-For variables with missing values, `na.rm = TRUE` by default, meaning NA's are excluded from the denominator of survey estimates. `na.rm = FALSE` includes them and would report a "(Missing)" row.
+`na.rm = TRUE` by default, meaning if `var` contains any missing values, they are excluded from the denominator of survey estimates. `na.rm = FALSE` includes them and would report a "(Missing)" row for these new empty respondents.
 
-(example to come)
+
+``` {r}
+banner(
+  data = food,
+  var = "pescetarian",
+  bys = c("age", "income", "gender", "region", "party_lean"),
+  na.rm = FALSE
+  )
+```
+
 
 
 
