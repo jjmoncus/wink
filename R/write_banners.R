@@ -321,7 +321,7 @@ write_banners <- function(banners, file, overwrite = TRUE, format_numbers = TRUE
               startCol = 1)
     # na.rm statement
     na.rm_statement <- ifelse(attr(data, "na.rm"),
-                              paste0("na.rm = TRUE. ", attr(data, 'n_removed')," respondents with missing values were removed from ", attr(data, 'var')),
+                              paste0("na.rm = TRUE. ", attr(data, 'n_removed')," respondents with missing values were removed from `", attr(data, 'var'), "`"),
                               paste0("na.rm = FALSE"))
     writeData(wb,
               sheet = var_name,
