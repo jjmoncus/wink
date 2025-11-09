@@ -9,8 +9,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
-  # out.width = "100%"
-  results = "asis"
+  out.width = "100%"
 )
 
 library(wink)
@@ -26,8 +25,7 @@ library(wink)
 A banner is a set of crosstabs of survey estimates stitched together, and with significance testing performed column-by-column within each crosstab.
 
 ``` {r}
-#| warning: false
-#| message: false
+#| eval: false
 banner(
   data = food,
   var = "pescetarian",
@@ -35,18 +33,10 @@ banner(
 )
 ```
 
+![A banner of `pescetarian` against `age`](man/figures/banner1.png)
+
+
 As you add more variables to split by, each new crosstab is added on the end, without disrupting the significance testing results of previous ones.
-
-``` {r}
-#| warning: false
-#| message: false
-banner(
-  data = food,
-  var = "pescetarian",
-  bys = c("age", "income", "gender", "region", "party_lean")
-)
-
-```
 
 `wink` provides functionality for generating these banners, specific to each organization's unique preferences, before exporting to a common output format (Excel) for sharing across research teams.
 
