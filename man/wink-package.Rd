@@ -4,11 +4,11 @@
 \name{wink-package}
 \alias{wink}
 \alias{wink-package}
-\title{wink: Crosstab and Signifiance Testing for Weighted Survey Estimates (Title Case)}
+\title{wink: Banners and Signifiance Testing for Survey Estimates}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Crosstabs and banners of weighted (and unweighted) survey estimates, exported to Excel.
+Banners of survey estimates, exportable to Excel for easy viewing.
 }
 \seealso{
 Useful links:
