@@ -1,25 +1,24 @@
 # wink
 
-The `wink` package provides functions for generating client-ready survey
-tables, complete with significance testing and report-ready export
-features.
+The `wink` package provides functions for generating banners of survey
+estimates, complete with significance testing and exportable to Excel
 
 The goal is to make Excel outputs that [look like
 this](https://jjmoncus.github.io/wink/articles/my_survey_results.xlsx).
 
-(^That link may only work when viewing this vignette from inside
+(^This link may only work when viewing this vignette from inside
 RStudio - apologies, hopefully I can resolve this soon!)
 
-The two main functions demonstrated here are:
+You’ll principally use two main functions:
 
 - [`banner()`](https://jjmoncus.github.io/wink/reference/banner.md):
-  Generates multiple, statistically tested crosstab tables against a
-  common target variable and combines them into one wide “banner” table.
+  Generates statistically-tested crosstabs against a common target
+  variable and combines them into one wide “banner” table.
 
 - [`write_banners()`](https://jjmoncus.github.io/wink/reference/write_banners.md):
-  Exports banner tables to a formatted Excel workbook.
+  Exports banners to a formatted Excel workbook.
 
-A typical workflow will be to generate lists of tables using
+A typical workflow will be to generate lists of banners using
 [`banner()`](https://jjmoncus.github.io/wink/reference/banner.md) and
 then export them with
 [`write_banners()`](https://jjmoncus.github.io/wink/reference/write_banners.md).
@@ -28,8 +27,8 @@ The workhorse underneath
 [`banner()`](https://jjmoncus.github.io/wink/reference/banner.md) is
 [`crosstab()`](https://jjmoncus.github.io/wink/reference/crosstab.md),
 which generates the percentages for a single crosstab, and which most
-user will not need to use. It is meant to be the guts for how the rest
-of the package works and is exposed just for convenience. See
+users will not need to use. It is the guts for how the rest of the
+package works and is exposed just for convenience. See
 [`crosstab()`](https://jjmoncus.github.io/wink/reference/crosstab.md)’s
 documentation for the specifics.
 
@@ -51,10 +50,10 @@ devtools::install_github("jjmoncus/wink",
 ```
 
 For this example, we’ll use the synthetic `food` dataset that comes with
-the package.
+the package. It contains 2000 fictional survey responses, including
+demographics and respondents’ attitudes about various foods.
 
 ``` r
-# In a real session, the data loads automatically when your package is attached.
 head(food, n = 5)
 #> # A tibble: 5 × 13
 #>   unique_id age   gender income      region  party_lean rating_meat rating_pizza
@@ -68,25 +67,36 @@ head(food, n = 5)
 #> #   veggie <fct>, vegan <fct>
 ```
 
-The `food` dataset contains 2000 fictional survey responses, including
-demographics and food attitude ratings.
-
 ## 1. `banner()`: Generating crosstabs
 
 ### Percentages of `var`, split by `bys`
 
-The [`banner()`](https://jjmoncus.github.io/wink/reference/banner.md)
-function generates a percentage table for one variable (`var`) broken
-down others (`bys`) and performs column-to-column statistical testing
-(represented by letter rows).
+[`banner()`](https://jjmoncus.github.io/wink/reference/banner.md)
+generates a table of survey estimates for one variable (`var`) broken
+down by others (`bys`) and performs column-to-column significance
+testing (represented by letter rows). If a letter appears underneath a
+given cell, then the given survey estimate is statistically
+significantly different (at 95% confidence) from the corresponding
+column’s cell (see below for an example).
 
-unweighted N’s, Design Effects (DEFF), and Margins of Sampling Error
-(MOSE) for each group are included at the bottom..
+A “Total” column is included in the front, with percentages across `var`
+for the full sample.
 
-Here’s a banner for the likelihood of being pescetarian (`pescetarian`),
-by taste for meat (`rating_meat`). The default
-[`print()`](https://rdrr.io/r/base/print.html) method tries to mimic how
-the table would appear in the final Excel output.
+Unweighted n-sizes (n), design effects (deff), and margins of sampling
+error (moe) for each group are included at the bottom.
+
+Below is a banner for a question about eating pescetarian
+(`pescetarian`), by age (`age`). The default
+[`print()`](https://rdrr.io/r/base/print.html) method renders the output
+using `gt`, which tries to mimic how the Excel output would look when
+exported.
+
+You would read the banner like this: among 18- to 35-year-old
+respondents, 14% responded “Low” when asked about their likelihood to
+eat pescetarian - and this is significantly different from the 9% of
+those 65-years-old and up who also said “Low.” However, it is *not*
+significantly different from the 12% of those 36 to 49 and those 50 to
+64 who said the same.
 
 ``` r
 banner(
@@ -98,16 +108,8 @@ banner(
 
 [TABLE]
 
-By default,
-[`banner()`](https://jjmoncus.github.io/wink/reference/banner.md),
-includes a Total column in the front, with percentages across `var` for
-the full sample (i.e. split by nothing.)
-
-As you add more `bys`, each new crosstab is concatenated to the next.
-
-If two or more `bys` share factor levels, then we would naturally end up
-with columns with the same name, so these are renamed according to
-`tibble()` rules (might come back to this later).
+As you add more `bys`, each new crosstab is concatenated to the next,
+and the table gets wider (hover over it and scroll to the right).
 
 ``` r
 banner(
@@ -124,10 +126,18 @@ banner(
 
 [TABLE]
 
-Metadata about each crosstab of the banner is stored underneath as
+(Note: If two or more `bys` share factor levels, then you might end up
+with columns that share a name, in which case they get renamed according
+to default `tibble()` rules. We might address this later).
+
+### Metadata
+
+Metadata about each crosstab in the banner is stored underneath as
 attributes. Some attributes let you know what was called in order to
 generate the table (`var`, `by`, `min_group_n`), while others are useful
-for writing banners to Excel outputs (`col_dividers`, `too_low_n`).
+for writing banners to Excel outputs (`col_dividers`, `too_low_n`). The
+typical user won’t need to see this, but it’s there in case you need to
+check how any banners were created after the fact.
 
 ``` r
 x <- banner(
@@ -200,11 +210,8 @@ attributes(x)
 
 ### Weighting
 
-Specifying `weight` generates weighted estimates.
-
-Unweighted estimates will naturally have design effects equal to 1,
-whereas weighted estimates will have unique `deff` values for each
-group.
+Estimates are by default unweighted, but specifying `weight` generates
+weighted estimates.
 
 ``` r
 # for example, here's add an arbitrary weight variable
@@ -248,17 +255,43 @@ banner(
 
 [TABLE]
 
+### Flagging too-low n-sizes
+
+`min_group_n` allows you to specify what threshold of an n-size is
+considered too low. Estimates are still generated for any group that
+doesn’t meet the threshold, but the corresponding n-size cell is colored
+red.
+
+``` r
+
+banner(
+  data = food,
+  var = "pescetarian",
+  bys = c("age", "income", "gender", "region", "party_lean"),
+  digits = 2,
+  min_group_n = 500 # setting `min_group_n` very high will naturally flag lots of groups
+)
+#> New names:
+#> • `DK/Refused` -> `DK/Refused...10`
+#> • `DK/Refused` -> `DK/Refused...14`
+#> • `DK/Refused` -> `DK/Refused...21`
+#> • `DK/Refused` -> `DK/Refused...24`
+```
+
+[TABLE]
+
 ### Adding Net Categories
 
-You can define NET (summary) categories using the `var_nets` argument,
-which takes a named list of character vectors. Each NET category is
-inserted into the table right above the first level contributing to it.
+You can define NET (summary) categories using `var_nets`, which accepts
+a list of name-value pairs. Each NET category is inserted into the table
+right above the first level contributing to it.
 
 ``` r
 banner(
   data = food,
   var = "pescetarian",
   bys = c("age", "income", "gender", "region", "party_lean"),
+  digits = 2,
   var_nets = list(
     "Low"  = c("Very Low", "Low"),
     "High" = c("High", "Very High")
@@ -273,13 +306,16 @@ banner(
 
 [TABLE]
 
-You can also specify `var_nets` with levels numbers.
+You can also specify `var_nets` with just level numbers, instead of
+writing out the level text (this can be convenient when response options
+are long).
 
 ``` r
 banner(
   data = food,
   var = "pescetarian",
   bys = c("age", "income", "gender", "region", "party_lean"),
+  digits = 2,
   var_nets = list(
     "Low"  = 1:2,
     "High" = 4:5
@@ -303,6 +339,7 @@ banner(
   data = food,
   var = "pescetarian",
   bys = c("age", "income", "gender", "region", "party_lean"),
+  digits = 2,
   var_nets = list(1:2, 4:5)
   )
 #> New names:
@@ -316,37 +353,24 @@ banner(
 
 ### Excluding columns or rows
 
-You may want to selectively leave out columns of `bys` or rows of `var`
-that aren’t of interest. Supply a regex to `exclude_var` or
+You may want to leave out some columns of `bys` or rows of `var` that
+aren’t of interest. Supply a regular expression to `exclude_var` or
 `exclude_bys` to remove any columns/rows that match, without disrupting
-significance testing. Both are NULL by default (i.e. removing nothing).
+significance testing. Both are `NULL` by default (i.e. not removing
+anything).
 
 ``` r
 banner(
   data = food,
   var = "pescetarian",
-  bys = c("rating_meat", "rating_sushi", "rating_veg"),
+  bys = c("age", "income", "gender", "region", "party_lean"),
   exclude_var = "Moderate"
   )
 #> New names:
-#> • `Very much dislike` -> `Very much dislike...3`
-#> • `Somewhat dislike` -> `Somewhat dislike...4`
-#> • `About equally like and dislike` -> `About equally like and dislike...5`
-#> • `Somewhat like` -> `Somewhat like...6`
-#> • `Very much like` -> `Very much like...7`
-#> • `DK/Refused` -> `DK/Refused...8`
-#> • `Very much dislike` -> `Very much dislike...9`
-#> • `Somewhat dislike` -> `Somewhat dislike...10`
-#> • `About equally like and dislike` -> `About equally like and dislike...11`
-#> • `Somewhat like` -> `Somewhat like...12`
-#> • `Very much like` -> `Very much like...13`
+#> • `DK/Refused` -> `DK/Refused...10`
 #> • `DK/Refused` -> `DK/Refused...14`
-#> • `Very much dislike` -> `Very much dislike...15`
-#> • `Somewhat dislike` -> `Somewhat dislike...16`
-#> • `About equally like and dislike` -> `About equally like and dislike...17`
-#> • `Somewhat like` -> `Somewhat like...18`
-#> • `Very much like` -> `Very much like...19`
-#> • `DK/Refused` -> `DK/Refused...20`
+#> • `DK/Refused` -> `DK/Refused...21`
+#> • `DK/Refused` -> `DK/Refused...24`
 ```
 
 [TABLE]
@@ -355,25 +379,9 @@ banner(
 banner(
   data = food,
   var = "pescetarian",
-  bys = c("rating_meat", "rating_sushi", "rating_veg"),
-  exclude_bys = "equal" # providing one pattern recycles across all bys
+  bys = c("age", "income", "gender", "region", "party_lean"),
+  exclude_bys = "DK/Refused" # providing one pattern recycles across all `bys`
   )
-#> New names:
-#> • `Very much dislike` -> `Very much dislike...3`
-#> • `Somewhat dislike` -> `Somewhat dislike...4`
-#> • `Somewhat like` -> `Somewhat like...5`
-#> • `Very much like` -> `Very much like...6`
-#> • `DK/Refused` -> `DK/Refused...7`
-#> • `Very much dislike` -> `Very much dislike...8`
-#> • `Somewhat dislike` -> `Somewhat dislike...9`
-#> • `Somewhat like` -> `Somewhat like...10`
-#> • `Very much like` -> `Very much like...11`
-#> • `DK/Refused` -> `DK/Refused...12`
-#> • `Very much dislike` -> `Very much dislike...13`
-#> • `Somewhat dislike` -> `Somewhat dislike...14`
-#> • `Somewhat like` -> `Somewhat like...15`
-#> • `Very much like` -> `Very much like...16`
-#> • `DK/Refused` -> `DK/Refused...17`
 ```
 
 [TABLE]
@@ -382,25 +390,9 @@ banner(
 banner(
   data = food,
   var = "pescetarian",
-  bys = c("rating_meat", "rating_sushi", "rating_veg"),
-  exclude_bys = c("Very much dislike", "equally", "Very much like") # Otherwise, add as many patterns as there are `bys`
+  bys = c("age", "income", "gender", "region", "party_lean"),
+  exclude_bys = c("65+", "DK/Refused", "Other|DK/Refused", "DK/Refused", "DK/Refused") # Otherwise, add as many patterns as there are `bys`
   )
-#> New names:
-#> • `Somewhat dislike` -> `Somewhat dislike...3`
-#> • `About equally like and dislike` -> `About equally like and dislike...4`
-#> • `Somewhat like` -> `Somewhat like...5`
-#> • `Very much like` -> `Very much like...6`
-#> • `DK/Refused` -> `DK/Refused...7`
-#> • `Very much dislike` -> `Very much dislike...8`
-#> • `Somewhat dislike` -> `Somewhat dislike...9`
-#> • `Somewhat like` -> `Somewhat like...10`
-#> • `Very much like` -> `Very much like...11`
-#> • `DK/Refused` -> `DK/Refused...12`
-#> • `Very much dislike` -> `Very much dislike...13`
-#> • `Somewhat dislike` -> `Somewhat dislike...14`
-#> • `About equally like and dislike` -> `About equally like and dislike...15`
-#> • `Somewhat like` -> `Somewhat like...16`
-#> • `DK/Refused` -> `DK/Refused...17`
 ```
 
 [TABLE]
@@ -410,16 +402,16 @@ banner(
   data = food,
   var = "pescetarian",
   bys = c("rating_meat", "rating_sushi", "rating_veg"),
-  exclude_bys = c("Very much dislike", "Very much like") # adding fewer than `length(bys)` gives you an error
+  exclude_bys = c("65+", "DK/Refused") # adding fewer than `length(bys)` gives you an error
   )
 ```
 
 ### Removing respondents
 
-`na.rm = TRUE` by default, meaning if `var` contains any missing values,
-they are excluded from the denominator of survey estimates.
-`na.rm = FALSE` includes them and would report a “(Missing)” row for
-these new empty respondents.
+We’ve set `na.rm = TRUE` by default, meaning if `var` contains any
+missing values, they are excluded from the denominator of survey
+estimates. `na.rm = FALSE` includes them and would report a “(Missing)”
+row for these new empty respondents.
 
 ``` r
 banner(
@@ -440,17 +432,17 @@ banner(
 ## 3. `write_banners()`: Exporting to Excel
 
 [`write_banners()`](https://jjmoncus.github.io/wink/reference/write_banners.md)
-takes a list of banners from
+takes banners from
 [`banner()`](https://jjmoncus.github.io/wink/reference/banner.md) and
 exports them to a single, formatted Excel file. It separates banner
 groups with borders, adds merged-cell subheads over each group of
 by-columns, and creates a hyperlinked Table of Contents.
 
-Any by-groups with n less than `min_group_n` will be highlighted in red,
-and there will be a message just below the table specifying what
+Any by-groups with `n` less than `min_group_n` will be highlighted in
+red, and there will be a message just below the table specifying what
 `min_group_n` value was used for comparisons.
 
-We also message whether `na.rm` was TRUE or FALSE, and how many were
+We also message whether `na.rm` was `TRUE` or `FALSE`, and how many were
 removed from `var` if so.
 
 The typical workflow would be to write a list of banners using
@@ -464,18 +456,18 @@ banners <- c("pescetarian", "veggie", "vegan") %>%
     banner(
       data = food, 
       var = x,
-      bys = c("age", "gender", "income", "region", "party_lean", paste0("rating_", c("meat", "pizza", "sushi", "veg")))
+      bys = c("age", "gender", "income", "region", "party_lean")
       )
   })
 
 write_banners(banners, file = "my_survey_results.xlsx")
 ```
 
-You can also write a single banner, if you so choose (i.e. it doesn’t
-need to be preemptively wrapped in a list).
+You can also export a single banner (i.e. it doesn’t need to be wrapped
+in a list).
 
 ``` r
-x <- banner(food, "pescetarian", bys = c("age", "gender", "income", "region", "party_lean", paste0("rating_", c("meat", "pizza", "sushi", "veg"))))
+x <- banner(food, "pescetarian", bys = c("age", "gender", "income", "region", "party_lean"))
 
 x %>% write_banners(file = "single_banner.xlsx")
 ```
@@ -485,12 +477,12 @@ By default, you will overwrite any files with the same name
 throw an error if the file already exists.
 
 ``` r
-# rerunning the export from above would throw an error if `overwrite = FALSE`
+# rexport the above would throw an error if `overwrite = FALSE`
 x %>% write_banners(file = "single_banner.xlsx", overwrite = FALSE)
 ```
 
-Number rows are saved as number values, and character values are saved
-as text.
+Numeric rows are saved as number values, and character rows are saved as
+text.
 [`write_banners()`](https://jjmoncus.github.io/wink/reference/write_banners.md)
 by default formats the percentage rows as integers, and the “deff +
 mose” rows with two decimal places. If you’d prefer them presented as

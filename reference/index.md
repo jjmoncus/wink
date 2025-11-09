@@ -26,7 +26,7 @@
   : fix var_nets arguments
 
 - [`food`](https://jjmoncus.github.io/wink/reference/food.md) :
-  Synthetic Survey Data on Food Attitudes and Eating Styles
+  Synthetic Survey Data on Attitudes about Food
 
 - [`hardcode_sig_test()`](https://jjmoncus.github.io/wink/reference/hardcode_sig_test.md)
   : hardcoded test for significant differences between two percentages

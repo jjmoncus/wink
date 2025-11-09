@@ -1,7 +1,6 @@
-# wink: Crosstab and Signifiance Testing for Weighted Survey Estimates (Title Case)
+# wink: Banners and Signifiance Testing for Survey Estimates
 
-Crosstabs and banners of weighted (and unweighted) survey estimates,
-exported to Excel.
+Banners of survey estimates, exportable to Excel for easy viewing.
 
 ## See also
 
