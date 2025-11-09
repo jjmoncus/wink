@@ -6,12 +6,11 @@
 
 ## Citation
 
-Moncus J (2025). *wink: Crosstab and Signifiance Testing for Weighted
-Survey Estimates (Title Case)*. R package version 0.0.5,
-<https://jjmoncus.github.io/wink/>.
+Moncus J (2025). *wink: Banners and Signifiance Testing for Survey
+Estimates*. R package version 0.0.5, <https://jjmoncus.github.io/wink/>.
 
     @Manual{,
-      title = {wink: Crosstab and Signifiance Testing for Weighted Survey Estimates (Title Case)},
+      title = {wink: Banners and Signifiance Testing for Survey Estimates},
       author = {J.J. Moncus},
       year = {2025},
       note = {R package version 0.0.5},
