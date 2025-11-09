@@ -27,7 +27,7 @@ A banner is a set of crosstabs of survey estimates stitched together, and with s
 ``` {r}
 #| warning: false
 #| message: false
-#| results: asis
+#| results: "asis"
 banner(
   data = food,
   var = "pescetarian",
@@ -40,7 +40,7 @@ As you add more variables to split by, each new crosstab is added on the end, wi
 ``` {r}
 #| warning: false
 #| message: false
-#| results: asis
+#| results: "asis"
 banner(
   data = food,
   var = "pescetarian",
