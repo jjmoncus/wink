@@ -9,7 +9,8 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
-  out.width = "100%"
+  # out.width = "100%"
+  results = "asis"
 )
 
 library(wink)
@@ -27,7 +28,6 @@ A banner is a set of crosstabs of survey estimates stitched together, and with s
 ``` {r}
 #| warning: false
 #| message: false
-#| results: "asis"
 banner(
   data = food,
   var = "pescetarian",
@@ -40,7 +40,6 @@ As you add more variables to split by, each new crosstab is added on the end, wi
 ``` {r}
 #| warning: false
 #| message: false
-#| results: "asis"
 banner(
   data = food,
   var = "pescetarian",
