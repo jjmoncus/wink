@@ -2,8 +2,37 @@
 
 ## Overview
 
-The goal of wink is to provide foundational functionality for generating
-tables of survey estimates, including significance testing.
+A banner is a set of crosstabs of survey estimates stitched together,
+and with significance testing performed column-by-column within each
+crosstab.
+
+``` r
+banner(
+  data = food,
+  var = "pescetarian",
+  bys = "age"
+)
+```
+
+[TABLE]
+
+As you add more variables to split by, each new crosstab is added on the
+end, without disrupting the significance testing results of previous
+ones.
+
+``` r
+banner(
+  data = food,
+  var = "pescetarian",
+  bys = c("age", "income", "gender", "region", "party_lean")
+)
+```
+
+[TABLE]
+
+`wink` provides functionality for generating these banners, specific to
+each organization’s unique preferences, before exporting to a common
+output format (Excel) for sharing across research teams.
 
 ## Installation
 
@@ -18,7 +47,7 @@ install_github("jjmoncus/wink",
                          )
 ```
 
-## Examples
+## Usage
 
 See
 [`vignette("wink")`](https://jjmoncus.github.io/wink/articles/wink.md)
