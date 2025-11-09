@@ -3,7 +3,7 @@
 ## Overview
 
 A banner is a set of crosstabs of survey estimates stitched together,
-and with significance testing performed column-by-column within each
+with significance testing performed column-by-column within each
 crosstab.
 
 ``` r
@@ -14,9 +14,7 @@ banner(
 )
 ```
 
-![A banner of pescetarian against age](reference/figures/banner1.png)
-
-A banner of `pescetarian` against `age`
+![](reference/figures/banner1.png)
 
 As you add more variables to split by, each new crosstab is added on the
 end, without disrupting the significance testing results of previous

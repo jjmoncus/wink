@@ -63,16 +63,15 @@
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p>A banner is a set of crosstabs of survey estimates stitched together, and with significance testing performed column-by-column within each crosstab.</p>
+<p>A banner is a set of crosstabs of survey estimates stitched together, with significance testing performed column-by-column within each crosstab.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/banner.html">banner</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">food</span>,</span>
 <span>  var <span class="op">=</span> <span class="st">"pescetarian"</span>,</span>
 <span>  bys <span class="op">=</span> <span class="st">"age"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<figure><img src="reference/figures/banner1.png" alt="A banner of pescetarian against age"><figcaption aria-hidden="true">
-A banner of <code>pescetarian</code> against <code>age</code>
-</figcaption></figure><p>As you add more variables to split by, each new crosstab is added on the end, without disrupting the significance testing results of previous ones.</p>
+<p><img src="reference/figures/banner1.png"></p>
+<p>As you add more variables to split by, each new crosstab is added on the end, without disrupting the significance testing results of previous ones.</p>
 <p><code>wink</code> provides functionality for generating these banners, specific to each organization’s unique preferences, before exporting to a common output format (Excel) for sharing across research teams.</p>
 </div>
 <div class="section level2">
