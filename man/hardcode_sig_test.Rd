@@ -4,7 +4,7 @@
 \alias{hardcode_sig_test}
 \title{hardcoded test for significant differences between two percentages}
 \usage{
-hardcode_sig_test(p1, n1, deff1, p2, n2, deff2)
+hardcode_sig_test(p1s, n1, deff1, p2s, n2, deff2)
 }
 \description{
 hardcoded test for significant differences between two percentages

@@ -33,14 +33,19 @@ double_or_not <- function(x) {
   }
 
 #' hardcoded test for significant differences between two percentages
-hardcode_sig_test <- function(p1, n1, deff1, p2, n2, deff2) {
+hardcode_sig_test <- function(p1s, n1, deff1, p2s, n2, deff2) {
 
-  if (p1 > 1 || p2 > 1) abort("Percentages must be <= 1")
-  if (identical(p1, p2)) return(FALSE) # we would otherwise get TRUE default, due to the -0,009 error term below
+  if (any(p1s > 1) || any(p2s > 1)) abort("Percentages must be <= 1")
 
-  raw_tol <- sqrt( (deff1 * (p1*(1-p1)) / n1) + (deff2 * (p2 * (1 - p2)) / n2) )
 
-  (abs(p1 - p2)) - (raw_tol*1.96) > -0.009
+  raw_tols <- sqrt( (deff1 * (p1s*(1-p1s)) / n1) + (deff2 * (p2s * (1 - p2s)) / n2) )
 
+  out <- (abs(p1s - p2s)) - (raw_tols*1.96) > -0.009
+
+  # overwrite any pairs where p1 and p2 are exactly the same
+  # they would get TRUE by default, due to the -0,009 error term below
+  out[(p1s - p2s == 0)] <- FALSE
+
+  return( out )
 }
 

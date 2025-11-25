@@ -28,7 +28,11 @@
 #' column named "total". If arguments are supplied to \code{by}, then the
 #' column names will be the categories of the grouping variable.
 #'
-
+#'
+#' @importFrom dplyr ungroup
+#' @importFrom forcats fct_na_value_to_level
+#' @importFrom tibble rownames_to_column
+#'
 get_totals <- function(data, var, by = NULL, wt = NULL,
                        digits = NULL, complete = TRUE, na.rm = FALSE) {
 
@@ -43,10 +47,13 @@ get_totals <- function(data, var, by = NULL, wt = NULL,
   # make sure data isn't grouped
   data <- ungroup(data)
 
-  # If no argument is passed to wt, create a variable in the dataset called "unweighted" and set it to 1
-  if (is.null(wt)) {
-    data <- data %>% mutate(unweighted = 1)
-    wt <- "unweighted"
+  if (!is.null(wt)) {
+    # if wt is specified, make sure it's actually in the dataset
+    if (!(wt %in% names(data))) abort(glue("'{weight}' must be in 'data'"))
+    } else {
+      # If no argument is passed to wt, create a variable in the dataset called "unweighted" and set it to 1
+      data <- data %>% mutate(unweighted = 1)
+      wt <- "unweighted"
   }
 
   # ----- level handling (var)
@@ -116,7 +123,7 @@ get_totals <- function(data, var, by = NULL, wt = NULL,
   if (is.null(by)) {
 
     out <- make_weighted_crosstab(var, data, wt)
-    dimnames(out)[[2]] <- "total"
+    dimnames(out)[[2]] <- "Total"
 
   } else {
 
