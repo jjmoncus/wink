@@ -285,7 +285,7 @@ crosstab <- function(data,
     # ------------------------------------------- #
 
     by_levels_to_cut <- setdiff(by_levels, by_levels_to_use)
-    baby_crosstab <- get_totals(var = var,
+    baby_crosstab <- pewmethods::get_totals(var = var,
                                 df = data,
                                 wt = weight,
                                 by = by,
@@ -296,7 +296,7 @@ crosstab <- function(data,
 
     if (!is.null(var_nets)) { # calculate `var_recode` values and insert them into the `baby_crosstab` in the right spot
 
-      nets_percents <- get_totals(var = "var_recode",
+      nets_percents <- pewmethods::get_totals(var = "var_recode",
                                   df = data,
                                   wt = weight,
                                   by = by,
