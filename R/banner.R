@@ -507,5 +507,3 @@ banner2 <- function(data,
 }
 
 
-
-
