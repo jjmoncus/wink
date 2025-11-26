@@ -1,6 +1,6 @@
 Package: wink
 Type: Package
-Title: Banners and Signifiance Testing for Survey Estimates
+Title: Crosstabs, Banners and Signifiance Testing for Survey Estimates
 Version: 0.0.5
 Authors@R: c(
     person(
