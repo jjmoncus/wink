@@ -1,5 +1,8 @@
 # wink
 
+`wink` helps you make crosstabs and banners of survey estimates, with
+significance testing built in.
+
 ## Overview
 
 A banner is a set of crosstabs of survey estimates stitched together,
