@@ -1,9 +1,18 @@
+---
+editor_options: 
+  markdown: 
+    wrap: 72
+---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# wink <a href="https://jjmoncus.github.io/wink/"><img src="man/figures/logo.png" align="right" height="139" /></a>
+# wink <a href="https://jjmoncus.github.io/wink/"><img src="man/figures/logo.png" align="right" height="139"/></a>
+
+`wink` helps you make crosstabs and banners of survey estimates, with
+significance testing built in.
 
 <!-- badges: start -->
+
 <!-- badges: end -->
 
 ## Overview
@@ -49,5 +58,6 @@ See `vignette("wink")` for an intro to the package, or visit the [Get
 Started](https://jjmoncus.github.io/wink/articles/wink.html) link on the
 [website](https://jjmoncus.github.io/wink/index.html).
 
-For questions, reach out to J.J. Moncus at <jjmoncus706@gmail.com>, or
+For questions, reach out to J.J. Moncus at
+[jjmoncus706\@gmail.com](mailto:jjmoncus706@gmail.com){.email}, or
 [raise an issue](https://github.com/jjmoncus/wink/issues).

@@ -17,6 +17,9 @@ library(wink)
 
 # wink <a href="https://jjmoncus.github.io/wink/"><img src="man/figures/logo.png" align="right" height="139" /></a>
 
+`wink` helps you make crosstabs and banners of survey estimates, with significance testing built in.
+
+
 <!-- badges: start -->
 <!-- badges: end -->
 
