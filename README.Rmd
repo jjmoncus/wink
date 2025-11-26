@@ -15,19 +15,19 @@ knitr::opts_chunk$set(
 library(wink)
 ```
 
-# wink <a href="https://jjmoncus.github.io/wink/"><img src="man/figures/logo.png" align="right" height="139" /></a>
+# wink <a href="https://jjmoncus.github.io/wink/"><img src="man/figures/logo.png" align="right" height="139"/></a>
 
 `wink` helps you make crosstabs and banners of survey estimates, with significance testing built in.
 
-
 <!-- badges: start -->
+
 <!-- badges: end -->
 
 ## Overview
 
 A banner is a set of crosstabs of survey estimates stitched together, with significance testing performed column-by-column within each crosstab.
 
-``` {r}
+```{r}
 #| eval: false
 banner(
   data = food,
@@ -38,7 +38,6 @@ banner(
 
 ![](man/figures/banner1.png)
 
-
 As you add more variables to split by, each new crosstab is added on the end, without disrupting the significance testing results of previous ones.
 
 `wink` provides functionality for generating these banners, specific to each organization's unique preferences, before exporting to a common output format (Excel) for sharing across research teams.
@@ -47,7 +46,7 @@ As you add more variables to split by, each new crosstab is added on the end, wi
 
 You can install the development version of wink from [the GitHub rep](https://github.com/jjmoncus/wink/) with:
 
-``` {r install}
+```{r install}
 #| message: false 
 #| warning: false
 #| eval: false
@@ -63,4 +62,4 @@ install_github("jjmoncus/wink",
 
 See `vignette("wink")` for an intro to the package, or visit the [Get Started](https://jjmoncus.github.io/wink/articles/wink.html) link on the [website](https://jjmoncus.github.io/wink/index.html).
 
-For questions, reach out to J.J. Moncus at jjmoncus706@gmail.com, or [raise an issue](https://github.com/jjmoncus/wink/issues).
+For questions, reach out to J.J. Moncus at [jjmoncus706\@gmail.com](mailto:jjmoncus706@gmail.com){.email}, or [raise an issue](https://github.com/jjmoncus/wink/issues).

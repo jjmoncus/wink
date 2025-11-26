@@ -1,8 +1,3 @@
----
-editor_options: 
-  markdown: 
-    wrap: 72
----
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -58,6 +53,5 @@ See `vignette("wink")` for an intro to the package, or visit the [Get
 Started](https://jjmoncus.github.io/wink/articles/wink.html) link on the
 [website](https://jjmoncus.github.io/wink/index.html).
 
-For questions, reach out to J.J. Moncus at
-[jjmoncus706\@gmail.com](mailto:jjmoncus706@gmail.com){.email}, or
+For questions, reach out to J.J. Moncus at <jjmoncus706@gmail.com>, or
 [raise an issue](https://github.com/jjmoncus/wink/issues).
