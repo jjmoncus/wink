@@ -4,7 +4,7 @@
 \name{wink-package}
 \alias{wink}
 \alias{wink-package}
-\title{wink: Banners and Signifiance Testing for Survey Estimates}
+\title{wink: Crosstabs, Banners and Signifiance Testing for Survey Estimates}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
