@@ -32,6 +32,7 @@
 #' @importFrom dplyr ungroup
 #' @importFrom forcats fct_na_value_to_level
 #' @importFrom tibble rownames_to_column
+#' @importFrom Matrix sparse.model.matrix
 #'
 get_totals <- function(data, var, by = NULL, wt = NULL,
                        digits = NULL, complete = TRUE, na.rm = FALSE) {
